@@ -8,15 +8,19 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-// https://dev.to/awwsmm/how-to-encrypt-a-password-in-java-42dh
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
+// https://dev.to/awwsmm/how-to-encrypt-a-password-in-java-42dh
 // https://www.mindrot.org/projects/jBCrypt/
 // https://bcrypt-generator.com
 
 public class Main {
-    private static int success = 0;
+    private static int success = 0; //login success
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, NoSuchAlgorithmException {
+
         timecheck();
         while(success!=1) {
             login();
@@ -36,13 +40,58 @@ public class Main {
     public static void decryptpw(String inputPw, String[] sArray){
         BCrypt BCrypt = new BCrypt();
 
-        System.out.println(sArray[1]);
+        System.out.println(sArray[2]);
         boolean matched = BCrypt.checkpw(inputPw, sArray[1]);
         System.out.println("match: " + matched);
     }
 
 
-    // method 2 - incomplete
+
+    // method 2: SHA-1
+        public static void check(String[] sArray) throws NoSuchAlgorithmException
+        {
+            String inputPw = "password";
+            byte[] salt = getSalt();
+
+            String securePassword = shaOne(inputPw, salt);
+            System.out.println("hashed/" + securePassword);
+
+            System.out.println(sArray[1]);
+            boolean matched = securePassword.equals(sArray[1]);
+            System.out.println("match: " + matched);
+        }
+
+        public static String shaOne(String inputPw, byte[] salt)
+        {
+            String generatedPassword = null;
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                md.update(salt);
+                byte[] bytes = md.digest(inputPw.getBytes());
+                StringBuilder sb = new StringBuilder();
+                for(int i=0; i< bytes.length ;i++)
+                {
+                    sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+                }
+                generatedPassword = sb.toString();
+            }
+            catch (NoSuchAlgorithmException e)
+            {
+                e.printStackTrace();
+            }
+            return generatedPassword;
+        }
+
+        //Add salt
+        public static byte[] getSalt() throws NoSuchAlgorithmException
+        {
+            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+            byte[] salt = new byte[16];
+            sr.nextBytes(salt);
+            return salt;
+        }
+
+    // method 3 - incomplete
     private static int ITERATIONS;
     private static int KEY_LENGTH;
     private static final String ALGORITHM = "PBKDF2WithHmacSHA512";
@@ -85,32 +134,45 @@ public class Main {
     
     public static void login() {
         // user login details
-        Scanner keyboard = new Scanner(System.in);
+        Scanner k = new Scanner(System.in);
         System.out.print("Enter Username: ");
-        String inputUser = keyboard.nextLine();
+        String inputUser = k.nextLine();
         
         // check hashed password using bcrypt
         System.out.print("Enter Password: ");
-        String inputPw = keyboard.nextLine();
+        String inputPw = k.nextLine();
 
         try {
             Scanner scan = new Scanner(new File("src/user.txt"));
-
+            skipLine(scan, 1);
             while (scan.hasNextLine()) {
                 String s = scan.nextLine();
                 String[] sArray = s.split(",");
 
-                // decryptpw(inputPw, sArray);
+                // dummy valid period
+                int endValid = 5;
+                int startValid = 3;
+                int validPeriod = 4;
 
-                if (inputUser.equals(sArray[0]) && inputPw.equals(sArray[1])) {
+                // for password hash
+                // decryptpw(inputPw, sArray);
+                // check(sArray);
+
+                if (inputUser.equals(sArray[1]) && inputPw.equals(sArray[2])) {
                     success = 1;
                     String role = "admin";
 
-                    if (role.equals(sArray[2])){
-                        System.out.print("admin login success!");
+                    if (role.equals(sArray[3])){
+                        System.out.println("\nadmin login success!");
                     }else{
-                        System.out.print("user login success!");
+                        System.out.println("\nuser login success!");
                         role = "user";
+                            if (validPeriod >= startValid && validPeriod <= endValid){
+                                System.out.println("you are allowed to register for courses now.\n");
+                                Student.studentMain();
+                            }else{
+                                System.out.println("you are not allowed to register for courses now.\n");
+                            }
                     }
                 }
             }
@@ -126,6 +188,14 @@ public class Main {
             System.out.println("IO Error!" + e.getMessage());
             e.printStackTrace();
             System.exit(0);
+
+        }
+    }
+    public static void skipLine(Scanner scan, int lineNum){
+        for(int i = 0; i < lineNum;i++){
+            if(scan.hasNextLine()) {
+                scan.nextLine();
+            }
         }
     }
 }

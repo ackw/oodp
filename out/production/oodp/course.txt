@@ -1,0 +1,6 @@
+courseCode,school,indexNum,vacancy
+cz2002,scse,1001,9
+cz2002,scse,1006,2
+cz2002,scse,1007,4
+cz2005,scse,1101,0
+cz2007,scse,1102,2
