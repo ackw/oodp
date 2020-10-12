@@ -135,12 +135,14 @@ public class Main {
     public static void login() {
         // user login details
         Scanner k = new Scanner(System.in);
+        Console console = System.console() ;
         System.out.print("Enter Username: ");
         String inputUser = k.nextLine();
         
         // check hashed password using bcrypt
-        System.out.print("Enter Password: ");
-        String inputPw = k.nextLine();
+        char[] password = console.readPassword("Enter Password: ");
+        String inputPw = new String(password);
+
 
         try {
             Scanner scan = new Scanner(new File("src/data/user.txt"));
