@@ -143,7 +143,7 @@ public class Main {
         String inputPw = k.nextLine();
 
         try {
-            Scanner scan = new Scanner(new File("src/user.txt"));
+            Scanner scan = new Scanner(new File("src/data/user.txt"));
             skipLine(scan, 1);
             while (scan.hasNextLine()) {
                 String s = scan.nextLine();

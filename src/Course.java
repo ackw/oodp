@@ -4,7 +4,7 @@ import java.util.*;
 public class Course {
     public static void courseList(){
         try {
-            Scanner scan = new Scanner(new File("src/course.txt"));
+            Scanner scan = new Scanner(new File("src/data/course.txt"));
             Main.skipLine(scan, 1);
             while (scan.hasNextLine()) {
                 String s = scan.nextLine();
