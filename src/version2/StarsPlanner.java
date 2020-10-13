@@ -58,6 +58,7 @@ public class StarsPlanner
                         break;
             }
         }
+        
             
         while(repeatMenu == 1 && !userType)
         {
@@ -193,6 +194,7 @@ public class StarsPlanner
             if(indexChoice == ((Index)c).getIndexNumber())
                 System.out.printf("%-15s %-10s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber(), ((Index)c).getVacancies());
         }
+
 
         // public Index(String c, String s, int i, int v)
         // {
