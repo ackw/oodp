@@ -106,7 +106,7 @@ public class StarsPlanner
                 case 6: if(userType)
                         {
                             System.out.println();
-                            System.out.println("6. Print student list by course (all students registered for the selected course).");
+                            System.out.println("DONE 6. Print student list by course (all students registered for the selected course).");
                             printStudentListCourse(registerStudentList);
                             System.out.println();
                         }
