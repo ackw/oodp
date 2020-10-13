@@ -107,7 +107,7 @@ public class StarsPlanner
                         {
                             System.out.println();
                             System.out.println("6. Print student list by course (all students registered for the selected course).");
-                            //printStudentListCourse();
+                            printStudentListCourse(registerStudentList);
                             System.out.println();
                         }
                         else
@@ -152,11 +152,13 @@ public class StarsPlanner
         courseList.add(c);
         c = new Index("CZ2002", "SCSE", 20022, 25);
         courseList.add(c);
-        c = new Index("CZ2002", "SCSE", 20023, 30);
-        courseList.add(c);
         c = new Index("CZ2003", "SCSE", 20031, 20);
         courseList.add(c);
         c = new Index("CZ2003", "SCSE", 20032, 30);
+        courseList.add(c);
+        c = new Index("HG2024", "SOH", 20241, 15);
+        courseList.add(c);
+        c = new Index("HG2024", "SOH", 20242, 20);
         courseList.add(c);
     }
 
@@ -323,8 +325,25 @@ public class StarsPlanner
                 System.out.printf("%-15s %-20s %-7s %-10s\n", s.getMatricNumber(), s.getName(), s.getGender(), s.getNationality());
             }
         }
+    }
 
-        
-
+    public static void printStudentListCourse(ArrayList registerStudentList)
+    {
+        Scanner s1 = new Scanner(System.in);
+        String courseChoice;
+        RegisterStudent r;
+        Student s;
+        System.out.print("Enter course code: ");
+        courseChoice = s1.nextLine();
+        System.out.printf("%-15s %-20s %-7s %-10s\n","Matric Number", "Name", "Gender", "Nationality");
+        for(int i =0; i < registerStudentList.size(); i++)
+        {
+            r = (RegisterStudent)registerStudentList.get(i);
+            if(courseChoice.equals(((Index)r.getCourse()).getCourseCode()))
+            {
+                s = (Student)r.getUser();
+                System.out.printf("%-15s %-20s %-7s %-10s\n", s.getMatricNumber(), s.getName(), s.getGender(), s.getNationality());
+            }
+        }
     }
 }
