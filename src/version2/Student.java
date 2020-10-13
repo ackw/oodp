@@ -7,7 +7,7 @@ public class Student extends User
     private int matricNumber;
     private char gender;
     private String nationality;
-    private ArrayList registeredIndexList = new ArrayList();
+    private ArrayList registeredCourseList = new ArrayList();
 
     public Student()
     {
@@ -36,9 +36,8 @@ public class Student extends User
        return super.toString() + "\nMatric Number: " + matricNumber + "\nGender: " + gender + "\nNationality: " + nationality;
     }
 
-    //to be implemented
-    // public void addRegisteredIndex(Index index) { registeredIndexList.add(index); }
-	// public ArrayList getRegisteredIndexList() { return registeredIndexList; }
+    public void addRegisteredCourse(RegisterStudent rs) { registeredCourseList.add(rs);}
+	public ArrayList getRegisteredCourse() { return registeredCourseList; }
 
 
 }

@@ -1,29 +1,29 @@
 package version2;
 
-public class registerStudent
+public class RegisterStudent
 {
     private User user;
-    private Index index;
+    private Course course;
 
-    public registerStudent()
+    public RegisterStudent()
     {
     }
 
-    public registerStudent(User u, Index i)
+    public RegisterStudent(User u, Course c)
     {
         user = u;
-        index = i;
+        course = c;
     }
 
     public User getUser(){return user;}
     public void setUser(User u){user = u;}
 
-    public Index getIndex(){return index;}
-    public void setIndex(Index i){index = i;}
+    public Course getCourse(){return course;}
+    public void setCourse(Course c){course = c;}
 
     public String toString()
     {
-       return "User: " + user + "\nIndex: " + index;
+       return "User: " + user + "\nIndex: " + course;
     }
     
 }

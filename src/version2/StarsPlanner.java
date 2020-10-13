@@ -71,7 +71,7 @@ public class StarsPlanner
             {
                 case 1: System.out.println();
                         System.out.println("1. *Add Course");
-                        //addCourse();
+                        addCourse(courseList, currentUser, registerStudentList);
                         System.out.println();
                         break;
                 case 2: System.out.println();
@@ -81,12 +81,12 @@ public class StarsPlanner
                         break;
                 case 3: System.out.println();
                         System.out.println("3. Check/Print Courses Registered");
-                        //editStudentAccessPeriod();
+                        checkCoursesRegistered(currentUser);
                         System.out.println();
                         break;
                 case 4: System.out.println();
                         System.out.println("4. Check Vacancies Available");
-                        //editStudentAccessPeriod();
+                        checkAvailSlotIndex(courseList);
                         System.out.println();
                         break;
                 case 5: System.out.println();
@@ -152,10 +152,10 @@ public class StarsPlanner
         {
             System.out.println("Menu");
             System.out.println("=====");
-            System.out.println("1. *Add Course");
+            System.out.println("DONE 1. *Add Course");
             System.out.println("2. Drop Course");
-            System.out.println("3. Check/Print Courses Registered");
-            System.out.println("4. Check Vacancies Available");
+            System.out.println("DONE 3. Check/Print Courses Registered");
+            System.out.println("DONE 4. Check Vacancies Available");
             System.out.println("5. Change Index Number of Course");
             System.out.println("6. Swop Index Number with Another Student");
             System.out.println("0. Exit.");
@@ -230,13 +230,51 @@ public class StarsPlanner
         }
     }
 
-    public static void addCourse(ArrayList courseList, ArrayList userList, ArrayList registerStudentList)
+    public static void addCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList)
     {
         Scanner s1 = new Scanner(System.in);
-        //supposed to pass from login directly to here...
-        //but since i havent do login i'll just prompt user
-        //TOBECHANGED
+        int indexChoice = 0;
+        Course c = null;
+        RegisterStudent r;
+        System.out.print("Enter the index number: ");
+        indexChoice = s1.nextInt();
+        System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
+        for(int i = 0; i < courseList.size(); i++)
+        {
+            c = (Course) courseList.get(i);
+            if(indexChoice == ((Index)c).getIndexNumber())
+            {
+                System.out.printf("%-15s %-10s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber(), ((Index)c).getVacancies());
+                break;
+            }
+        }
+        System.out.print("Confirm (Y/N)? ");
+        if(s1.next().charAt(0) == 'Y')
+        {
+            r = new RegisterStudent(currentUser, c);
+            registerStudentList.add(r);
+            ((Student)currentUser).addRegisteredCourse(r);
+            int newVacancy = ((Index)c).getVacancies()-1;
+            ((Index)c).setVacancies(newVacancy);
+            System.out.println("Successfully added course!");
+        }
+        else
+            System.out.println("Bye.");
+    }
 
-
+    public static void checkCoursesRegistered(User currentUser)
+    {
+        RegisterStudent r;
+        Course c;
+        ArrayList userCourseList = new ArrayList();
+        userCourseList = ((Student)currentUser).getRegisteredCourse();
+        
+        System.out.printf("\n%-15s %-10s %-10s\n","Course Code", "School", "Index");
+        for(int i = 0; i < userCourseList.size(); i++)
+        {
+            r = (RegisterStudent)userCourseList.get(i);
+            c = r.getCourse();
+            System.out.printf("%-15s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber());
+        }
     }
 }
