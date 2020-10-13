@@ -1,4 +1,3 @@
-package version2;
 import java.util.*;
 
 import javax.lang.model.util.ElementScanner14;

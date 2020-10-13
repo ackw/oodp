@@ -1,5 +1,3 @@
-
-package version2;
 import java.util.*;
 
 public class Student extends User

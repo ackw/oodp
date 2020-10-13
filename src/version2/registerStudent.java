@@ -1,5 +1,3 @@
-package version2;
-
 public class RegisterStudent
 {
     private User user;

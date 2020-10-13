@@ -1,2 +1,0 @@
-james,$2a$12$6TkMcQYkH7SAAXFv3JlxyeBB1LAbu3mc33ZMIsL6fb6VPM6axjMfq,admin
-ben,pw,user

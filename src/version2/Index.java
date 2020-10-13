@@ -1,4 +1,3 @@
-package version2;
 import java.util.*;
 
 public class Index extends Course

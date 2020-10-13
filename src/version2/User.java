@@ -1,4 +1,3 @@
-package version2;
 public abstract class User
 {
     protected String name;
