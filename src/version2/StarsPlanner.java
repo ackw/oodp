@@ -1,7 +1,4 @@
 import java.util.*;
-
-import javax.lang.model.util.ElementScanner14;
-
 import java.io.*;
 
 public class StarsPlanner
@@ -98,14 +95,14 @@ public class StarsPlanner
                         {
                             System.out.println();
                             System.out.println("5. Change Index Number of Course");
-                            //changeIndexNumber();
+                            changeIndexNumber(courseList, currentUser, registerStudentList);
                             System.out.println();
                         }
                         break;
                 case 6: if(userType)
                         {
                             System.out.println();
-                            System.out.println("DONE 6. Print student list by course (all students registered for the selected course).");
+                            System.out.println("6. Print student list by course (all students registered for the selected course).");
                             printStudentListCourse(registerStudentList);
                             System.out.println();
                         }
@@ -172,7 +169,7 @@ public class StarsPlanner
             System.out.println("3. Add/Update a course (course code, school, its index numbers and vacancy).");
             System.out.println("DONE 4. Check available slot for an index number (vacancy in a class)");
             System.out.println("DONE 5. Print student list by index number.");
-            System.out.println("6. Print student list by course (all students registered for the selected course).");
+            System.out.println("DONE 6. Print student list by course (all students registered for the selected course).");
             System.out.println("9. Logout");
             System.out.println("0. Exit.");
             System.out.print("Enter choice: ");
@@ -288,6 +285,16 @@ public class StarsPlanner
         }
         else
             System.out.println("Bye.");
+    }
+
+    public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registeredStudentList)
+    {
+        Scanner s1 = new Scanner(System.in);
+        int indexChoice = 0;
+        Course c = null;
+        RegisterStudent r;
+        checkCoursesRegistered(currentUser);
+        System.out.print("Which index do you wish to change?");
     }
 
     public static void checkCoursesRegistered(User currentUser)
