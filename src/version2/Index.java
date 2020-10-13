@@ -5,7 +5,6 @@ public class Index extends Course
 {
     private int indexNumber;
     private int vacancies;
-    private ArrayList registeredStudents = new ArrayList();
 
     public Index()
     {

@@ -1,5 +1,6 @@
 package version2;
 import java.util.*;
+import java.io.*;
 
 public class StarsPlanner
 {
@@ -8,14 +9,16 @@ public class StarsPlanner
         Scanner s1 = new Scanner(System.in);
         ArrayList userList = new ArrayList();
         ArrayList courseList = new ArrayList();
-        System.out.println("Enter type of user to test with (True = Admin, False = Student): ");
-        Boolean userType = s1.nextBoolean();  //TRUE = admin, FALSE = student;
+        ArrayList registerStudentList = new ArrayList(); //will use this later
         initUserList(userList);
         initCourseList(courseList);
+        User currentUser = login(userList);
+        System.out.printf("Hello %s!\n\n", currentUser.getName());
+        Boolean userType = currentUser.getType();  //TRUE = admin, FALSE = student;
+
         int repeatMenu = 1;
         int menuChoice = 0;
 
-        
         while(repeatMenu == 1 && userType)
         {
             displayMenu(userType);
@@ -58,7 +61,7 @@ public class StarsPlanner
                         break;
             }
         }
-        
+
             
         while(repeatMenu == 1 && !userType)
         {
@@ -68,7 +71,7 @@ public class StarsPlanner
             {
                 case 1: System.out.println();
                         System.out.println("1. *Add Course");
-                        //editStudentAccessPeriod();
+                        //addCourse();
                         System.out.println();
                         break;
                 case 2: System.out.println();
@@ -161,6 +164,37 @@ public class StarsPlanner
 
     
     }
+    public static User login(ArrayList userList) 
+    {
+        Scanner s1 = new Scanner(System.in);
+        Console console = System.console();
+        User u = null;
+        Boolean success = false;
+        // user login details
+        while(!success)
+        {
+            System.out.print("Enter Username: ");
+            String inputUsername = s1.nextLine();
+            
+            // check hashed password using bcrypt
+            char[] password = console.readPassword("Enter Password: ");
+            String inputPw = new String(password);
+
+            for(int i = 0; i < userList.size(); i++)
+            {
+                u = (User) userList.get(i);
+                if(u.getUsername().equals(inputUsername) && u.getPassword().equals(inputPw))
+                {
+                    success = true;
+                    break;
+                }
+            }
+            if(!success)
+                System.out.println("Invalid login details");
+        }
+        return u;
+        
+    }
 
     public static void addStudent(ArrayList userList)
     {
@@ -194,15 +228,15 @@ public class StarsPlanner
             if(indexChoice == ((Index)c).getIndexNumber())
                 System.out.printf("%-15s %-10s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber(), ((Index)c).getVacancies());
         }
-
-
-        // public Index(String c, String s, int i, int v)
-        // {
-        //     super(c, s);
-        //     indexNumber = i;
-        //     vacancies = v;
-        // }
-
     }
 
+    public static void addCourse(ArrayList courseList, ArrayList userList, ArrayList registerStudentList)
+    {
+        Scanner s1 = new Scanner(System.in);
+        //supposed to pass from login directly to here...
+        //but since i havent do login i'll just prompt user
+        //TOBECHANGED
+
+
+    }
 }
