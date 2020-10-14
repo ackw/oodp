@@ -378,4 +378,14 @@ public class StarsPlanner
             }
         }
     }
+    
+    public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registeredStudentList)
+    {
+        Scanner s1 = new Scanner(System.in);
+        int indexChoice = 0;
+        Course c = null;
+        RegisterStudent r;
+        checkCoursesRegistered(currentUser);
+        System.out.print("Which index do you wish to change?");
+    }
 }
