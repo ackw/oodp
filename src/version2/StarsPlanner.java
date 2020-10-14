@@ -50,7 +50,7 @@ public class StarsPlanner
                         {             
                             System.out.println();      
                             System.out.println("2. Drop Course");
-                            //dropCourse();
+                            dropCourse(courseList, currentUser, registerStudentList);
                             System.out.println();
                         }
                         break;
@@ -274,7 +274,7 @@ public class StarsPlanner
             }
         }
         System.out.print("Confirm (Y/N)? ");
-        if(s1.next().charAt(0) == 'Y')
+        if(s1.next().toUpperCase().charAt(0)  == 'Y')
         {
             r = new RegisterStudent(currentUser, c);
             registerStudentList.add(r);
@@ -287,15 +287,41 @@ public class StarsPlanner
             System.out.println("Bye.");
     }
 
-    public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registeredStudentList)
+    //can only drop the first course registered
+    public static void dropCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList)
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice = 0;
         Course c = null;
         RegisterStudent r;
-        checkCoursesRegistered(currentUser);
-        System.out.print("Which index do you wish to change?");
+        System.out.print("Enter the index number: ");
+        indexChoice = s1.nextInt();
+
+        System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
+        for(int i = 0; i < courseList.size(); i++)
+        {
+            c = (Course) courseList.get(i);
+            if(indexChoice == ((Index)c).getIndexNumber())
+            {
+                System.out.printf("%-15s %-10s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber(), ((Index)c).getVacancies());
+                break;
+            }
+        }
+        System.out.print("Confirm (Y/N)? ");
+        if(s1.next().toUpperCase().charAt(0)  == 'Y')
+        {
+            r = new RegisterStudent(currentUser, c);
+            registerStudentList.remove(r);
+            ((Student)currentUser).dropRegisteredCourse(r);
+
+            int newVacancy = ((Index)c).getVacancies()+1;
+            ((Index)c).setVacancies(newVacancy);
+            System.out.println("Successfully dropped course!");
+        }
+        else
+            System.out.println("Bye.");
     }
+
 
     public static void checkCoursesRegistered(User currentUser)
     {
