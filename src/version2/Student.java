@@ -35,6 +35,9 @@ public class Student extends User
     }
 
     public void addRegisteredCourse(RegisterStudent rs) { registeredCourseList.add(rs);}
+    public void dropRegisteredCourse(RegisterStudent rs) {
+        registeredCourseList.remove(0);
+    }
 	public ArrayList getRegisteredCourse() { return registeredCourseList; }
 
 
