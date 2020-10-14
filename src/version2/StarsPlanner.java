@@ -6,6 +6,8 @@ import java.io.*;
 
 public class StarsPlanner
 {
+    private static int regCount = 0; //check if course is added;
+
     public static void main(String[] args)
     {
         Scanner s1 = new Scanner(System.in);
@@ -20,6 +22,7 @@ public class StarsPlanner
 
         int repeatMenu = 1;
         int menuChoice = 0;
+
 
         while(repeatMenu == 1)
         {
@@ -61,7 +64,7 @@ public class StarsPlanner
                         {
                             System.out.println();
                             System.out.println("3. Add/Update a course (course code, school, its index numbers and vacancy).");
-                            //addUpdateCourse();
+                            addUpdateCourse(courseList);
                             System.out.println();
                         }
                         else
@@ -169,10 +172,10 @@ public class StarsPlanner
             System.out.println("=====");
             System.out.println("1. Edit student access period");
             System.out.println("DONE 2. Add a student (name, matric number, gender, nationality, etc)");
-            System.out.println("3. Add/Update a course (course code, school, its index numbers and vacancy).");
+            System.out.println("ADD=DONE 3. Add/Update a course (course code, school, its index numbers and vacancy).");
             System.out.println("DONE 4. Check available slot for an index number (vacancy in a class)");
             System.out.println("DONE 5. Print student list by index number.");
-            System.out.println("6. Print student list by course (all students registered for the selected course).");
+            System.out.println("DONE 6. Print student list by course (all students registered for the selected course).");
             System.out.println("9. Logout");
             System.out.println("0. Exit.");
             System.out.print("Enter choice: ");
@@ -258,6 +261,7 @@ public class StarsPlanner
         }
     }
 
+    // to include validation if student has already registered
     public static void addCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList)
     {
         Scanner s1 = new Scanner(System.in);
@@ -266,6 +270,7 @@ public class StarsPlanner
         RegisterStudent r;
         System.out.print("Enter the index number: ");
         indexChoice = s1.nextInt();
+
         System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
         for(int i = 0; i < courseList.size(); i++)
         {
@@ -277,7 +282,8 @@ public class StarsPlanner
             }
         }
         System.out.print("Confirm (Y/N)? ");
-        if(s1.next().toUpperCase().charAt(0)  == 'Y')
+        
+        if(s1.next().toUpperCase().charAt(0)  == 'Y' && regCount == 0)
         {
             r = new RegisterStudent(currentUser, c);
             registerStudentList.add(r);
@@ -285,12 +291,13 @@ public class StarsPlanner
             int newVacancy = ((Index)c).getVacancies()-1;
             ((Index)c).setVacancies(newVacancy);
             System.out.println("Successfully added course!");
+            regCount++;
         }
         else
-            System.out.println("Bye.");
+            System.out.println("Unsuccessful. Bye!");
     }
 
-    //can only drop the first course registered
+    // can only drop the first course registered?
     public static void dropCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList)
     {
         Scanner s1 = new Scanner(System.in);
@@ -379,6 +386,45 @@ public class StarsPlanner
                 s = (Student)r.getUser();
                 System.out.printf("%-15s %-20s %-7s %-10s\n", s.getMatricNumber(), s.getName(), s.getGender(), s.getNationality());
             }
+        }
+    }
+
+
+    public static void addUpdateCourse(ArrayList courseList)
+    {
+        Scanner sc = new Scanner(System.in);
+
+        String a,b;
+        int c,d;
+
+        System.out.print("Add or Update Course: ");
+        String choice = sc.nextLine();
+
+        String add = "ADD";
+        String upd = "UPDATE";
+
+        if(choice.toUpperCase().equals(add)) {
+            Course cor;
+
+            System.out.print("Course: ");
+            a = sc.nextLine();
+            System.out.print("School: ");
+            b = sc.nextLine();
+            System.out.print("Index: ");
+            c = sc.nextInt();
+            System.out.print("Vacancies: ");
+            d = sc.nextInt();
+
+            cor = new Index(a, b, c, d);
+            courseList.add(cor);
+        }
+        else if(choice.toUpperCase().equals(upd)){
+            System.out.print("Update!");
+
+            // not done
+
+        }else{
+            System.out.print("nope!");
         }
     }
 }
