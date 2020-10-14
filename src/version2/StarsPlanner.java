@@ -1,7 +1,4 @@
 import java.util.*;
-
-import javax.lang.model.util.ElementScanner14;
-
 import java.io.*;
 
 public class StarsPlanner
@@ -53,8 +50,8 @@ public class StarsPlanner
                             System.out.println();
                         }
                         else
-                        {             
-                            System.out.println();      
+                        {
+                            System.out.println();
                             System.out.println("2. Drop Course");
                             dropCourse(courseList, currentUser, registerStudentList);
                             System.out.println();
@@ -101,14 +98,14 @@ public class StarsPlanner
                         {
                             System.out.println();
                             System.out.println("5. Change Index Number of Course");
-                            //changeIndexNumber();
+                            changeIndexNumber(courseList, currentUser, registerStudentList);
                             System.out.println();
                         }
                         break;
                 case 6: if(userType)
                         {
                             System.out.println();
-                            System.out.println("DONE 6. Print student list by course (all students registered for the selected course).");
+                            System.out.println("6. Print student list by course (all students registered for the selected course).");
                             printStudentListCourse(registerStudentList);
                             System.out.println();
                         }
@@ -119,14 +116,14 @@ public class StarsPlanner
                             //swopIndexStudent();
                             System.out.println();
                         }
-                        break;      
+                        break;
                 case 9: System.out.println();
                         System.out.println("6. Logout");
                         currentUser = login(userList);
                         System.out.printf("Hello %s!\n\n", currentUser.getName());
                         userType = currentUser.getType();
                         System.out.println();
-                        break;    
+                        break;
                 case 0: repeatMenu = 0;
                         s1.close();
                         break;
@@ -195,7 +192,7 @@ public class StarsPlanner
             System.out.print("Enter choice: ");
         }
     }
-    public static User login(ArrayList userList) 
+    public static User login(ArrayList userList)
     {
         Scanner s1 = new Scanner(System.in);
         Console console = System.console();
@@ -206,7 +203,7 @@ public class StarsPlanner
         {
             System.out.print("Enter Username: ");
             String inputUsername = s1.nextLine();
-            
+
             // check hashed password using bcrypt
             char[] password = console.readPassword("Enter Password: ");
             String inputPw = new String(password);
@@ -224,7 +221,7 @@ public class StarsPlanner
                 System.out.println("Invalid login details");
         }
         return u;
-        
+
     }
 
     public static void addStudent(ArrayList userList)
@@ -282,7 +279,7 @@ public class StarsPlanner
             }
         }
         System.out.print("Confirm (Y/N)? ");
-        
+
         if(s1.next().toUpperCase().charAt(0)  == 'Y' && regCount == 0)
         {
             r = new RegisterStudent(currentUser, c);
@@ -339,7 +336,7 @@ public class StarsPlanner
         Course c;
         ArrayList userCourseList = new ArrayList();
         userCourseList = ((Student)currentUser).getRegisteredCourse();
-        
+
         System.out.printf("\n%-15s %-10s %-10s\n","Course Code", "School", "Index");
         for(int i = 0; i < userCourseList.size(); i++)
         {
@@ -426,5 +423,14 @@ public class StarsPlanner
         }else{
             System.out.print("nope!");
         }
+
+    public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registeredStudentList)
+    {
+        Scanner s1 = new Scanner(System.in);
+        int indexChoice = 0;
+        Course c = null;
+        RegisterStudent r;
+        checkCoursesRegistered(currentUser);
+        System.out.print("Which index do you wish to change?");
     }
 }
