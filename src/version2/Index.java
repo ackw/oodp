@@ -10,14 +10,14 @@ public class Index extends Course
         super();
     }
 
-    public Index(String c, String s, int i, int v)
+    public Index(int m, String c, String s, int i, int v)
     {
         super(c, s);
         indexNumber = i;
         vacancies = v;
     }
 
-    public int getIndexNumber(){return indexNumber;}
+	public int getIndexNumber(){return indexNumber;}
     public void setIndexNumber(int i){indexNumber = i;}
     public int getVacancies(){return vacancies;}
     public void setVacancies(int v){vacancies = v;}

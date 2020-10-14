@@ -4,6 +4,7 @@ import java.io.*;
 public class StarsPlanner
 {
     private static int regCount = 0; //check if course is added;
+    public static int i = 5; // index for course retrieval
 
     public static void main(String[] args)
     {
@@ -147,17 +148,17 @@ public class StarsPlanner
     public static void initCourseList(ArrayList courseList)
     {
         Course c;
-        c = new Index("CZ2002", "SCSE", 20021, 20);
+        c = new Index(0,"CZ2002", "SCSE", 20021, 20);
         courseList.add(c);
-        c = new Index("CZ2002", "SCSE", 20022, 25);
+        c = new Index(1,"CZ2002", "SCSE", 20022, 25);
         courseList.add(c);
-        c = new Index("CZ2003", "SCSE", 20031, 20);
+        c = new Index(2,"CZ2003", "SCSE", 20031, 20);
         courseList.add(c);
-        c = new Index("CZ2003", "SCSE", 20032, 30);
+        c = new Index(3,"CZ2003", "SCSE", 20032, 30);
         courseList.add(c);
-        c = new Index("HG2024", "SOH", 20241, 15);
+        c = new Index(4,"HG2024", "SOH", 20241, 15);
         courseList.add(c);
-        c = new Index("HG2024", "SOH", 20242, 20);
+        c = new Index(5,"HG2024", "SOH", 20242, 20);
         courseList.add(c);
     }
 
@@ -294,7 +295,7 @@ public class StarsPlanner
             System.out.println("Unsuccessful. Bye!");
     }
 
-    // can only drop the first course registered?
+    // not done
     public static void dropCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList)
     {
         Scanner s1 = new Scanner(System.in);
@@ -326,7 +327,7 @@ public class StarsPlanner
             System.out.println("Successfully dropped course!");
         }
         else
-            System.out.println("Bye.");
+            System.out.println("Unsuccessful. Bye!");
     }
 
 
@@ -412,17 +413,26 @@ public class StarsPlanner
             System.out.print("Vacancies: ");
             d = sc.nextInt();
 
-            cor = new Index(a, b, c, d);
+            cor = new Index(i, a, b, c, d);
             courseList.add(cor);
+            i++;
         }
         else if(choice.toUpperCase().equals(upd)){
             System.out.print("Update!");
 
             // not done
+            System.out.print("id: ");
+            int j = sc.nextInt();
+            System.out.println(courseList.get(j));
+            System.out.print("removing!!");
+            courseList.remove(j);
+            System.out.println(courseList.get(j));
+            System.out.println("removed");
 
         }else{
             System.out.print("nope!");
         }
+    }
 
     public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registeredStudentList)
     {
