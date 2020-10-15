@@ -148,17 +148,17 @@ public class StarsPlanner
     public static void initCourseList(ArrayList courseList)
     {
         Course c;
-        c = new Index(0,"CZ2002", "SCSE", 20021, 20);
+        c = new Index("CZ2002", "SCSE", 20021, 20);
         courseList.add(c);
-        c = new Index(1,"CZ2002", "SCSE", 20022, 25);
+        c = new Index("CZ2002", "SCSE", 20022, 25);
         courseList.add(c);
-        c = new Index(2,"CZ2003", "SCSE", 20031, 20);
+        c = new Index("CZ2003", "SCSE", 20031, 20);
         courseList.add(c);
-        c = new Index(3,"CZ2003", "SCSE", 20032, 30);
+        c = new Index("CZ2003", "SCSE", 20032, 30);
         courseList.add(c);
-        c = new Index(4,"HG2024", "SOH", 20241, 15);
+        c = new Index("HG2024", "SOH", 20241, 15);
         courseList.add(c);
-        c = new Index(5,"HG2024", "SOH", 20242, 20);
+        c = new Index("HG2024", "SOH", 20242, 20);
         courseList.add(c);
     }
 
@@ -295,33 +295,37 @@ public class StarsPlanner
             System.out.println("Unsuccessful. Bye!");
     }
 
-    // not done
+    // arraylists:
+    // COURSE = admin will modify
+    // RegisteredStudent = student with registered index
+
+    // not working helpp
     public static void dropCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList)
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice = 0;
-        Course c = null;
+        Course c;
         RegisterStudent r;
         System.out.print("Enter the index number: ");
         indexChoice = s1.nextInt();
 
-        System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
-        for(int i = 0; i < courseList.size(); i++)
-        {
-            c = (Course) courseList.get(i);
-            if(indexChoice == ((Index)c).getIndexNumber())
-            {
-                System.out.printf("%-15s %-10s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber(), ((Index)c).getVacancies());
-                break;
-            }
-        }
         System.out.print("Confirm (Y/N)? ");
         if(s1.next().toUpperCase().charAt(0)  == 'Y')
         {
-            r = new RegisterStudent(currentUser, c);
-            registerStudentList.remove(r);
-            ((Student)currentUser).dropRegisteredCourse(r);
+            //loop to find
+            // for(int i = 0; i < registerStudentList.size(); i++)
+            // {
+            //     r = (RegisterStudent) registerStudentList.get(i);
+            //     if(indexChoice == ((Index)r).getCourse())
+            //     {
+            //         registerStudentList.remove(i);
+            //         ((Student)currentUser).dropRegisteredCourse(r);
+            //         break;
+            //     }
+            // }
 
+            //update course vacancy
+            c = (Course) courseList.get(i);
             int newVacancy = ((Index)c).getVacancies()+1;
             ((Index)c).setVacancies(newVacancy);
             System.out.println("Successfully dropped course!");
@@ -413,21 +417,25 @@ public class StarsPlanner
             System.out.print("Vacancies: ");
             d = sc.nextInt();
 
-            cor = new Index(i, a, b, c, d);
+            cor = new Index(a, b, c, d);
             courseList.add(cor);
             i++;
         }
         else if(choice.toUpperCase().equals(upd)){
             System.out.print("Update!");
 
-            // not done
+            // not working
             System.out.print("id: ");
-            int j = sc.nextInt();
-            System.out.println(courseList.get(j));
-            System.out.print("removing!!");
-            courseList.remove(j);
-            System.out.println(courseList.get(j));
-            System.out.println("removed");
+            int j = sc.nextInt(); 
+
+            // if (j == ((Index) courseList).getCourseCode()) {
+            //     System.out.println(courseList.get(j));
+            //     System.out.print("removing!!");
+            //     courseList.remove(j);
+            //     System.out.println(courseList.get(j));
+            //     System.out.println("removed");
+            // }
+            
 
         }else{
             System.out.print("nope!");

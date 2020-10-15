@@ -10,7 +10,7 @@ public class Index extends Course
         super();
     }
 
-    public Index(int m, String c, String s, int i, int v)
+    public Index(String c, String s, int i, int v)
     {
         super(c, s);
         indexNumber = i;
@@ -26,6 +26,9 @@ public class Index extends Course
     {
        return super.toString() + "\n Index Number: " + indexNumber + "\nVacancies: " + vacancies;
     }
+
+	public void getCourse() {
+	}
 
 
     

@@ -14,7 +14,7 @@ public class RegisterStudent
     public RegisterStudent(User u, Course c)
     {
         user = u;
-        course = c;
+        course = c; // registered index
     }
 
     public User getUser(){return user;}
