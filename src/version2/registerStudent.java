@@ -8,6 +8,7 @@ public class RegisterStudent
 
     public RegisterStudent()
     {
+        
     }
 
     public RegisterStudent(User u, Course c)
