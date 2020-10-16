@@ -32,7 +32,7 @@ public class StarsPlanner
                         {
                             System.out.println();
                             System.out.println("1. Edit student access period");
-                            //editStudentAccessPeriod();
+                            editStudentAccessPeriod();
                             System.out.println();
                         }
                         else
@@ -168,7 +168,7 @@ public class StarsPlanner
         {
             System.out.println("Menu");
             System.out.println("=====");
-            System.out.println("1. Edit student access period");
+            System.out.println("DONE 1. Edit student access period");
             System.out.println("DONE 2. Add a student (name, matric number, gender, nationality, etc)");
             System.out.println("DONE 3. Add/Update a course (course code, school, its index numbers and vacancy).");
             System.out.println("DONE 4. Check available slot for an index number (vacancy in a class)");
@@ -298,7 +298,6 @@ public class StarsPlanner
     // COURSE = admin will modify
     // RegisteredStudent = student with registered index
 
-    // not working helpp
     public static void dropCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList)
     {
         Scanner s1 = new Scanner(System.in);
@@ -397,8 +396,7 @@ public class StarsPlanner
     {
         Scanner sc = new Scanner(System.in);
 
-        String a,b;
-        int c,d;
+        Course course = null;
 
         System.out.print("Add or Update Course: ");
         String choice = sc.nextLine();
@@ -410,37 +408,84 @@ public class StarsPlanner
             Course cor;
 
             System.out.print("Course: ");
-            a = sc.nextLine();
+            String a = sc.nextLine();
             System.out.print("School: ");
-            b = sc.nextLine();
+            String b = sc.nextLine();
             System.out.print("Index: ");
-            c = sc.nextInt();
+            int c = sc.nextInt();
             System.out.print("Vacancies: ");
-            d = sc.nextInt();
+            int d = sc.nextInt();
 
             cor = new Index(a, b, c, d);
             courseList.add(cor);
             i++;
         }
         else if(choice.toUpperCase().equals(upd)){
-            System.out.print("Update!");
+            System.out.println("Update!\n");
 
-            // not working
-            System.out.print("id: ");
-            int j = sc.nextInt(); 
+            System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
+            for(int i = 0; i < courseList.size(); i++){
+                course = (Course) courseList.get(i);
+                System.out.printf("%-15s %-10s %-10s %-10s\n", course.getCourseCode(), course.getSchool(), ((Index)course).getIndexNumber(), ((Index)course).getVacancies());
+            }
 
-            // if (j == ((Index) courseList).getCourseCode()) {
-            //     System.out.println(courseList.get(j));
-            //     System.out.print("removing!!");
-            //     courseList.remove(j);
-            //     System.out.println(courseList.get(j));
-            //     System.out.println("removed");
-            // }
-            
+            System.out.println("Which course to update? ");
+            String a = sc.nextLine();
+
+            System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
+            for(int i = 0; i < courseList.size(); i++){
+                Course cos = (Course) courseList.get(i);
+                if(a.equals(cos.getCourseCode()))
+                {
+                    System.out.printf("%-15s %-10s %-10s %-10s\n", cos.getCourseCode(), cos.getSchool(), ((Index)cos).getIndexNumber(), ((Index)cos).getVacancies());
+                    break;
+                }   
+            }
+
+            System.out.println("Which index to update? ");
+            int b = sc.nextInt();
+
+            // only allow admin to update vacancies
+            System.out.println("Update vacancies: ");
+            int c = sc.nextInt();
+
+            for(int i = 0; i < courseList.size(); i++){
+                Course cos = (Course) courseList.get(i);
+                if(a.equals(cos.getCourseCode()) &&  b == ((Index)cos).getIndexNumber())
+                {
+                    ((Index)cos).setVacancies(c);
+                    System.out.println("Updated!");
+                    System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
+                    System.out.printf("\n%-15s %-10s %-10s %-10s\n", cos.getCourseCode(), cos.getSchool(), ((Index)cos).getIndexNumber(), ((Index)cos).getVacancies());
+                    break;
+                }   
+            }
 
         }else{
             System.out.print("nope!");
         }
+    }
+
+    // not added input validation for wrong date format etc.
+    public static void editStudentAccessPeriod(){
+        int accessStartDate = 200820;
+        int accessEndDate = 250820;
+        int accessStartTime = 1100;
+        int accessEndTime = 1700;
+
+        System.out.println("Student Access Period is " + accessStartDate + " to " + accessEndDate + ", from " + accessStartTime + " to " + accessEndTime + ".");
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Edit start date(DDMMYY): ");
+        accessStartDate = sc.nextInt();
+        System.out.print("Edit end date(DDMMYY): ");
+        accessEndDate = sc.nextInt();
+        System.out.print("Edit start time(0000): ");
+        accessStartTime = sc.nextInt();
+        System.out.print("Edit end time(0000): ");
+        accessEndTime = sc.nextInt();
+
+        System.out.println("\nEdited Student Access Period is " + accessStartDate + " to " + accessEndDate + ", from " + accessStartTime + " to " + accessEndTime + ".");
     }
 
     public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registeredStudentList)

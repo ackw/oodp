@@ -27,9 +27,6 @@ public class Index extends Course
        return super.toString() + "\n Index Number: " + indexNumber + "\nVacancies: " + vacancies;
     }
 
-	public void getCourse() {
-	}
-
 
     
 
