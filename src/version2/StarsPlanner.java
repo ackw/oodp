@@ -170,7 +170,7 @@ public class StarsPlanner
             System.out.println("=====");
             System.out.println("1. Edit student access period");
             System.out.println("DONE 2. Add a student (name, matric number, gender, nationality, etc)");
-            System.out.println("ADD=DONE 3. Add/Update a course (course code, school, its index numbers and vacancy).");
+            System.out.println("DONE 3. Add/Update a course (course code, school, its index numbers and vacancy).");
             System.out.println("DONE 4. Check available slot for an index number (vacancy in a class)");
             System.out.println("DONE 5. Print student list by index number.");
             System.out.println("DONE 6. Print student list by course (all students registered for the selected course).");
@@ -183,7 +183,7 @@ public class StarsPlanner
             System.out.println("Menu");
             System.out.println("=====");
             System.out.println("DONE 1. *Add Course");
-            System.out.println("2. Drop Course");
+            System.out.println("DONE 2. Drop Course");
             System.out.println("DONE 3. Check/Print Courses Registered");
             System.out.println("DONE 4. Check Vacancies Available");
             System.out.println("5. Change Index Number of Course");
@@ -281,7 +281,7 @@ public class StarsPlanner
         }
         System.out.print("Confirm (Y/N)? ");
 
-        if(s1.next().toUpperCase().charAt(0)  == 'Y' && regCount == 0)
+        if(s1.next().toUpperCase().charAt(0)  == 'Y')
         {
             r = new RegisterStudent(currentUser, c);
             registerStudentList.add(r);
@@ -289,7 +289,6 @@ public class StarsPlanner
             int newVacancy = ((Index)c).getVacancies()-1;
             ((Index)c).setVacancies(newVacancy);
             System.out.println("Successfully added course!");
-            regCount++;
         }
         else
             System.out.println("Unsuccessful. Bye!");
@@ -304,31 +303,33 @@ public class StarsPlanner
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice = 0;
-        Course c;
         RegisterStudent r;
+        Index ind;
+        checkCoursesRegistered(currentUser);
+        
         System.out.print("Enter the index number: ");
         indexChoice = s1.nextInt();
 
         System.out.print("Confirm (Y/N)? ");
         if(s1.next().toUpperCase().charAt(0)  == 'Y')
         {
-            //loop to find
-            // for(int i = 0; i < registerStudentList.size(); i++)
-            // {
-            //     r = (RegisterStudent) registerStudentList.get(i);
-            //     if(indexChoice == ((Index)r).getCourse())
-            //     {
-            //         registerStudentList.remove(i);
-            //         ((Student)currentUser).dropRegisteredCourse(r);
-            //         break;
-            //     }
-            // }
-
-            //update course vacancy
-            c = (Course) courseList.get(i);
-            int newVacancy = ((Index)c).getVacancies()+1;
-            ((Index)c).setVacancies(newVacancy);
-            System.out.println("Successfully dropped course!");
+            for(int i = 0; i < registerStudentList.size(); i++)
+            {
+                r = (RegisterStudent)registerStudentList.get(i);
+                ind = (Index)r.getCourse();
+                if(indexChoice == ind.getIndexNumber())
+                {
+                    if(currentUser.getUsername().equals(((User)r.getUser()).getUsername()))
+                    {
+                        System.out.println("match hehehe");
+                        registerStudentList.remove(i);
+                        ((Student)currentUser).dropRegisteredCourse(r);
+                        int newVacancy = ind.getVacancies()+1;
+                        ind.setVacancies(newVacancy);
+                        System.out.println("Successfully dropped course!");
+                    }
+                }
+            }
         }
         else
             System.out.println("Unsuccessful. Bye!");
