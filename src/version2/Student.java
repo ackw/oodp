@@ -36,7 +36,6 @@ public class Student extends User
 
     public void addRegisteredCourse(RegisterStudent rs) { registeredCourseList.add(rs);}
     public void dropRegisteredCourse(RegisterStudent rs) {
-        System.out.println(registeredCourseList.get(0));
         registeredCourseList.remove(rs);
     }
         
