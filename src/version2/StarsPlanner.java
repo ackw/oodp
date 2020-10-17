@@ -122,7 +122,7 @@ public class StarsPlanner
                         System.out.println("6. Logout");
                         System.out.println("You have successfully logged out.");
 
-                        System.out.print("Do you want to exit the program? ");
+                        System.out.print("Do you want to exit the program? (Y/N)");
                         Scanner s = new Scanner(System.in);
                         String choose = s.nextLine();
 
@@ -205,7 +205,7 @@ public class StarsPlanner
             System.out.println("DONE 2. Drop Course");
             System.out.println("DONE 3. Check/Print Courses Registered");
             System.out.println("DONE 4. Check Vacancies Available");
-            System.out.println("5. Change Index Number of Course");
+            System.out.println("DONE 5. Change Index Number of Course");
             System.out.println("6. Swop Index Number with Another Student");
             System.out.println("DONE 9. Logout");
             System.out.println("DONE 0. Exit.");
@@ -464,7 +464,7 @@ public class StarsPlanner
             System.out.println("Which index to update? ");
             int b = sc.nextInt();
 
-            // only allow admin to update vacancies
+            // will only allow admin to update vacancies
             System.out.println("Update vacancies: ");
             int c = sc.nextInt();
 
@@ -495,25 +495,53 @@ public class StarsPlanner
         System.out.println("Student Access Period is " + accessStartDate + " to " + accessEndDate + ", from " + accessStartTime + " to " + accessEndTime + ".");
 
         Scanner sc = new Scanner(System.in);
-        System.out.print("Edit start date(DDMMYY): ");
+        System.out.print("Edit start date (DDMMYY): ");
         accessStartDate = sc.nextInt();
-        System.out.print("Edit end date(DDMMYY): ");
+        System.out.print("Edit end date (DDMMYY): ");
         accessEndDate = sc.nextInt();
-        System.out.print("Edit start time(0000): ");
+        System.out.print("Edit start time (0000): ");
         accessStartTime = sc.nextInt();
-        System.out.print("Edit end time(0000): ");
+        System.out.print("Edit end time (0000): ");
         accessEndTime = sc.nextInt();
 
         System.out.println("\nEdited Student Access Period is " + accessStartDate + " to " + accessEndDate + ", from " + accessStartTime + " to " + accessEndTime + ".");
     }
 
+    // to check if new index is in the registered courses list
     public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registeredStudentList)
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice = 0;
         Course c = null;
         RegisterStudent r;
+        Index ind;
+
         checkCoursesRegistered(currentUser);
         System.out.print("Which index do you wish to change?");
+        indexChoice = s1.nextInt();
+
+        System.out.println("Enter new index: ");
+        int indexChoiceNew = s1.nextInt();
+
+        System.out.print("Confirm (Y/N)? ");
+        if(s1.next().toUpperCase().charAt(0)  == 'Y')
+        {
+            for(int i = 0; i < registeredStudentList.size(); i++)
+            {
+                r = (RegisterStudent)registeredStudentList.get(i);
+                ind = (Index)r.getCourse();
+                if(indexChoice == ind.getIndexNumber())
+                {
+                    if(currentUser.getUsername().equals(((User)r.getUser()).getUsername()))
+                    {
+                        ((Index) r.getCourse()).setIndexNumber(indexChoiceNew);   
+                        System.out.println("Successfully updated index!");
+                        checkCoursesRegistered(currentUser);
+                    }
+                }
+            }
+        }
+        else
+            System.out.println("Unsuccessful. Bye!");
     }
 }
