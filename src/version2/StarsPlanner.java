@@ -120,13 +120,32 @@ public class StarsPlanner
                         break;
                 case 9: System.out.println();
                         System.out.println("6. Logout");
-                        currentUser = login(userList);
-                        System.out.printf("Hello %s!\n\n", currentUser.getName());
-                        userType = currentUser.getType();
+                        System.out.println("You have successfully logged out.");
+
+                        System.out.print("Do you want to exit the program? ");
+                        Scanner s = new Scanner(System.in);
+                        String choose = s.nextLine();
+
+                        String no = "NO";
+                        String n = "N";
+
+                        if (choose.toUpperCase().equals(no) || choose.toUpperCase().equals(n)){
+                            currentUser = login(userList);
+                            System.out.printf("Hello %s!\n\n", currentUser.getName());
+                            userType = currentUser.getType();
+                        }else{
+                            repeatMenu = 0;
+                            System.out.println("Stars Planner closing...");
+                            System.out.println("Goodbye.");
+                            break;
+                        }
+                        
                         System.out.println();
                         break;
                 case 0: repeatMenu = 0;
+                        System.out.println("Stars Planner closing...");
                         s1.close();
+                        System.out.println("Goodbye.");
                         break;
             }
         }
@@ -174,8 +193,8 @@ public class StarsPlanner
             System.out.println("DONE 4. Check available slot for an index number (vacancy in a class)");
             System.out.println("DONE 5. Print student list by index number.");
             System.out.println("DONE 6. Print student list by course (all students registered for the selected course).");
-            System.out.println("9. Logout");
-            System.out.println("0. Exit.");
+            System.out.println("DONE 9. Logout");
+            System.out.println("DONE 0. Exit.");
             System.out.print("Enter choice: ");
         }
         else // if FALSE = student, display student menu
@@ -188,8 +207,8 @@ public class StarsPlanner
             System.out.println("DONE 4. Check Vacancies Available");
             System.out.println("5. Change Index Number of Course");
             System.out.println("6. Swop Index Number with Another Student");
-            System.out.println("9. Logout");
-            System.out.println("0. Exit.");
+            System.out.println("DONE 9. Logout");
+            System.out.println("DONE 0. Exit.");
             System.out.print("Enter choice: ");
         }
     }
