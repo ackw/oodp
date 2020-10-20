@@ -339,7 +339,6 @@ public class StarsPlanner
                 {
                     if(currentUser.getUsername().equals(((User)r.getUser()).getUsername()))
                     {
-                        System.out.println("match hehehe");
                         registerStudentList.remove(i);
                         ((Student)currentUser).dropRegisteredCourse(r);
                         int newVacancy = ind.getVacancies()+1;
@@ -514,18 +513,36 @@ public class StarsPlanner
         int indexChoice = 0;
         Course c = null;
         RegisterStudent r;
+        RegisterStudent rs;
         Index ind;
+        int newVacancy;
 
         checkCoursesRegistered(currentUser);
-        System.out.print("Which index do you wish to change?");
+        System.out.print("Which index do you wish to change? ");
         indexChoice = s1.nextInt();
 
-        System.out.println("Enter new index: ");
+        System.out.print("Enter new index: ");
         int indexChoiceNew = s1.nextInt();
 
+        System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
+        for(int j = 0; i < courseList.size(); j++)
+        {
+            c = (Course) courseList.get(j);
+            if(indexChoiceNew == ((Index)c).getIndexNumber())
+            {
+                System.out.printf("%-15s %-10s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber(), ((Index)c).getVacancies());
+                break;
+            }
+        }
         System.out.print("Confirm (Y/N)? ");
         if(s1.next().toUpperCase().charAt(0)  == 'Y')
         {
+            rs = new RegisterStudent(currentUser, c);
+            registeredStudentList.add(rs);
+            ((Student)currentUser).addRegisteredCourse(rs);
+            newVacancy = ((Index)c).getVacancies()-1;
+            ((Index)c).setVacancies(newVacancy);
+
             for(int i = 0; i < registeredStudentList.size(); i++)
             {
                 r = (RegisterStudent)registeredStudentList.get(i);
@@ -534,12 +551,15 @@ public class StarsPlanner
                 {
                     if(currentUser.getUsername().equals(((User)r.getUser()).getUsername()))
                     {
-                        ((Index) r.getCourse()).setIndexNumber(indexChoiceNew);   
-                        System.out.println("Successfully updated index!");
-                        checkCoursesRegistered(currentUser);
+                        registeredStudentList.remove(i);
+                        ((Student)currentUser).dropRegisteredCourse(r);
+                        newVacancy = ind.getVacancies()+1;
+                        ind.setVacancies(newVacancy);
                     }
                 }
-            }
+            }   
+
+
         }
         else
             System.out.println("Unsuccessful. Bye!");
