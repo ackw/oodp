@@ -21,7 +21,6 @@ public class StarsPlanner
         int repeatMenu = 1;
         int menuChoice = 0;
 
-
         while(repeatMenu == 1)
         {
             displayMenu(userType);
@@ -69,7 +68,7 @@ public class StarsPlanner
                         {
                             System.out.println();
                             System.out.println("3. Check/Print Courses Registered");
-                            checkCoursesRegistered(currentUser);
+                            checkCoursesRegistered(currentUser, registerStudentList);
                             System.out.println();
                         }
                         break;
@@ -114,7 +113,7 @@ public class StarsPlanner
                         {
                             System.out.println();
                             System.out.println("6. Swop Index Number with Another Student");
-                            //swopIndexStudent();
+                            swopIndexStudent(courseList, currentUser, registerStudentList, userList);
                             System.out.println();
                         }
                         break;
@@ -139,7 +138,6 @@ public class StarsPlanner
                             System.out.println("Goodbye.");
                             break;
                         }
-                        
                         System.out.println();
                         break;
                 case 0: repeatMenu = 0;
@@ -212,6 +210,7 @@ public class StarsPlanner
             System.out.print("Enter choice: ");
         }
     }
+
     public static User login(ArrayList userList)
     {
         Scanner s1 = new Scanner(System.in);
@@ -241,7 +240,6 @@ public class StarsPlanner
                 System.out.println("Invalid login details");
         }
         return u;
-
     }
 
     public static void addStudent(ArrayList userList)
@@ -304,7 +302,6 @@ public class StarsPlanner
         {
             r = new RegisterStudent(currentUser, c);
             registerStudentList.add(r);
-            ((Student)currentUser).addRegisteredCourse(r);
             int newVacancy = ((Index)c).getVacancies()-1;
             ((Index)c).setVacancies(newVacancy);
             System.out.println("Successfully added course!");
@@ -323,7 +320,7 @@ public class StarsPlanner
         int indexChoice = 0;
         RegisterStudent r;
         Index ind;
-        checkCoursesRegistered(currentUser);
+        checkCoursesRegistered(currentUser, registerStudentList);
         
         System.out.print("Enter the index number: ");
         indexChoice = s1.nextInt();
@@ -340,7 +337,6 @@ public class StarsPlanner
                     if(currentUser.getUsername().equals(((User)r.getUser()).getUsername()))
                     {
                         registerStudentList.remove(i);
-                        ((Student)currentUser).dropRegisteredCourse(r);
                         int newVacancy = ind.getVacancies()+1;
                         ind.setVacancies(newVacancy);
                         System.out.println("Successfully dropped course!");
@@ -353,19 +349,20 @@ public class StarsPlanner
     }
 
 
-    public static void checkCoursesRegistered(User currentUser)
+    public static void checkCoursesRegistered(User currentUser, ArrayList registeredStudentList)
     {
         RegisterStudent r;
         Course c;
-        ArrayList userCourseList = new ArrayList();
-        userCourseList = ((Student)currentUser).getRegisteredCourse();
+        User u;
 
         System.out.printf("\n%-15s %-10s %-10s\n","Course Code", "School", "Index");
-        for(int i = 0; i < userCourseList.size(); i++)
+        for(int i = 0; i < registeredStudentList.size(); i++)
         {
-            r = (RegisterStudent)userCourseList.get(i);
+            r = (RegisterStudent)registeredStudentList.get(i);
             c = r.getCourse();
-            System.out.printf("%-15s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber());
+            u = r.getUser();
+            if(u.getUsername().equals(currentUser.getUsername()))
+                System.out.printf("%-15s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber());
         }
     }
 
@@ -413,12 +410,10 @@ public class StarsPlanner
     public static void addUpdateCourse(ArrayList courseList)
     {
         Scanner sc = new Scanner(System.in);
-
         Course course = null;
 
         System.out.print("Add or Update Course: ");
         String choice = sc.nextLine();
-
         String add = "ADD";
         String upd = "UPDATE";
 
@@ -465,7 +460,6 @@ public class StarsPlanner
                     break;
                 }   
             }
-
         }else{
             System.out.print("nope!");
         }
@@ -479,7 +473,6 @@ public class StarsPlanner
         int accessEndTime = 1700;
 
         System.out.println("Student Access Period is " + accessStartDate + " to " + accessEndDate + ", from " + accessStartTime + " to " + accessEndTime + ".");
-
         Scanner sc = new Scanner(System.in);
         System.out.print("Edit start date (DDMMYY): ");
         accessStartDate = sc.nextInt();
@@ -504,7 +497,7 @@ public class StarsPlanner
         Index ind;
         int newVacancy;
 
-        checkCoursesRegistered(currentUser);
+        checkCoursesRegistered(currentUser, registeredStudentList);
         System.out.print("Which index do you wish to change? ");
         indexChoice = s1.nextInt();
 
@@ -526,7 +519,6 @@ public class StarsPlanner
         {
             rs = new RegisterStudent(currentUser, c);
             registeredStudentList.add(rs);
-            ((Student)currentUser).addRegisteredCourse(rs);
             newVacancy = ((Index)c).getVacancies()-1;
             ((Index)c).setVacancies(newVacancy);
 
@@ -539,16 +531,64 @@ public class StarsPlanner
                     if(currentUser.getUsername().equals(((User)r.getUser()).getUsername()))
                     {
                         registeredStudentList.remove(i);
-                        ((Student)currentUser).dropRegisteredCourse(r);
                         newVacancy = ind.getVacancies()+1;
                         ind.setVacancies(newVacancy);
                     }
                 }
             }   
-
-
         }
         else
             System.out.println("Unsuccessful. Bye!");
+    }
+
+    public static void swopIndexStudent(ArrayList courseList, User currentUser, ArrayList registeredStudentList, ArrayList userList)
+    {
+        Scanner s1 = new Scanner(System.in);
+        Course c, tempCourse;
+        RegisterStudent r;
+        User u;
+
+        checkCoursesRegistered(currentUser, registeredStudentList);
+        System.out.printf("%s's courses:!\n\n", currentUser.getName());
+        System.out.print("Which of your index do you wish to change with? ");
+        int indexChoice = s1.nextInt();
+
+        System.out.println("Please provide your peer's login particulars:");
+        User peer = login(userList);
+
+        checkCoursesRegistered(peer, registeredStudentList);
+        System.out.printf("%s's courses:!\n\n", peer.getName());
+        System.out.print("Which of peer's index do you wish to change with? ");
+        int peerChoice = s1.nextInt();
+
+        //confirm with user
+
+        for(int i = 0; i < registeredStudentList.size(); i++)
+        {
+            r = (RegisterStudent)registeredStudentList.get(i);
+            u = r.getUser();
+            c = r.getCourse();
+            if(u.getUsername().equals(currentUser.getUsername()) && indexChoice == ((Index)c).getIndexNumber())
+            {
+                System.out.println("found to change to peer");
+                System.out.println(r.toString());
+                r.setUser(peer);
+                System.out.println(r.toString());
+            }
+            if(u.getUsername().equals(peer.getUsername()) && peerChoice == ((Index)c).getIndexNumber())
+            {
+                System.out.println("found to change to current");
+                System.out.println(r.toString());
+                r.setUser(currentUser);
+                System.out.println(r.toString());
+            }
+        }   
+
+        
+
+
+
+        
+
     }
 }

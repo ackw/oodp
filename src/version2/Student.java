@@ -33,13 +33,4 @@ public class Student extends User
     {
        return super.toString() + "\nMatric Number: " + matricNumber + "\nGender: " + gender + "\nNationality: " + nationality;
     }
-
-    public void addRegisteredCourse(RegisterStudent rs) { registeredCourseList.add(rs);}
-    public void dropRegisteredCourse(RegisterStudent rs) {
-        registeredCourseList.remove(rs);
-    }
-        
-	public ArrayList getRegisteredCourse() { return registeredCourseList; }
-
-
 }
