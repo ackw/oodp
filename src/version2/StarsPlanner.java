@@ -310,10 +310,6 @@ public class StarsPlanner
             System.out.println("Unsuccessful. Bye!");
     }
 
-    // arraylists:
-    // COURSE = admin will modify
-    // RegisteredStudent = student with registered index
-
     public static void dropCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList)
     {
         Scanner s1 = new Scanner(System.in);
@@ -467,23 +463,43 @@ public class StarsPlanner
 
     // not added input validation for wrong date format etc. + check if student is able to access planner
     public static void editStudentAccessPeriod(){
-        int accessStartDate = 200820;
-        int accessEndDate = 250820;
-        int accessStartTime = 1100;
-        int accessEndTime = 1700;
+        // int accessStartDate = 200820;
+        // int accessEndDate = 250820;
+        // int accessStartTime = 1100;
+        // int accessEndTime = 1700;
 
-        System.out.println("Student Access Period is " + accessStartDate + " to " + accessEndDate + ", from " + accessStartTime + " to " + accessEndTime + ".");
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Edit start date (DDMMYY): ");
-        accessStartDate = sc.nextInt();
-        System.out.print("Edit end date (DDMMYY): ");
-        accessEndDate = sc.nextInt();
-        System.out.print("Edit start time (0000): ");
-        accessStartTime = sc.nextInt();
-        System.out.print("Edit end time (0000): ");
-        accessEndTime = sc.nextInt();
+        // System.out.println("Student Access Period is " + accessStartDate + " to " + accessEndDate + ", from " + accessStartTime + " to " + accessEndTime + ".");
+        // Scanner sc = new Scanner(System.in);
+        // System.out.print("Edit start date (DDMMYY): ");
+        // accessStartDate = sc.nextInt();
+        // System.out.print("Edit end date (DDMMYY): ");
+        // accessEndDate = sc.nextInt();
+        // System.out.print("Edit start time (0000): ");
+        // accessStartTime = sc.nextInt();
+        // System.out.print("Edit end time (0000): ");
+        // accessEndTime = sc.nextInt();
 
-        System.out.println("\nEdited Student Access Period is " + accessStartDate + " to " + accessEndDate + ", from " + accessStartTime + " to " + accessEndTime + ".");
+        // System.out.println("\nEdited Student Access Period is " + accessStartDate + " to " + accessEndDate + ", from " + accessStartTime + " to " + accessEndTime + ".");
+        int date, month, year = 0;
+        date = month = year = 0;
+        int dateCheck = 0;
+        Calendar newDate = null; 
+        Scanner s1 = new Scanner(System.in);
+        
+        while(dateCheck == 0)
+        {
+            System.out.print("Enter new start date (DD MM YYYY): ");
+            date = s1.nextInt();
+            month = s1.nextInt();
+            year = s1.nextInt();  
+            if(date < 1 || date > 31 || month > 12 || month < 1 || year < 1900 || year > 2020)
+            {
+                System.out.println("Invalid date entered. Please check and re-enter.");
+            }
+            else
+                dateCheck = 1;
+        }    
+        newDate = new GregorianCalendar(date, month, year);
     }
 
     // to check if new index is in the registered courses list
