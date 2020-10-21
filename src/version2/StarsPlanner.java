@@ -187,7 +187,7 @@ public class StarsPlanner
         {
             System.out.println("Menu");
             System.out.println("=====");
-            System.out.println("DONE 1. Edit student access period");
+            System.out.println("1. Edit student access period");
             System.out.println("DONE 2. Add a student (name, matric number, gender, nationality, etc)");
             System.out.println("DONE 3. Add/Update a course (course code, school, its index numbers and vacancy).");
             System.out.println("DONE 4. Check available slot for an index number (vacancy in a class)");
@@ -447,31 +447,18 @@ public class StarsPlanner
                 System.out.printf("%-15s %-10s %-10s %-10s\n", course.getCourseCode(), course.getSchool(), ((Index)course).getIndexNumber(), ((Index)course).getVacancies());
             }
 
-            System.out.println("Which course to update? ");
-            String a = sc.nextLine();
-
-            System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
-            for(int i = 0; i < courseList.size(); i++){
-                Course cos = (Course) courseList.get(i);
-                if(a.equals(cos.getCourseCode()))
-                {
-                    System.out.printf("%-15s %-10s %-10s %-10s\n", cos.getCourseCode(), cos.getSchool(), ((Index)cos).getIndexNumber(), ((Index)cos).getVacancies());
-                    break;
-                }   
-            }
-
             System.out.println("Which index to update? ");
-            int b = sc.nextInt();
+            int a = sc.nextInt();
 
             // will only allow admin to update vacancies
             System.out.println("Update vacancies: ");
-            int c = sc.nextInt();
+            int b = sc.nextInt();
 
             for(int i = 0; i < courseList.size(); i++){
                 Course cos = (Course) courseList.get(i);
-                if(a.equals(cos.getCourseCode()) &&  b == ((Index)cos).getIndexNumber())
+                if(a == ((Index)cos).getIndexNumber())                
                 {
-                    ((Index)cos).setVacancies(c);
+                    ((Index)cos).setVacancies(b);
                     System.out.println("Updated!");
                     System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
                     System.out.printf("\n%-15s %-10s %-10s %-10s\n", cos.getCourseCode(), cos.getSchool(), ((Index)cos).getIndexNumber(), ((Index)cos).getVacancies());
@@ -484,7 +471,7 @@ public class StarsPlanner
         }
     }
 
-    // not added input validation for wrong date format etc.
+    // not added input validation for wrong date format etc. + check if student is able to access planner
     public static void editStudentAccessPeriod(){
         int accessStartDate = 200820;
         int accessEndDate = 250820;
