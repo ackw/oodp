@@ -548,16 +548,16 @@ public class StarsPlanner
         RegisterStudent r;
         User u;
 
+        System.out.printf("\n%s's courses:\n", currentUser.getName());
         checkCoursesRegistered(currentUser, registeredStudentList);
-        System.out.printf("%s's courses:!\n\n", currentUser.getName());
         System.out.print("Which of your index do you wish to change with? ");
         int indexChoice = s1.nextInt();
 
         System.out.println("Please provide your peer's login particulars:");
         User peer = login(userList);
 
+        System.out.printf("\n%s's courses:!\n", peer.getName());
         checkCoursesRegistered(peer, registeredStudentList);
-        System.out.printf("%s's courses:!\n\n", peer.getName());
         System.out.print("Which of peer's index do you wish to change with? ");
         int peerChoice = s1.nextInt();
 
