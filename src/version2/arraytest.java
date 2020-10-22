@@ -4,34 +4,33 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class arraytest {
 
    public static void main(String[] args) throws IOException {
-        ArrayList<Object> userList = new ArrayList<Object>();
-        Scanner s1 = new Scanner(System.in);
-        System.out.println("Enter Name:");
-        userList.add(s1.next());
-        System.out.println("Enter Username:");
-        userList.add(s1.next());
-        System.out.println("Enter Password:");
-        userList.add(s1.next());
-        System.out.println("Admin?");
-        userList.add(s1.nextBoolean());
-        System.out.println("Enter Matric No:");
-        userList.add(s1.nextInt());
-        System.out.println("Enter Gender:");
-        userList.add(s1.next());
-        System.out.println("Enter Nationality:");
-        userList.add(s1.next());
+        ArrayList<Object> returnlist = new ArrayList<Object>();
+        ArrayList<Object> courseList = new ArrayList<Object>();
 
-        //Writing arraylist to the file
+        // //Writing arraylist to the file
+        Course c;
+        c = new Index("CZ2002", "SCSE", 20021, 20);
+        courseList.add(c);
+        c = new Index("CZ2002", "SCSE", 20022, 25);
+        courseList.add(c);
+        c = new Index("CZ2003", "SCSE", 20031, 20);
+        courseList.add(c);
+        c = new Index("CZ2003", "SCSE", 20032, 30);
+        courseList.add(c);
+        c = new Index("HG2024", "SOH", 20241, 15);
+        courseList.add(c);
+        c = new Index("HG2024", "SOH", 20242, 20);
+        courseList.add(c);
+
         try {
-            FileOutputStream fos = new FileOutputStream("./src/data/userinfo");
+            FileOutputStream fos = new FileOutputStream("./src/data/courseinfo");
             ObjectOutputStream oos = new ObjectOutputStream(fos);   
-            oos.writeObject(userList);
-
+            oos.writeObject(courseList);
+            oos.flush();
             oos.close();
             }
     
@@ -41,13 +40,13 @@ public class arraytest {
 
         //Reading arraylist from the file
         try {
-            FileInputStream fis = new FileInputStream("./src/data/userinfo");
+            FileInputStream fis = new FileInputStream("./src/data/courseinfo");
             ObjectInputStream ois = new ObjectInputStream(fis);
-            ArrayList<Object> returnlist = (ArrayList<Object>) ois.readObject();
+            returnlist = (ArrayList<Object>) ois.readObject();
+            ois.close();
 
             System.out.println(returnlist);
-
-            ois.close();
+            
             } catch (Exception e) {
                 e.printStackTrace();
             }

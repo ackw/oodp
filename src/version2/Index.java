@@ -1,6 +1,7 @@
 import java.util.*;
+import java.io.Serializable;
 
-public class Index extends Course
+public class Index extends Course implements Serializable
 {
     private int indexNumber;
     private int vacancies;
@@ -10,11 +11,11 @@ public class Index extends Course
         super();
     }
 
-    public Index(String c, String s, int i, int v)
+    public Index (String c, String s, int i, int v)
     {
         super(c, s);
-        indexNumber = i;
-        vacancies = v;
+        this.indexNumber = i;
+        this.vacancies = v;
     }
 
 	public int getIndexNumber(){return indexNumber;}
@@ -24,7 +25,7 @@ public class Index extends Course
 
     public String toString()
     {
-       return super.toString() + "\n Index Number: " + indexNumber + "\nVacancies: " + vacancies;
+       return super.toString() + "\nIndex Number: " + indexNumber + "\nVacancies: " + vacancies;
     }
 
 
