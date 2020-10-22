@@ -31,7 +31,7 @@ public class StarsPlanner
                         {
                             System.out.println();
                             System.out.println("1. Edit student access period");
-                            editStudentAccessPeriod(userList);
+                            editStudentAccessPeriod();
                             System.out.println();
                         }
                         else
@@ -462,7 +462,7 @@ public class StarsPlanner
     }
 
     // not added input validation for wrong date format etc. + check if student is able to access planner
-    public static void editStudentAccessPeriod(ArrayList userList){
+    public static void editStudentAccessPeriod(){
         // int accessStartDate = 200820;
         // int accessEndDate = 250820;
         // int accessStartTime = 1100;
@@ -483,13 +483,8 @@ public class StarsPlanner
         int date, month, year = 0;
         date = month = year = 0;
         int dateCheck = 0;
-        int matricNumber;
         Calendar newDate = null; 
-        Student u = null;
         Scanner s1 = new Scanner(System.in);
-
-        System.out.print("Please input the student's matric number: ");
-        matricNumber = s1.nextInt();
         
         while(dateCheck == 0)
         {
@@ -505,16 +500,6 @@ public class StarsPlanner
                 dateCheck = 1;
         }    
         newDate = new GregorianCalendar(date, month, year);
-        for(int i = 0; i < userList.size(); i++)
-        {
-            u = (Student)userList.get(i);
-            if(u.getMatricNumber() == matricNumber)
-            {
-                u.setStartDate(newDate);
-            }
-        }
-        System.out.println(u.dateToString());
-        
     }
 
     // to check if new index is in the registered courses list
