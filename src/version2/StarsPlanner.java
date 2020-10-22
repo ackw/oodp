@@ -20,7 +20,7 @@ public class StarsPlanner
 
         int repeatMenu = 1;
         int menuChoice = 0;
-
+        //test
         while(repeatMenu == 1)
         {
             displayMenu(userType);
