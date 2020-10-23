@@ -1,7 +1,7 @@
 import java.util.*;
+import java.io.Serializable;
 
-
-public class Course
+public class Course implements Serializable
 {
     protected String courseCode;
     protected String school;
@@ -25,7 +25,7 @@ public class Course
 
     public String toString()
     {
-       return "Course Code: " + courseCode + "\nUsername: " + school;
+       return "Course Name: " + courseCode + "\nSchool: " + school;
     }
 
     //public addIndex()
