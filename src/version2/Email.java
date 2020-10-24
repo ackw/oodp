@@ -8,7 +8,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-//send notifications to students
+// send notifications to students - trial code
 
 public class Email {
 
@@ -38,10 +38,7 @@ public class Email {
 				InternetAddress.parse("andrelchew@icloud.com"));
 			message.setSubject("Testing Subject");
 			message.setText("Dear Student,"
-				+ "\n\n Stay Blessed!");
-
-			//set text as registered list.
-			//how?
+				+ "\n\n You've registered!");
 
 			Transport.send(message);
 

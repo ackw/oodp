@@ -1,6 +1,16 @@
 import java.util.*;
 import java.io.*;
 
+// imports for email
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 public class StarsPlanner
 {
     private static int regCount = 0; //check if course is added;
@@ -54,6 +64,7 @@ public class StarsPlanner
                             System.out.println();
                             System.out.println("2. Drop Course");
                             dropCourse(courseList, currentUser, registerStudentList);
+                            sendWaitlistNotif(currentUser, registerStudentList);
                             System.out.println();
                         }
                         break;
@@ -599,12 +610,55 @@ public class StarsPlanner
                 System.out.println(r.toString());
             }
         }   
+    }
 
-        
+    public static void sendWaitlistNotif(User currentUser, ArrayList registeredStudentList)
+    {
+        //sample
+        String course = "CZ2002";
+        int index = 20021;
 
+        final String username = "oatarabica@gmail.com";
+		final String password = "absolutmunch";
 
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+    
+            // if student A dropCourse oodp, student B in the waitlist will addCourse into oodp. Edit student A & student B's registered list.
+            // send email to student B to inform them of successful allocation!
 
-        
+            // get student B's username from Users data
+            // change email recipient to username@e.ntu.edu.sg
+
+            // send them course & index details
+
+        Session session = Session.getInstance(props,
+        new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("oatarabica@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                InternetAddress.parse("andrelchew@icloud.com")); // to change to student email
+            message.setSubject("Course Allocation");
+            message.setText("Congrats! You have been allocated to the course " + course + " of index " + index +"! Please check your degree audit.");
+
+            Transport.send(message);
+
+            // run addCourse
+            System.out.println("\nStudent added! Email notification sent to next student on waitlist!");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
