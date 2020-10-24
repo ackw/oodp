@@ -4,5 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/oodp.iml" filepath="$PROJECT_DIR$/oodp.iml" />
     </modules>
+            
+</dependency>
   </component>
 </project>

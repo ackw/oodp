@@ -12,6 +12,7 @@
         <CLASSES>
           <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/19.0.0/annotations-19.0.0.jar!/" />
         </CLASSES>
+
         <JAVADOC />
         <SOURCES />
       </library>
