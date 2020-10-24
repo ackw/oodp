@@ -41,7 +41,7 @@ public class StarsPlanner
                         {
                             System.out.println();
                             System.out.println("1. Edit student access period");
-                            editStudentAccessPeriod();
+                            editStudentAccessPeriod(userList);
                             System.out.println();
                         }
                         else
@@ -472,45 +472,55 @@ public class StarsPlanner
         }
     }
 
-    // not added input validation for wrong date format etc. + check if student is able to access planner
-    public static void editStudentAccessPeriod(){
-        // int accessStartDate = 200820;
-        // int accessEndDate = 250820;
-        // int accessStartTime = 1100;
-        // int accessEndTime = 1700;
-
-        // System.out.println("Student Access Period is " + accessStartDate + " to " + accessEndDate + ", from " + accessStartTime + " to " + accessEndTime + ".");
-        // Scanner sc = new Scanner(System.in);
-        // System.out.print("Edit start date (DDMMYY): ");
-        // accessStartDate = sc.nextInt();
-        // System.out.print("Edit end date (DDMMYY): ");
-        // accessEndDate = sc.nextInt();
-        // System.out.print("Edit start time (0000): ");
-        // accessStartTime = sc.nextInt();
-        // System.out.print("Edit end time (0000): ");
-        // accessEndTime = sc.nextInt();
-
-        // System.out.println("\nEdited Student Access Period is " + accessStartDate + " to " + accessEndDate + ", from " + accessStartTime + " to " + accessEndTime + ".");
-        int date, month, year = 0;
-        date = month = year = 0;
+    public static void editStudentAccessPeriod(ArrayList userList){
+        int startDate, startMonth, startYear, endDate, endMonth, endYear;
+        startDate = startMonth = startYear = endDate = endMonth = endYear = 0;
         int dateCheck = 0;
+        int matricNumber;
         Calendar newDate = null; 
+        User u = null;
         Scanner s1 = new Scanner(System.in);
+
+        System.out.print("Please input the student's matric number: ");
+        matricNumber = s1.nextInt();
         
         while(dateCheck == 0)
         {
             System.out.print("Enter new start date (DD MM YYYY): ");
-            date = s1.nextInt();
-            month = s1.nextInt();
-            year = s1.nextInt();  
-            if(date < 1 || date > 31 || month > 12 || month < 1 || year < 1900 || year > 2020)
+            startDate = s1.nextInt();
+            startMonth = s1.nextInt();
+            startYear = s1.nextInt();  
+            System.out.print("Enter new end date (DD MM YYYY): ");
+            endDate = s1.nextInt();
+            endMonth = s1.nextInt();
+            endYear = s1.nextInt(); 
+            if(startDate < 1 || startDate > 31 || startMonth > 12 || startMonth < 1 || startYear < 1900 || startYear > 2021 || endDate < 1 || endDate > 31 || endMonth > 12 || endMonth < 1 || endYear < 1900 || endYear > 2021)
             {
                 System.out.println("Invalid date entered. Please check and re-enter.");
             }
             else
                 dateCheck = 1;
         }    
-        newDate = new GregorianCalendar(date, month, year);
+        for(int i = 0; i < userList.size(); i++)
+        {
+            u = (User)userList.get(i);
+            if(u instanceof Student)
+            {
+                System.out.println("hellohehe");
+                if(((Student)u).getMatricNumber() == matricNumber)
+                {
+                    System.out.println(((Student)u).dateToString());
+                    newDate = new GregorianCalendar(startYear, startMonth, startDate);
+                    ((Student)u).setStartDate(newDate);
+                    newDate = new GregorianCalendar(endYear, endMonth, endDate);
+                    ((Student)u).setEndDate(newDate);
+                    break;
+                }
+            }
+        }
+        System.out.println(((Student)u).dateToString());
+
+        
     }
 
     // to check if new index is in the registered courses list
