@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class studentInitialiser {
+public class userListInit {
 
    public static void main(String[] args) throws IOException {
         ArrayList<Object> returnlist = new ArrayList<Object>();
@@ -13,10 +13,14 @@ public class studentInitialiser {
         User u;
         u = new Student("Sum Ting Wong", "user3", "qwe", false, 19234234, 'F', "SG");
         userList.add(u);
+        u = new Admin("Admin", "admin", "admin", true);
+        userList.add(u);
+        u = new Student("Low Mai Kai", "user4", "qwe", false, 18492841, 'M', "MY");
+        userList.add(u);
 
         //Writing arraylist to the file
         try {
-            FileOutputStream fos = new FileOutputStream("./src/data/userinfo");
+            FileOutputStream fos = new FileOutputStream("./src/data/userList");
             ObjectOutputStream oos = new ObjectOutputStream(fos);   
             oos.writeObject(userList);
             oos.flush();
@@ -29,7 +33,7 @@ public class studentInitialiser {
 
         //Reading arraylist from the file
         try {
-            FileInputStream fis = new FileInputStream("./src/data/userinfo");
+            FileInputStream fis = new FileInputStream("./src/data/userList");
             ObjectInputStream ois = new ObjectInputStream(fis);
             returnlist = (ArrayList<Object>) ois.readObject();
             ois.close();

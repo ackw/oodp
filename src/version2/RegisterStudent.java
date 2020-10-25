@@ -3,7 +3,6 @@ import java.util.*;
 
 public class RegisterStudent implements Serializable
 {
-
     private User user;
     private Course course;
 

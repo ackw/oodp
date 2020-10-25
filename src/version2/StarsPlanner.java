@@ -7,7 +7,9 @@ public class StarsPlanner
 {
     private static int regCount = 0; //check if course is added;
     public static int i = 5; // index for course retrieval
-    public static ArrayList<Object> returnlist = new ArrayList<Object>(); //arraylist for reading from file
+    public static ArrayList<Object> userList = new ArrayList<Object>();
+    public static ArrayList<Object> courseList = new ArrayList<Object>();
+    public static ArrayList<Object> registerStudentList = new ArrayList<Object>();
 
     public static void main(String[] args)
     {
@@ -115,8 +117,8 @@ public class StarsPlanner
                         else
                         {
                             System.out.println();
-                            System.out.println("6. Swop Index Number with Another Student");
-                            swopIndexStudent(courseList, currentUser, registerStudentList, userList);
+                            System.out.println("6. Swap Index Number with Another Student");
+                            swapIndexStudent(courseList, currentUser, registerStudentList, userList);
                             System.out.println();
                         }
                         break;
@@ -152,20 +154,30 @@ public class StarsPlanner
         }
     }
 
-    public static void initUserList(ArrayList userList)
+    public static void initUserList(ArrayList userList) //done
     {
-        User u;
-        u = new Admin("Ho Lee Fok", "user1", "asd", true);
-        userList.add(u);
-        u = new Admin("Wu Liu Qi", "user2", "asd", true);
-        userList.add(u);
-        u = new Student("Sum Ting Wong", "user3", "qwe", false, 19234234, 'F', "SG");
-        userList.add(u);
-        u = new Student("Low Mai Kai", "user4", "qwe", false, 18492841, 'M', "MY");
-        userList.add(u);
+        // User u;
+        // u = new Admin("Ho Lee Fok", "user1", "asd", true);
+        // userList.add(u);
+        // u = new Admin("Wu Liu Qi", "user2", "asd", true);
+        // userList.add(u);
+        // u = new Student("Sum Ting Wong", "user3", "qwe", false, 19234234, 'F', "SG");
+        // userList.add(u);
+        // u = new Student("Low Mai Kai", "user4", "qwe", false, 18492841, 'M', "MY");
+        // userList.add(u);
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/userList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            userList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+    
+            } 
+        catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 
-    public static void initCourseList(ArrayList courseList)
+    public static void initCourseList(ArrayList courseList) //done
     {
         // Course c;
         // c = new Index("CZ2002", "SCSE", 20021, 20);
@@ -180,9 +192,20 @@ public class StarsPlanner
         // courseList.add(c);
         // c = new Index("HG2024", "SOH", 20242, 20);
         // courseList.add(c);
+
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/courseList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            courseList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            } 
+
+        catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 
-    public static void displayMenu(boolean userType)
+    public static void displayMenu(boolean userType) //done
     {
         if(userType) //if TRUE = admin, display admin menu
         {
@@ -214,12 +237,24 @@ public class StarsPlanner
         }
     }
 
-    public static User login(ArrayList userList)
+    public static User login(ArrayList userList) //done
     {
         Scanner s1 = new Scanner(System.in);
         Console console = System.console();
         User u = null;
         Boolean success = false;
+
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/userList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            userList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            
+            }
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+
         // user login details
         while(!success)
         {
@@ -245,9 +280,21 @@ public class StarsPlanner
         return u;
     }
 
-    public static void addStudent(ArrayList userList)
+    public static void addStudent(ArrayList userList) //done. only issue with not taking in last line input from user
     {
         Scanner s1 = new Scanner(System.in);
+
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/userList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            userList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            
+            }
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+
         System.out.println("Enter Name:");
         String name = s1.nextLine();
         System.out.println("Enter Username:");
@@ -262,9 +309,21 @@ public class StarsPlanner
         String nationality = s1.nextLine();
         User u = new Student(name, username, password, false, matricNumber, gender, nationality);
         userList.add(u);
+
+        try {
+            FileOutputStream fos = new FileOutputStream("./src/data/userList");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(userList);
+            oos.flush();
+            oos.close();
+            }
+    
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
-    public static void checkAvailSlotIndex(ArrayList courseList)
+    public static void checkAvailSlotIndex(ArrayList courseList) //done
     {
         Course c = null;
         Scanner s1 = new Scanner(System.in);
@@ -272,9 +331,9 @@ public class StarsPlanner
         int indexChoice = s1.nextInt();
 
         try {
-            FileInputStream fis = new FileInputStream("./src/data/courseinfo");
+            FileInputStream fis = new FileInputStream("./src/data/courseList");
             ObjectInputStream ois = new ObjectInputStream(fis);
-            returnlist = (ArrayList<Object>) ois.readObject();
+            courseList = (ArrayList<Object>) ois.readObject();
             ois.close();
             
             }
@@ -283,29 +342,42 @@ public class StarsPlanner
             }
 
         System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
-        for(int i = 0; i < returnlist.size(); i++)
+        for(int i = 0; i < courseList.size(); i++)
         {
-            c = (Course) returnlist.get(i);
+            c = (Course) courseList.get(i);
             if(indexChoice == ((Index)c).getIndexNumber())
                 System.out.printf("%-15s %-10s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber(), ((Index)c).getVacancies());
         }
     }
 
     // to include validation if student has already registered
-    public static void addCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList)
+    public static void addCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList) //done. only issue is vacancy -1 not working
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice = 0;
         Course c = null;
         RegisterStudent r;
 
+        if(new File("./src/data/registerStudentList").isFile()){ //check if file exists
+            try {
+                FileInputStream fis = new FileInputStream("./src/data/registerStudentList");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                registerStudentList = (ArrayList<Object>) ois.readObject();
+                ois.close();
+                
+                }
+            catch (Exception e) {
+                    e.printStackTrace();
+                }
+        }
+
         try {
-            FileInputStream fis = new FileInputStream("./src/data/courseinfo");
+            FileInputStream fis = new FileInputStream("./src/data/courseList");
             ObjectInputStream ois = new ObjectInputStream(fis);
-            returnlist = (ArrayList<Object>) ois.readObject();
+            courseList = (ArrayList<Object>) ois.readObject();
             ois.close();
             
-            }
+            } 
         catch (Exception e) {
                 e.printStackTrace();
             }
@@ -314,9 +386,9 @@ public class StarsPlanner
         indexChoice = s1.nextInt();
 
         System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
-        for(int i = 0; i < returnlist.size(); i++)
+        for(int i = 0; i < courseList.size(); i++)
         {
-            c = (Course) returnlist.get(i);
+            c = (Course) courseList.get(i);
             if(indexChoice == ((Index)c).getIndexNumber())
             {
                 System.out.printf("%-15s %-10s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber(), ((Index)c).getVacancies());
@@ -330,14 +402,14 @@ public class StarsPlanner
             r = new RegisterStudent(currentUser, c);
             registerStudentList.add(r);
             int newVacancy = ((Index)c).getVacancies()-1;
-            ((Index)c).setVacancies(newVacancy);
+            ((Index)c).setVacancies(newVacancy);      
             System.out.println("Successfully added course!");
         }
         else
             System.out.println("Unsuccessful. Bye!");
 
         try {
-            FileOutputStream fos = new FileOutputStream("./src/data/userinfo");
+            FileOutputStream fos = new FileOutputStream("./src/data/registerStudentList");
             ObjectOutputStream oos = new ObjectOutputStream(fos);   
             oos.writeObject(registerStudentList);
             oos.close();
@@ -346,15 +418,37 @@ public class StarsPlanner
         catch(Exception ex) {
             ex.printStackTrace();
             }
-
     }
 
-    public static void dropCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList)
+    public static void dropCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList) //done
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice = 0;
         RegisterStudent r;
         Index ind;
+
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/courseList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            courseList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            
+            } 
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+        
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/registerStudentList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            registerStudentList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            
+            }
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+
         checkCoursesRegistered(currentUser, registerStudentList);
         
         System.out.print("Enter the index number: ");
@@ -378,21 +472,31 @@ public class StarsPlanner
                     }
                 }
             }
+            try {
+                FileOutputStream fos = new FileOutputStream("./src/data/registerStudentList");
+                ObjectOutputStream oos = new ObjectOutputStream(fos);   
+                oos.writeObject(registerStudentList);
+                oos.close();
+                }
+            
+            catch(Exception ex) {
+                ex.printStackTrace();
+                }
         }
         else
             System.out.println("Unsuccessful. Bye!");
     }
 
-    public static void checkCoursesRegistered(User currentUser, ArrayList registeredStudentList)
+    public static void checkCoursesRegistered(User currentUser, ArrayList registerStudentList) //done
     {
         RegisterStudent r;
         Course c;
         User u;
 
         try {
-            FileInputStream fis = new FileInputStream("./src/data/userinfo");
+            FileInputStream fis = new FileInputStream("./src/data/registerStudentList");
             ObjectInputStream ois = new ObjectInputStream(fis);
-            returnlist = (ArrayList<Object>) ois.readObject();
+            registerStudentList = (ArrayList<Object>) ois.readObject();
             ois.close();
             
             }
@@ -401,9 +505,9 @@ public class StarsPlanner
             }
 
         System.out.printf("\n%-15s %-10s %-10s\n","Course Code", "School", "Index");
-        for(int i = 0; i < returnlist.size(); i++)
+        for(int i = 0; i < registerStudentList.size(); i++)
         {
-            r = (RegisterStudent)returnlist.get(i);
+            r = (RegisterStudent)registerStudentList.get(i);
             c = r.getCourse();
             u = r.getUser();
             if(u.getUsername().equals(currentUser.getUsername()))
@@ -411,12 +515,24 @@ public class StarsPlanner
         }
     }
 
-    public static void printStudentByIndexNumber(ArrayList registerStudentList)
+    public static void printStudentByIndexNumber(ArrayList registerStudentList) //done
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice;
         RegisterStudent r;
         Student s;
+
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/registerStudentList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            registerStudentList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            
+            }
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+
         System.out.print("Enter index number: ");
         indexChoice = s1.nextInt();
         System.out.printf("%-15s %-20s %-7s %-10s\n","Matric Number", "Name", "Gender", "Nationality");
@@ -431,12 +547,24 @@ public class StarsPlanner
         }
     }
 
-    public static void printStudentListCourse(ArrayList registerStudentList)
+    public static void printStudentListCourse(ArrayList registerStudentList) //done
     {
         Scanner s1 = new Scanner(System.in);
         String courseChoice;
         RegisterStudent r;
         Student s;
+
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/registerStudentList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            registerStudentList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            
+            }
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+
         System.out.print("Enter course code: ");
         courseChoice = s1.nextLine();
         System.out.printf("%-15s %-20s %-7s %-10s\n","Matric Number", "Name", "Gender", "Nationality");
@@ -451,28 +579,25 @@ public class StarsPlanner
         }
     }
 
-    public static void addUpdateCourse(ArrayList courseList)
+    public static void addUpdateCourse(ArrayList courseList) //done
     {
         Scanner sc = new Scanner(System.in);
         Course course = null;
+
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/courseList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            courseList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            } 
+        catch (Exception e) {
+                e.printStackTrace();
+            }
 
         System.out.print("Add or Update Course: ");
         String choice = sc.nextLine();
         String add = "ADD";
         String upd = "UPDATE";
-
-        try {
-            FileInputStream fis = new FileInputStream("./src/data/courseinfo");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            returnlist = (ArrayList<Object>) ois.readObject();
-            ois.close();
-
-            System.out.println(returnlist);
-            
-            } 
-        catch (Exception e) {
-                e.printStackTrace();
-            }
 
         if(choice.toUpperCase().equals(add)) {
             Course cor;
@@ -489,12 +614,12 @@ public class StarsPlanner
             cor = new Index(a, b, c, d);
             i++;
             
-            returnlist.add(cor);
+            courseList.add(cor);
 
             try {
-                FileOutputStream fos = new FileOutputStream("./src/data/courseinfo");
+                FileOutputStream fos = new FileOutputStream("./src/data/courseList");
                 ObjectOutputStream oos = new ObjectOutputStream(fos);   
-                oos.writeObject(returnlist);
+                oos.writeObject(courseList);
                 oos.close();
                 }
         
@@ -507,8 +632,8 @@ public class StarsPlanner
             System.out.println("Update!\n");
 
             System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
-            for(int i = 0; i < returnlist.size(); i++){
-                course = (Course) returnlist.get(i);
+            for(int i = 0; i < courseList.size(); i++){
+                course = (Course) courseList.get(i);
                 System.out.printf("%-15s %-10s %-10s %-10s\n", course.getCourseCode(), course.getSchool(), ((Index)course).getIndexNumber(), ((Index)course).getVacancies());
             }
 
@@ -519,8 +644,8 @@ public class StarsPlanner
             System.out.println("Update vacancies: ");
             int b = sc.nextInt();
 
-            for(int i = 0; i < returnlist.size(); i++){
-                Course cos = (Course) returnlist.get(i);
+            for(int i = 0; i < courseList.size(); i++){
+                Course cos = (Course) courseList.get(i);
                 if(a == ((Index)cos).getIndexNumber())                
                 {
                     ((Index)cos).setVacancies(b);
@@ -532,9 +657,9 @@ public class StarsPlanner
             }
 
             try {
-                FileOutputStream fos = new FileOutputStream("./src/data/courseinfo");
+                FileOutputStream fos = new FileOutputStream("./src/data/courseList");
                 ObjectOutputStream oos = new ObjectOutputStream(fos);   
-                oos.writeObject(returnlist);
+                oos.writeObject(courseList);
                 oos.close();
                 }
         
@@ -589,7 +714,7 @@ public class StarsPlanner
     }
 
     // to check if new index is in the registered courses list
-    public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registeredStudentList)
+    public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registerStudentList) //done
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice = 0;
@@ -599,7 +724,27 @@ public class StarsPlanner
         Index ind;
         int newVacancy;
 
-        checkCoursesRegistered(currentUser, registeredStudentList);
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/courseList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            courseList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            } 
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+        
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/registerStudentList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            registerStudentList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            }
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        checkCoursesRegistered(currentUser, registerStudentList);
         System.out.print("Which index do you wish to change? ");
         indexChoice = s1.nextInt();
 
@@ -620,35 +765,75 @@ public class StarsPlanner
         if(s1.next().toUpperCase().charAt(0)  == 'Y')
         {
             rs = new RegisterStudent(currentUser, c);
-            registeredStudentList.add(rs);
+            registerStudentList.add(rs);
             newVacancy = ((Index)c).getVacancies()-1;
             ((Index)c).setVacancies(newVacancy);
 
-            for(int i = 0; i < registeredStudentList.size(); i++)
+            for(int i = 0; i < registerStudentList.size(); i++)
             {
-                r = (RegisterStudent)registeredStudentList.get(i);
+                r = (RegisterStudent)registerStudentList.get(i);
                 ind = (Index)r.getCourse();
                 if(indexChoice == ind.getIndexNumber())
                 {
                     if(currentUser.getUsername().equals(((User)r.getUser()).getUsername()))
                     {
-                        registeredStudentList.remove(i);
+                        registerStudentList.remove(i);
                         newVacancy = ind.getVacancies()+1;
                         ind.setVacancies(newVacancy);
                     }
                 }
             }   
+            try {
+                FileOutputStream fos = new FileOutputStream("./src/data/registerStudentList");
+                ObjectOutputStream oos = new ObjectOutputStream(fos);   
+                oos.writeObject(registerStudentList);
+                oos.close();
+                }
+            
+            catch(Exception ex) {
+                ex.printStackTrace();
+                }
         }
         else
             System.out.println("Unsuccessful. Bye!");
     }
 
-    public static void swopIndexStudent(ArrayList courseList, User currentUser, ArrayList registeredStudentList, ArrayList userList)
+    public static void swapIndexStudent(ArrayList courseList, User currentUser, ArrayList registeredStudentList, ArrayList userList)
     {
         Scanner s1 = new Scanner(System.in);
         Course c, tempCourse;
         RegisterStudent r;
         User u;
+
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/courseList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            courseList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            } 
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/userList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            userList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            } 
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+        
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/registerStudentList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            registerStudentList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            }
+        catch (Exception e) {
+                e.printStackTrace();
+            }
 
         System.out.printf("\n%s's courses:\n", currentUser.getName());
         checkCoursesRegistered(currentUser, registeredStudentList);
@@ -685,12 +870,15 @@ public class StarsPlanner
                 System.out.println(r.toString());
             }
         }   
-
+        try {
+            FileOutputStream fos = new FileOutputStream("./src/data/registerStudentList");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);   
+            oos.writeObject(registerStudentList);
+            oos.close();
+            }
         
-
-
-
-        
-
+        catch(Exception ex) {
+            ex.printStackTrace();
+            }
     }
 }

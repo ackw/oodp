@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class courseInitialiser {
+public class courseListInit {
 
    public static void main(String[] args) throws IOException {
         ArrayList<Object> returnlist = new ArrayList<Object>();
@@ -27,7 +27,7 @@ public class courseInitialiser {
         courseList.add(c);
 
         try {
-            FileOutputStream fos = new FileOutputStream("./src/data/courseinfo");
+            FileOutputStream fos = new FileOutputStream("./src/data/courseList");
             ObjectOutputStream oos = new ObjectOutputStream(fos);   
             oos.writeObject(courseList);
             oos.flush();
@@ -40,14 +40,15 @@ public class courseInitialiser {
 
         //Reading arraylist from the file
         try {
-            FileInputStream fis = new FileInputStream("./src/data/courseinfo");
+            FileInputStream fis = new FileInputStream("./src/data/courseList");
             ObjectInputStream ois = new ObjectInputStream(fis);
             returnlist = (ArrayList<Object>) ois.readObject();
             ois.close();
 
             System.out.println(returnlist);
             
-            } catch (Exception e) {
+            } 
+        catch (Exception e) {
                 e.printStackTrace();
             }
     }
