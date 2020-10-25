@@ -131,7 +131,6 @@ public class StarsPlanner
                 case 9: System.out.println();
                         System.out.println("6. Logout");
                         System.out.println("You have successfully logged out.");
-
                         System.out.print("Do you want to exit the program? (Y/N)");
                         Scanner s = new Scanner(System.in);
                         String choose = s.nextLine();
@@ -276,8 +275,7 @@ public class StarsPlanner
     {
         Course c = null;
         Scanner s1 = new Scanner(System.in);
-        System.out.print("Enter index number: ");
-        int indexChoice = s1.nextInt();
+        int indexChoice = promptIndexNumber(courseList);
         System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
         for(int i = 0; i < courseList.size(); i++)
         {
@@ -294,9 +292,7 @@ public class StarsPlanner
         int indexChoice = 0;
         Course c = null;
         RegisterStudent r;
-        System.out.print("Enter the index number: ");
-        indexChoice = s1.nextInt();
-
+        indexChoice = promptIndexNumber(courseList);
         System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
         for(int i = 0; i < courseList.size(); i++)
         {
@@ -621,7 +617,37 @@ public class StarsPlanner
             }
         }   
     }
+    public static int promptIndexNumber(ArrayList courseList)
+    {
+        String s;
+        int check = 1;
+        Scanner s1 = new Scanner(System.in);
+        Course c;
+        int indexChoice = 0;
+        do{
+            try{
+                System.out.print("Enter the index number: ");
+                indexChoice = s1.nextInt();
+                for(int i = 0; i < courseList.size(); i++){
+                    c = (Course) courseList.get(i);
+                    if(indexChoice == ((Index)c).getIndexNumber()){
+                        check = 2;
+                        break;
+                    }
+                    check = 1;
+                }
+                if(check != 2)
+                    System.out.println("Invalid index number. Please retry.");
+            }
+            catch(Exception e){
+                System.out.println("Invalid index number. Please retry.");
+                s = s1.nextLine();
+            }
+        }while(check == 1);
 
+        return indexChoice;
+
+    }
     public static void sendWaitlistNotif(User currentUser, ArrayList registeredStudentList)
     {
         //sample
