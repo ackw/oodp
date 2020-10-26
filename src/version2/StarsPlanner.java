@@ -64,7 +64,7 @@ public class StarsPlanner
                             System.out.println();
                             System.out.println("2. Drop Course");
                             dropCourse(courseList, currentUser, registerStudentList);
-                            sendWaitlistNotif(currentUser, registerStudentList);
+                            //sendWaitlistNotif(currentUser, registerStudentList);
                             System.out.println();
                         }
                         break;
@@ -131,7 +131,7 @@ public class StarsPlanner
                 case 9: System.out.println();
                         System.out.println("6. Logout");
                         System.out.println("You have successfully logged out.");
-                        System.out.print("Do you want to exit the program? (Y/N)");
+                        System.out.print("Do you want to exit the program? (Y/N) ");
                         Scanner s = new Scanner(System.in);
                         String choose = s.nextLine();
 
@@ -292,7 +292,20 @@ public class StarsPlanner
         int indexChoice = 0;
         Course c = null;
         RegisterStudent r;
+        User u;
         indexChoice = promptIndexNumber(courseList);
+        String response;
+
+        for(int i = 0; i < registerStudentList.size(); i++)
+        {
+            r = (RegisterStudent)registerStudentList.get(i);
+            c = r.getCourse();
+            u = r.getUser();
+            if(u.getUsername().equals(currentUser.getUsername()) && indexChoice == ((Index)c).getIndexNumber()){
+                System.out.println("User already has this module. Please choose a different index.");
+                return;
+            }
+        }
         System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
         for(int i = 0; i < courseList.size(); i++)
         {
@@ -303,9 +316,13 @@ public class StarsPlanner
                 break;
             }
         }
-        System.out.print("Confirm (Y/N)? ");
+        
+        do{
+            System.out.print("Confirm (Y/N)? ");
+            response = s1.next();
+        }while(!((response.equalsIgnoreCase("Y") || response.equalsIgnoreCase("N"))));
 
-        if(s1.next().toUpperCase().charAt(0)  == 'Y')
+        if(response.equalsIgnoreCase("Y"))
         {
             r = new RegisterStudent(currentUser, c);
             registerStudentList.add(r);
@@ -314,7 +331,7 @@ public class StarsPlanner
             System.out.println("Successfully added course!");
         }
         else
-            System.out.println("Unsuccessful. Bye!");
+            System.out.println("Course not added. Bye!");
     }
 
     public static void dropCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList)
@@ -323,13 +340,32 @@ public class StarsPlanner
         int indexChoice = 0;
         RegisterStudent r;
         Index ind;
-        checkCoursesRegistered(currentUser, registerStudentList);
-        
-        System.out.print("Enter the index number: ");
-        indexChoice = s1.nextInt();
+        Course c;
+        User u;
+        String response;
+        if(checkRegisterStudentList(currentUser, registerStudentList) == 1)
+            return;
 
-        System.out.print("Confirm (Y/N)? ");
-        if(s1.next().toUpperCase().charAt(0)  == 'Y')
+        checkCoursesRegistered(currentUser, registerStudentList);
+        indexChoice = promptIndexNumber(courseList);
+
+        for(int i = 0; i < registerStudentList.size(); i++)
+        {
+            r = (RegisterStudent)registerStudentList.get(i);
+            c = r.getCourse();
+            u = r.getUser();
+            if(!(u.getUsername().equals(currentUser.getUsername()) && indexChoice == ((Index)c).getIndexNumber())){
+                System.out.println("User does not have this index. Please choose a different index.");
+                return;
+            }
+        }
+
+        do{
+            System.out.print("Confirm (Y/N)? ");
+            response = s1.next();
+        }while(!((response.equalsIgnoreCase("Y") || response.equalsIgnoreCase("N"))));
+
+        if(response.equalsIgnoreCase("Y"))
         {
             for(int i = 0; i < registerStudentList.size(); i++)
             {
@@ -351,17 +387,19 @@ public class StarsPlanner
             System.out.println("Unsuccessful. Bye!");
     }
 
-
-    public static void checkCoursesRegistered(User currentUser, ArrayList registeredStudentList)
+    public static void checkCoursesRegistered(User currentUser, ArrayList registerStudentList)
     {
         RegisterStudent r;
         Course c;
         User u;
 
+        if(checkRegisterStudentList(currentUser, registerStudentList) == 1)
+        return;
+
         System.out.printf("\n%-15s %-10s %-10s\n","Course Code", "School", "Index");
-        for(int i = 0; i < registeredStudentList.size(); i++)
+        for(int i = 0; i < registerStudentList.size(); i++)
         {
-            r = (RegisterStudent)registeredStudentList.get(i);
+            r = (RegisterStudent)registerStudentList.get(i);
             c = r.getCourse();
             u = r.getUser();
             if(u.getUsername().equals(currentUser.getUsername()))
@@ -408,7 +446,6 @@ public class StarsPlanner
             }
         }
     }
-
 
     public static void addUpdateCourse(ArrayList courseList)
     {
@@ -502,7 +539,6 @@ public class StarsPlanner
             u = (User)userList.get(i);
             if(u instanceof Student)
             {
-                System.out.println("hellohehe");
                 if(((Student)u).getMatricNumber() == matricNumber)
                 {
                     System.out.println(((Student)u).dateToString());
@@ -520,7 +556,7 @@ public class StarsPlanner
     }
 
     // to check if new index is in the registered courses list
-    public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registeredStudentList)
+    public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registerStudentList)
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice = 0;
@@ -530,7 +566,7 @@ public class StarsPlanner
         Index ind;
         int newVacancy;
 
-        checkCoursesRegistered(currentUser, registeredStudentList);
+        checkCoursesRegistered(currentUser, registerStudentList);
         System.out.print("Which index do you wish to change? ");
         indexChoice = s1.nextInt();
 
@@ -551,19 +587,19 @@ public class StarsPlanner
         if(s1.next().toUpperCase().charAt(0)  == 'Y')
         {
             rs = new RegisterStudent(currentUser, c);
-            registeredStudentList.add(rs);
+            registerStudentList.add(rs);
             newVacancy = ((Index)c).getVacancies()-1;
             ((Index)c).setVacancies(newVacancy);
 
-            for(int i = 0; i < registeredStudentList.size(); i++)
+            for(int i = 0; i < registerStudentList.size(); i++)
             {
-                r = (RegisterStudent)registeredStudentList.get(i);
+                r = (RegisterStudent)registerStudentList.get(i);
                 ind = (Index)r.getCourse();
                 if(indexChoice == ind.getIndexNumber())
                 {
                     if(currentUser.getUsername().equals(((User)r.getUser()).getUsername()))
                     {
-                        registeredStudentList.remove(i);
+                        registerStudentList.remove(i);
                         newVacancy = ind.getVacancies()+1;
                         ind.setVacancies(newVacancy);
                     }
@@ -574,7 +610,7 @@ public class StarsPlanner
             System.out.println("Unsuccessful. Bye!");
     }
 
-    public static void swopIndexStudent(ArrayList courseList, User currentUser, ArrayList registeredStudentList, ArrayList userList)
+    public static void swopIndexStudent(ArrayList courseList, User currentUser, ArrayList registerStudentList, ArrayList userList)
     {
         Scanner s1 = new Scanner(System.in);
         Course c, tempCourse;
@@ -582,7 +618,7 @@ public class StarsPlanner
         User u;
 
         System.out.printf("\n%s's courses:\n", currentUser.getName());
-        checkCoursesRegistered(currentUser, registeredStudentList);
+        checkCoursesRegistered(currentUser, registerStudentList);
         System.out.print("Which of your index do you wish to change with? ");
         int indexChoice = s1.nextInt();
 
@@ -590,15 +626,15 @@ public class StarsPlanner
         User peer = login(userList);
 
         System.out.printf("\n%s's courses:!\n", peer.getName());
-        checkCoursesRegistered(peer, registeredStudentList);
+        checkCoursesRegistered(peer, registerStudentList);
         System.out.print("Which of peer's index do you wish to change with? ");
         int peerChoice = s1.nextInt();
 
         //confirm with user
 
-        for(int i = 0; i < registeredStudentList.size(); i++)
+        for(int i = 0; i < registerStudentList.size(); i++)
         {
-            r = (RegisterStudent)registeredStudentList.get(i);
+            r = (RegisterStudent)registerStudentList.get(i);
             u = r.getUser();
             c = r.getCourse();
             if(u.getUsername().equals(currentUser.getUsername()) && indexChoice == ((Index)c).getIndexNumber())
@@ -644,11 +680,32 @@ public class StarsPlanner
                 s = s1.nextLine();
             }
         }while(check == 1);
-
         return indexChoice;
-
     }
-    public static void sendWaitlistNotif(User currentUser, ArrayList registeredStudentList)
+
+    public static int checkRegisterStudentList(User currentUser, ArrayList registerStudentList){
+        RegisterStudent r;
+        Course c;
+        User u;
+        if(registerStudentList.size() == 0){
+            System.out.println("User does not have any courses registered. Please choose a different option.");
+            return 1;
+        }
+        else{
+            for(int i = 0; i < registerStudentList.size(); i++)
+            {
+                r = (RegisterStudent)registerStudentList.get(i);
+                c = r.getCourse();
+                u = r.getUser();
+                if(!(u.getUsername().equals(currentUser.getUsername()))){
+                    System.out.println("User does not have any courses registered. Please choose a different option.");
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+    public static void sendWaitlistNotif(User currentUser, ArrayList registerStudentList)
     {
         //sample
         String course = "CZ2002";
