@@ -444,6 +444,27 @@ public class StarsPlanner
         Course c;
         User u;
         String response;
+
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/courseList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            courseList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            } 
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+        
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/registerStudentList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            registerStudentList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            }
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+
         if(checkRegisterStudentList(currentUser, registerStudentList) == 1)
             return;
 
@@ -480,6 +501,16 @@ public class StarsPlanner
                         int newVacancy = ind.getVacancies()+1;
                         ind.setVacancies(newVacancy);
                         System.out.println("Successfully dropped course!");
+                        try {
+                            FileOutputStream fos = new FileOutputStream("./src/data/registerStudentList");
+                            ObjectOutputStream oos = new ObjectOutputStream(fos);   
+                            oos.writeObject(registerStudentList);
+                            oos.close();
+                            }
+                        
+                        catch(Exception ex) {
+                            ex.printStackTrace();
+                            }
                     }
                 }
             }
