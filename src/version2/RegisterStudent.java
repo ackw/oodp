@@ -1,8 +1,8 @@
+import java.io.Serializable;
 import java.util.*;
 
-public class RegisterStudent
+public class RegisterStudent implements Serializable
 {
-
     private User user;
     private Course course;
 
