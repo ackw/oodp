@@ -117,8 +117,8 @@ public class StarsPlanner
                         else
                         {
                             System.out.println();
-                            System.out.println("6. Swap Index Number with Another Student");
-                            swapIndexStudent(courseList, currentUser, registerStudentList, userList);
+                            System.out.println("6. Swop Index Number with Another Student");
+                            swopIndexStudent(courseList, currentUser, registerStudentList, userList);
                             System.out.println();
                         }
                         break;
@@ -156,53 +156,34 @@ public class StarsPlanner
 
     public static void initUserList(ArrayList userList) //done
     {
-        // User u;
-        // u = new Admin("Ho Lee Fok", "user1", "asd", true);
-        // userList.add(u);
-        // u = new Admin("Wu Liu Qi", "user2", "asd", true);
-        // userList.add(u);
-        // u = new Student("Sum Ting Wong", "user3", "qwe", false, 19234234, 'F', "SG");
-        // userList.add(u);
-        // u = new Student("Low Mai Kai", "user4", "qwe", false, 18492841, 'M', "MY");
-        // userList.add(u);
-        try {
-            FileInputStream fis = new FileInputStream("./src/data/userList");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            userList = (ArrayList<Object>) ois.readObject();
-            ois.close();
-    
-            } 
-        catch (Exception e) {
-                e.printStackTrace();
-            }
+        // if(new File("./src/data/userList").isFile()){ //check if file exists
+        //     try {
+        //         FileInputStream fis = new FileInputStream("./src/data/userList");
+        //         ObjectInputStream ois = new ObjectInputStream(fis);
+        //         userList = (ArrayList<Object>) ois.readObject();
+        //         ois.close();
+        
+        //         } 
+        //     catch (Exception e) {
+        //             e.printStackTrace();
+        //         }
+        // }
     }
 
     public static void initCourseList(ArrayList courseList) //done
     {
-        // Course c;
-        // c = new Index("CZ2002", "SCSE", 20021, 20);
-        // courseList.add(c);
-        // c = new Index("CZ2002", "SCSE", 20022, 25);
-        // courseList.add(c);
-        // c = new Index("CZ2003", "SCSE", 20031, 20);
-        // courseList.add(c);
-        // c = new Index("CZ2003", "SCSE", 20032, 30);
-        // courseList.add(c);
-        // c = new Index("HG2024", "SOH", 20241, 15);
-        // courseList.add(c);
-        // c = new Index("HG2024", "SOH", 20242, 20);
-        // courseList.add(c);
+        // if(new File("./src/data/registerStudentList").isFile()){ //check if file exists
+        //     try {
+        //         FileInputStream fis = new FileInputStream("./src/data/courseList");
+        //         ObjectInputStream ois = new ObjectInputStream(fis);
+        //         courseList = (ArrayList<Object>) ois.readObject();
+        //         ois.close();
+        //         } 
 
-        try {
-            FileInputStream fis = new FileInputStream("./src/data/courseList");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            courseList = (ArrayList<Object>) ois.readObject();
-            ois.close();
-            } 
-
-        catch (Exception e) {
-                e.printStackTrace();
-            }
+        //     catch (Exception e) {
+        //             e.printStackTrace();
+        //         }
+        // }
     }
 
     public static void displayMenu(boolean userType) //done
@@ -402,7 +383,17 @@ public class StarsPlanner
             r = new RegisterStudent(currentUser, c);
             registerStudentList.add(r);
             int newVacancy = ((Index)c).getVacancies()-1;
-            ((Index)c).setVacancies(newVacancy);      
+            ((Index)c).setVacancies(newVacancy);
+            try {
+                FileOutputStream fos = new FileOutputStream("./src/data/courseList");
+                ObjectOutputStream oos = new ObjectOutputStream(fos);   
+                oos.writeObject(courseList);
+                oos.flush();
+                oos.close();
+                }
+            catch(Exception ex) {
+                ex.printStackTrace();
+            }
             System.out.println("Successfully added course!");
         }
         else
@@ -426,13 +417,13 @@ public class StarsPlanner
         int indexChoice = 0;
         RegisterStudent r;
         Index ind;
+        Course c = null;
 
         try {
             FileInputStream fis = new FileInputStream("./src/data/courseList");
             ObjectInputStream ois = new ObjectInputStream(fis);
             courseList = (ArrayList<Object>) ois.readObject();
             ois.close();
-            
             } 
         catch (Exception e) {
                 e.printStackTrace();
@@ -443,7 +434,6 @@ public class StarsPlanner
             ObjectInputStream ois = new ObjectInputStream(fis);
             registerStudentList = (ArrayList<Object>) ois.readObject();
             ois.close();
-            
             }
         catch (Exception e) {
                 e.printStackTrace();
@@ -459,6 +449,15 @@ public class StarsPlanner
         {
             for(int i = 0; i < registerStudentList.size(); i++)
             {
+                for(int j = 0; j < courseList.size(); j++)
+                {
+                    c = (Course) courseList.get(j);
+                    if(indexChoice == ((Index)c).getIndexNumber())
+                    {
+                        break;
+                    }
+                }
+                
                 r = (RegisterStudent)registerStudentList.get(i);
                 ind = (Index)r.getCourse();
                 if(indexChoice == ind.getIndexNumber())
@@ -466,8 +465,17 @@ public class StarsPlanner
                     if(currentUser.getUsername().equals(((User)r.getUser()).getUsername()))
                     {
                         registerStudentList.remove(i);
-                        int newVacancy = ind.getVacancies()+1;
-                        ind.setVacancies(newVacancy);
+                        int newVacancy = ((Index)c).getVacancies()+1;
+                        ((Index)c).setVacancies(newVacancy);
+                        try {
+                            FileOutputStream fos = new FileOutputStream("./src/data/courseList");
+                            ObjectOutputStream oos = new ObjectOutputStream(fos);   
+                            oos.writeObject(courseList);
+                            oos.close();
+                            }
+                        catch(Exception ex) {
+                            ex.printStackTrace();
+                        }
                         System.out.println("Successfully dropped course!");
                     }
                 }
@@ -798,7 +806,7 @@ public class StarsPlanner
             System.out.println("Unsuccessful. Bye!");
     }
 
-    public static void swapIndexStudent(ArrayList courseList, User currentUser, ArrayList registeredStudentList, ArrayList userList)
+    public static void swopIndexStudent(ArrayList courseList, User currentUser, ArrayList registeredStudentList, ArrayList userList)
     {
         Scanner s1 = new Scanner(System.in);
         Course c, tempCourse;
@@ -812,17 +820,7 @@ public class StarsPlanner
             ois.close();
             } 
         catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        try {
-            FileInputStream fis = new FileInputStream("./src/data/userList");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            userList = (ArrayList<Object>) ois.readObject();
-            ois.close();
-            } 
-        catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
             }
         
         try {
@@ -832,11 +830,23 @@ public class StarsPlanner
             ois.close();
             }
         catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
             }
+        
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/userList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            userList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+                
+            }
+        catch (Exception e) {
+            e.printStackTrace();
+            }
+    
 
         System.out.printf("\n%s's courses:\n", currentUser.getName());
-        checkCoursesRegistered(currentUser, registeredStudentList);
+        checkCoursesRegistered(currentUser, registerStudentList);
         System.out.print("Which of your index do you wish to change with? ");
         int indexChoice = s1.nextInt();
 
@@ -844,15 +854,15 @@ public class StarsPlanner
         User peer = login(userList);
 
         System.out.printf("\n%s's courses:!\n", peer.getName());
-        checkCoursesRegistered(peer, registeredStudentList);
+        checkCoursesRegistered(peer, registerStudentList);
         System.out.print("Which of peer's index do you wish to change with? ");
         int peerChoice = s1.nextInt();
 
         //confirm with user
 
-        for(int i = 0; i < registeredStudentList.size(); i++)
+        for(int i = 0; i < registerStudentList.size(); i++)
         {
-            r = (RegisterStudent)registeredStudentList.get(i);
+            r = (RegisterStudent)registerStudentList.get(i);
             u = r.getUser();
             c = r.getCourse();
             if(u.getUsername().equals(currentUser.getUsername()) && indexChoice == ((Index)c).getIndexNumber())
@@ -869,7 +879,7 @@ public class StarsPlanner
                 r.setUser(currentUser);
                 System.out.println(r.toString());
             }
-        }   
+        }
         try {
             FileOutputStream fos = new FileOutputStream("./src/data/registerStudentList");
             ObjectOutputStream oos = new ObjectOutputStream(fos);   
