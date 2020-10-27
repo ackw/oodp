@@ -154,7 +154,7 @@ public class StarsPlanner
         }
     }
 
-    public static void initUserList(ArrayList userList) //done
+    public static void initUserList(ArrayList userList) 
     {
         // if(new File("./src/data/userList").isFile()){ //check if file exists
         //     try {
@@ -170,7 +170,7 @@ public class StarsPlanner
         // }
     }
 
-    public static void initCourseList(ArrayList courseList) //done
+    public static void initCourseList(ArrayList courseList)
     {
         // if(new File("./src/data/registerStudentList").isFile()){ //check if file exists
         //     try {
@@ -186,7 +186,7 @@ public class StarsPlanner
         // }
     }
 
-    public static void displayMenu(boolean userType) //done
+    public static void displayMenu(boolean userType) 
     {
         if(userType) //if TRUE = admin, display admin menu
         {
@@ -218,7 +218,7 @@ public class StarsPlanner
         }
     }
 
-    public static User login(ArrayList userList) //done
+    public static User login(ArrayList userList) 
     {
         Scanner s1 = new Scanner(System.in);
         Console console = System.console();
@@ -261,7 +261,7 @@ public class StarsPlanner
         return u;
     }
 
-    public static void addStudent(ArrayList userList) //done. only issue with not taking in last line input from user
+    public static void addStudent(ArrayList userList)
     {
         Scanner s1 = new Scanner(System.in);
 
@@ -286,6 +286,7 @@ public class StarsPlanner
         int matricNumber = s1.nextInt();
         System.out.println("Enter Gender:");
         char gender = s1.next().charAt(0);
+        s1.nextLine();
         System.out.println("Enter Nationality:");
         String nationality = s1.nextLine();
         User u = new Student(name, username, password, false, matricNumber, gender, nationality);
@@ -304,7 +305,7 @@ public class StarsPlanner
         }
     }
 
-    public static void checkAvailSlotIndex(ArrayList courseList) //done
+    public static void checkAvailSlotIndex(ArrayList courseList) 
     {
         Course c = null;
         Scanner s1 = new Scanner(System.in);
@@ -332,7 +333,7 @@ public class StarsPlanner
     }
 
     // to include validation if student has already registered
-    public static void addCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList) //done. only issue is vacancy -1 not working
+    public static void addCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList) 
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice = 0;
@@ -411,7 +412,7 @@ public class StarsPlanner
             }
     }
 
-    public static void dropCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList) //done
+    public static void dropCourse(ArrayList courseList, User currentUser, ArrayList registerStudentList) 
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice = 0;
@@ -495,7 +496,7 @@ public class StarsPlanner
             System.out.println("Unsuccessful. Bye!");
     }
 
-    public static void checkCoursesRegistered(User currentUser, ArrayList registerStudentList) //done
+    public static void checkCoursesRegistered(User currentUser, ArrayList registerStudentList) 
     {
         RegisterStudent r;
         Course c;
@@ -523,7 +524,7 @@ public class StarsPlanner
         }
     }
 
-    public static void printStudentByIndexNumber(ArrayList registerStudentList) //done
+    public static void printStudentByIndexNumber(ArrayList registerStudentList) 
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice;
@@ -555,7 +556,7 @@ public class StarsPlanner
         }
     }
 
-    public static void printStudentListCourse(ArrayList registerStudentList) //done
+    public static void printStudentListCourse(ArrayList registerStudentList) 
     {
         Scanner s1 = new Scanner(System.in);
         String courseChoice;
@@ -587,7 +588,7 @@ public class StarsPlanner
         }
     }
 
-    public static void addUpdateCourse(ArrayList courseList) //done
+    public static void addUpdateCourse(ArrayList courseList)
     {
         Scanner sc = new Scanner(System.in);
         Course course = null;
@@ -722,7 +723,7 @@ public class StarsPlanner
     }
 
     // to check if new index is in the registered courses list
-    public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registerStudentList) //done
+    public static void changeIndexNumber(ArrayList courseList, User currentUser, ArrayList registerStudentList)
     {
         Scanner s1 = new Scanner(System.in);
         int indexChoice = 0;
