@@ -13,6 +13,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+
+//java encrypt crypto/hash change to byte check it up 
 public class StarsPlanner
 {
     private static int regCount = 0; //check if course is added;
@@ -524,6 +526,15 @@ public class StarsPlanner
         RegisterStudent r;
         Course c;
         User u;
+        try {
+            FileInputStream fis = new FileInputStream("./src/data/registerStudentList");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            registerStudentList = (ArrayList<Object>) ois.readObject();
+            ois.close();
+            }
+        catch (Exception e) {
+                e.printStackTrace();
+            }
 
         if(checkRegisterStudentList(currentUser, registerStudentList) == 1)
             return;
