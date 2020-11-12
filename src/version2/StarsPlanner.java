@@ -32,7 +32,7 @@ public class StarsPlanner
         initUserList(userList);
         initCourseList(courseList);
         User currentUser = login(userList);
-        System.out.printf("Hello %s!\n\n", currentUser.getName());
+        System.out.printf("\nHello %s! ಠ_ಠ\n\n", currentUser.getName());
         Boolean userType = currentUser.getType();  //TRUE = admin, FALSE = student;
 
         int repeatMenu = 1;
@@ -223,7 +223,7 @@ public class StarsPlanner
             System.out.println("DONE 3. Check/Print Courses Registered");
             System.out.println("DONE 4. Check Vacancies Available");
             System.out.println("DONE 5. Change Index Number of Course");
-            System.out.println("6. Swop Index Number with Another Student");
+            System.out.println("DONE 6. Swop Index Number with Another Student");
             System.out.println("DONE 9. Logout");
             System.out.println("DONE 0. Exit.");
             System.out.print("Enter choice: ");
@@ -322,6 +322,9 @@ public class StarsPlanner
         Course c = null;
         Scanner s1 = new Scanner(System.in);
         int indexChoice = promptIndexNumber(courseList);
+        if(indexChoice == 1){
+            return;
+        }
 
         try {
             FileInputStream fis = new FileInputStream("./src/data/courseList");
@@ -351,8 +354,12 @@ public class StarsPlanner
         Course c = null;
         RegisterStudent r;
         User u;
-        indexChoice = promptIndexNumber(courseList);
         String response;
+
+        indexChoice = promptIndexNumber(courseList);
+        if(indexChoice == 1){
+            return;
+        }
 
         if(new File("./src/data/registerStudentList").isFile()){ //check if file exists
             try {
@@ -446,6 +453,7 @@ public class StarsPlanner
         Course c;
         User u;
         String response;
+        boolean checkIndex = false;
 
         try {
             FileInputStream fis = new FileInputStream("./src/data/courseList");
@@ -478,12 +486,15 @@ public class StarsPlanner
             r = (RegisterStudent)registerStudentList.get(i);
             c = r.getCourse();
             u = r.getUser();
-            if(!(u.getUsername().equals(currentUser.getUsername()) && indexChoice == ((Index)c).getIndexNumber())){
-                System.out.println("User does not have this index. Please choose a different index.");
-                return;
-            }
+            if(u.getUsername().equals(currentUser.getUsername()) && indexChoice == ((Index)c).getIndexNumber())
+                checkIndex = true;
         }
 
+        if(!checkIndex){
+            System.out.println("User does not have this index. Please choose a different index.");
+            return;
+        }
+        
         do{
             System.out.print("Confirm (Y/N)? ");
             response = s1.next();
@@ -500,16 +511,23 @@ public class StarsPlanner
                     if(currentUser.getUsername().equals(((User)r.getUser()).getUsername()))
                     {
                         registerStudentList.remove(i);
+                        System.out.println("Current: " + ind.getVacancies());
                         int newVacancy = ind.getVacancies()+1;
+                        System.out.println(newVacancy);
                         ind.setVacancies(newVacancy);
+                        System.out.println("New: " + ind.getVacancies());
                         System.out.println("Successfully dropped course!");
                         try {
                             FileOutputStream fos = new FileOutputStream("./src/data/registerStudentList");
                             ObjectOutputStream oos = new ObjectOutputStream(fos);   
                             oos.writeObject(registerStudentList);
                             oos.close();
+                            fos = new FileOutputStream("./src/data/courseList");
+                            oos = new ObjectOutputStream(fos);   
+                            oos.writeObject(courseList);
+                            oos.flush();
+                            oos.close();
                             }
-                        
                         catch(Exception ex) {
                             ex.printStackTrace();
                             }
@@ -799,12 +817,19 @@ public class StarsPlanner
                 e.printStackTrace();
             }
 
+        if(checkRegisterStudentList(currentUser, registerStudentList) == 1)
+            return;
         checkCoursesRegistered(currentUser, registerStudentList);
-        System.out.print("Which index do you wish to change? ");
-        indexChoice = s1.nextInt();
-
-        System.out.print("Enter new index: ");
-        int indexChoiceNew = s1.nextInt();
+        System.out.printf("\nOLD INDEX\n=========\n");
+        indexChoice = promptIndexNumber(courseList);
+        if(indexChoice == 1){
+            return;
+        }
+        System.out.printf("\nNEW INDEX\n=========\n");
+        int indexChoiceNew = promptIndexNumber(courseList);
+        if(indexChoice == 1){
+            return;
+        }
 
         System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
         for(int j = 0; i < courseList.size(); j++)
@@ -958,12 +983,15 @@ public class StarsPlanner
                     }
                     check = 1;
                 }
-                if(check != 2)
-                    System.out.println("Invalid index number. Please retry.");
+                if(check != 2){
+                    System.out.println("hehe invalid index. try again");
+                    return check;
+                }
             }
             catch(Exception e){
                 System.out.println("Invalid index number. Please retry.");
                 s = s1.nextLine();
+                return 1;
             }
         }while(check == 1);
         return indexChoice;
@@ -973,6 +1001,7 @@ public class StarsPlanner
         RegisterStudent r;
         Course c;
         User u;
+        boolean checkUser = false;
         if(registerStudentList.size() == 0){
             System.out.println("User does not have any courses registered. Please choose a different option.");
             return 1;
@@ -983,10 +1012,12 @@ public class StarsPlanner
                 r = (RegisterStudent)registerStudentList.get(i);
                 c = r.getCourse();
                 u = r.getUser();
-                if(!(u.getUsername().equals(currentUser.getUsername()))){
-                    System.out.println("User does not have any courses registered. Please choose a different option.");
-                    return 1;
-                }
+                if(u.getUsername().equals(currentUser.getUsername()))
+                    checkUser = true;
+            }
+            if(!checkUser){
+                System.out.println("User does not have any courses registered. Please choose a different option.");
+                return 1;
             }
         }
         return 0;
