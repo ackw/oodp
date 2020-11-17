@@ -3,7 +3,6 @@ import java.util.*;
 public class StudentController{
 
     UserController userController = new UserController();
-    User currentUser = userController.getCurrentUser();
     Scanner s1 = new Scanner(System.in);
 
     public void displayMenu(){
