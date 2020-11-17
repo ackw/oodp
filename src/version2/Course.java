@@ -22,11 +22,14 @@ public class Course implements Serializable
 
     public String getSchool(){return school;}
     public void setSchool(String s){school = s;}
+    
+    //public ArrayList<Index> getIndexList(){return indexList;}
 
     public String toString()
     {
        return "Course Name: " + courseCode + "\nSchool: " + school;
     }
+    
 
     //public addIndex()
     //public dropIndex()
