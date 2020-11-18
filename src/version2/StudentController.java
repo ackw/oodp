@@ -21,7 +21,6 @@ public class StudentController{
 
     public void selectChoice(){
         Student s = (Student)userController.getCurrentUser();
-        System.out.println(s.getUsername() + "hihi method");
         int choice = 9;
         int index = 0;
         while(choice != 0){
@@ -74,18 +73,35 @@ public class StudentController{
                     } catch(Exception e){
                         System.out.println("Error, try again. ");
                     }
-                    
                     System.out.println();
                     break;
                 case 5: 
                     System.out.println();
                     System.out.println("5. Change Index Number of Course");
-                    //changeIndexNumber(courseList, currentUser, registerStudentList);
+                    System.out.printf("\nHere's the list of all currently registered courses:\n====================================================");
+                    printCoursesRegistered(s);
+                    try{
+                        index = promptIndex();
+                        System.out.printf("\nHere's the list of all courses:\n===============================");
+                        userController.showCourseInfo();
+                        System.out.print("Enter new index number:");
+                        int newIndex = s1.nextInt();
+                        System.out.println(changeIndexNumber(index, newIndex, s));
+
+                    } catch(Exception e){
+                        System.out.println("Error, try again. ");
+                    }
                     System.out.println();
                     break;
                 case 6: 
                     System.out.println();
                     System.out.println("6. Swop Index Number with Another Student");
+                    System.out.printf("\nHere's the list of all currently registered courses:\n====================================================");
+                    printCoursesRegistered(s);
+                    System.out.println("Enter the index you'd wish to change: ");
+                    index = s1.nextInt();
+                    Student student2 = (Student) userController.login();
+                    System.out.println(student2.getName());
                     //swopIndexStudent(courseList, currentUser, registerStudentList, userList);
                     System.out.println();
                     break;
@@ -97,7 +113,7 @@ public class StudentController{
         }
     }
 
-    public String addCourse(int index, Student s){
+    public String addCourse(int index, Student s) {
         ArrayList registerStudentList = userController.getRegisterStudentList();
         RegisterStudent r;
         Course c;
@@ -117,7 +133,7 @@ public class StudentController{
         }
 
         if(ind.getVacancies() < 1){
-            return "This course is full at the moment. You'll be added to waiting list. //tobeimplemented";
+            return "This course is full at the moment. You'll be added to waiting list."; //implement later
         }
         
         r = new RegisterStudent(s, ind);
@@ -127,7 +143,7 @@ public class StudentController{
         userController.editRegisterStudentList();
         userController.editCourseList();
         //send cfm email?? to be implemented
-        return "You have successfully registered for the course. // tobeimplemented send cfm email";
+        return "You have successfully registered for the course."; //implement send cfm emnail
     }
     public String dropCourse(int index, Student s){
         ArrayList registerStudentList = userController.getRegisterStudentList();
@@ -159,20 +175,68 @@ public class StudentController{
                 if(s.getUsername().equals(((User)r.getUser()).getUsername()))
                 {
                     registerStudentList.remove(i);
-                    System.out.println("Current: " + ind.getVacancies());
                     int newVacancy = ((Index)ind).getVacancies()+1;
                     ((Index)ind).setVacancies(newVacancy);
-                    System.out.println("Current: " + ind.getVacancies());
-                    System.out.println("Successfully dropped course!");
                     //send email
                     userController.editRegisterStudentList();
                     userController.editCourseList();
                     //send cfm email?? to be implemented
-                    return "You have successfully dropped the course. // tobeimplemented send cfm email";
+                    return "You have successfully dropped the course."; //tobeimplemented send cfm email
                 }
             }
         }
-        return "";
+        return null;
+    }
+
+    private String changeIndexNumber(int indexChoice, int newIndexChoice, Student s) {
+        Index oldIndex = userController.findIndex(indexChoice);
+        Index newIndex = userController.findIndex(newIndexChoice);
+
+        if(oldIndex == null || newIndex == null)
+            return "Invalid index choice. Please try again.";
+
+        ArrayList registerStudentList = userController.getRegisterStudentList();
+        ArrayList courseList = userController.getCourseList();
+        Boolean checkIndex = false;
+        RegisterStudent r;
+        Course c;
+        User u;
+        int newVacancy;
+        
+        //checks if user has the courseindex registered
+        for(int i = 0; i < registerStudentList.size(); i++){ 
+            r = (RegisterStudent)registerStudentList.get(i);
+            c = r.getCourse();
+            u = r.getUser();
+            if(u.getUsername().equals(s.getUsername()) && indexChoice == ((Index)c).getIndexNumber()){
+                checkIndex = true;
+            }
+        }
+        if(!checkIndex)
+            return "User does not have this index. Please choose a different index.";
+
+        for(int i = 0; i < registerStudentList.size(); i++)
+        {
+            r = (RegisterStudent)registerStudentList.get(i);
+            c = r.getCourse();
+            if(s.getUsername().equals(s.getUsername()) && newIndexChoice == ((Index)c).getIndexNumber())
+                return "User already has this module. Please choose a different index.";
+        }
+        if(newIndex.getVacancies() < 1){
+            return "This course is full at the moment. You'll be added to waiting list."; //implement later
+        }
+        
+        r = new RegisterStudent(s, newIndex);
+        registerStudentList.add(r);
+        newVacancy = ((Index)newIndex).getVacancies()-1;
+        ((Index)newIndex).setVacancies(newVacancy);
+        userController.editRegisterStudentList();
+        userController.editCourseList();
+
+        dropCourse(indexChoice, s);
+
+        String returnMsg = String.format("Successfully switched index %d with %d", indexChoice, newIndexChoice);
+        return returnMsg;
     }
 
     public void printCoursesRegistered(Student s){

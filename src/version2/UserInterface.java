@@ -30,7 +30,7 @@ public class UserInterface{
                 case 1:
                     currentUser = userControl.login();
                     if(currentUser != null){
-                        System.out.println(currentUser.getName());
+                        System.out.printf("Welcome %s!\n\n", currentUser.getName());
                         setController();
                         printMenu();
                     }
@@ -63,8 +63,4 @@ public class UserInterface{
             studentControl.selectChoice();
         }
     }
-
-
-
-
 }
