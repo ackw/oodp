@@ -44,7 +44,7 @@ public class AdminController{
         }
     }
 
-    public static void addUpdateCourse(ArrayList courseList) {
+    public void addUpdateCourse(ArrayList courseList) {
         Scanner sc = new Scanner(System.in);
         Course course = null;
 
