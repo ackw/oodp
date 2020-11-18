@@ -145,6 +145,30 @@ public class UserController{
         return u;
     }
 
+    public User login(String inputUsername, String inputPw){
+        Scanner s1 = new Scanner(System.in);
+        User u = null;
+        inputPw = encrypt(inputPw);
+        boolean checkLogin = false;
+
+        for(int i = 0; i < userList.size(); i++)
+        {
+            u = (User) userList.get(i);
+            //System.out.print("to hash " + encrypt(inputPw));
+            //if(u.getUsername().equals(inputUsername) && inputPw.equals("688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6"))
+            if(u.getUsername().equals(inputUsername) && u.getPassword().equals(inputPw)){
+                checkLogin = true;
+                break;
+            }
+        }
+        if(!checkLogin){
+            System.out.println("Invalid login details. Please try again.");
+            return null;
+        }
+
+        return u;
+    }
+
     public static String encrypt(String plainPw) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");

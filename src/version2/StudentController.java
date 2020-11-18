@@ -1,10 +1,14 @@
 import java.util.*;
 
 
+import java.io.*;
+
+
 public class StudentController{
 
     UserController userController = new UserController();
     Scanner s1 = new Scanner(System.in);
+    Console console = System.console();
 
     public void displayMenu(){
         System.out.println("Menu");
@@ -96,13 +100,30 @@ public class StudentController{
                 case 6: 
                     System.out.println();
                     System.out.println("6. Swop Index Number with Another Student");
-                    System.out.printf("\nHere's the list of all currently registered courses:\n====================================================");
+                    System.out.printf("\n%s's currently registered courses:\n====================================================", s.getName());
                     printCoursesRegistered(s);
                     System.out.println("Enter the index you'd wish to change: ");
                     index = s1.nextInt();
-                    Student student2 = (Student) userController.login();
-                    System.out.println(student2.getName());
-                    //swopIndexStudent(courseList, currentUser, registerStudentList, userList);
+                    s1.nextLine();
+                    System.out.print("Enter username of student you're swopping with: ");
+                    String username = s1.nextLine();
+                    char[] password = console.readPassword("Enter password of student you're swopping with: ");
+                    String inputPw = new String(password);
+                    User user = userController.login(username, inputPw);
+                    
+                    if(user.getUsername() == s.getUsername()){
+                        System.out.println("New user cannot be the same as current user. Please try again.");
+                    }
+                    if(user instanceof Admin){
+                        System.out.printf("User is not a student. Please try again.\n\n");
+                        break;
+                    }
+                    Student s2 = (Student) user;
+                    System.out.printf("\n%s's currently registered courses:\n====================================================", s2.getName());
+                    printCoursesRegistered(s2);
+                    System.out.println("Enter the index you'd wish to change with: ");
+                    int index2 = s1.nextInt();
+                    System.out.println(swopIndexStudent(s, index, s2, index2));
                     System.out.println();
                     break;
                 case 0: 
@@ -125,10 +146,11 @@ public class StudentController{
         {
             r = (RegisterStudent)registerStudentList.get(i);
             c = r.getCourse();
-            if(s.getUsername().equals(s.getUsername()) && index == ((Index)c).getIndexNumber())
+            User u = r.getUser();
+            if(u.getUsername().equals(s.getUsername()) && index == ((Index)c).getIndexNumber())
                 return "User already has this module. Please choose a different index.";
             
-            if(c.getCourseCode().equals(ind.getCourseCode()))
+            if(u.getUsername().equals(s.getUsername()) && c.getCourseCode().equals(ind.getCourseCode()))
                 return "You are not allowed to register multiple index of the same course.";
         }
 
@@ -172,8 +194,10 @@ public class StudentController{
             ind = (Index)r.getCourse();
             if(index == ind.getIndexNumber())
             {
+                
                 if(s.getUsername().equals(((User)r.getUser()).getUsername()))
                 {
+                    
                     registerStudentList.remove(i);
                     int newVacancy = ((Index)ind).getVacancies()+1;
                     ((Index)ind).setVacancies(newVacancy);
@@ -219,7 +243,8 @@ public class StudentController{
         {
             r = (RegisterStudent)registerStudentList.get(i);
             c = r.getCourse();
-            if(s.getUsername().equals(s.getUsername()) && newIndexChoice == ((Index)c).getIndexNumber())
+            u = r.getUser();
+            if(u.getUsername().equals(s.getUsername()) && newIndexChoice == ((Index)c).getIndexNumber())
                 return "User already has this module. Please choose a different index.";
         }
         if(newIndex.getVacancies() < 1){
@@ -270,6 +295,7 @@ public class StudentController{
         else{
             for(int i = 0; i < registerStudentList.size(); i++)
             {
+                
                 r = (RegisterStudent)registerStudentList.get(i);
                 c = r.getCourse();
                 u = r.getUser();
@@ -282,6 +308,49 @@ public class StudentController{
             }
         }
         return 0;
+    }
+
+    public String swopIndexStudent(Student s, int index, Student s2, int index2){
+        Index i1 = userController.findIndex(index);
+        Index i2 = userController.findIndex(index2);
+        RegisterStudent r;
+        Course c;
+        User u;
+        Boolean checkIndex, checkIndex2;
+
+        checkIndex = checkIndex2 = false;
+        ArrayList registerStudentList = userController.getRegisterStudentList();
+
+        if(i1 == null || i2 == null)
+            return "Invalid index entered. Please try again.";
+
+        for(int i = 0; i < registerStudentList.size(); i++){
+            r = (RegisterStudent)registerStudentList.get(i);
+            c = r.getCourse();
+            u = r.getUser();
+            if(u.getUsername().equals(s.getUsername()) && index == ((Index)c).getIndexNumber())
+                checkIndex = true;
+            if(u.getUsername().equals(s2.getUsername()) && index2 == ((Index)c).getIndexNumber())
+                checkIndex2 = true;
+        }
+        if(i2.getIndexNumber() == i1.getIndexNumber())
+            return "Both index numbers are the same. Please choose a different index.";
+        if(!checkIndex && checkIndex2)
+            return "User does not have this index. Please choose a different index.";
+        //tobeimplemented add check user does not have 2 of same course after adding
+        //do the swop swop swop 
+        for(int i = 0; i < registerStudentList.size(); i++)
+        {
+            r = (RegisterStudent)registerStudentList.get(i);
+            u = r.getUser();
+            c = r.getCourse();
+            if(u.getUsername().equals(s.getUsername()) && index == ((Index)c).getIndexNumber())
+                r.setUser(s2);
+            if(u.getUsername().equals(s2.getUsername()) && index2 == ((Index)c).getIndexNumber())
+                r.setUser(s);
+        }
+        String returnMsg = String.format("Swopped %s's index of %d with %s's index of %d.", s.getName(), index, s2.getName(), index2);
+        return returnMsg;
     }
 
     public int promptIndex(){
