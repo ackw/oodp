@@ -1,6 +1,10 @@
 import java.util.*;
 import java.io.*;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
 
 public class UserController{
     private final static String userListPath = "./src/data/userList";
@@ -115,13 +119,19 @@ public class UserController{
             System.out.print("Enter Username: ");
             String inputUsername = s1.nextLine();
 
-            // check hashed password using bcrypt
+            // run encrypt() to check if its the same as stored
             char[] password = console.readPassword("Enter Password: ");
             String inputPw = new String(password);
+            inputPw = encrypt(inputPw);
+
 
             for(int i = 0; i < userList.size(); i++)
             {
                 u = (User) userList.get(i);
+
+                //System.out.print("to hash " + encrypt(inputPw));
+
+                //if(u.getUsername().equals(inputUsername) && inputPw.equals("688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6"))
                 if(u.getUsername().equals(inputUsername) && u.getPassword().equals(inputPw))
                 {
                     success = true;
@@ -134,6 +144,34 @@ public class UserController{
         currentUser = u;
         return u;
     }
+
+    public static String encrypt(String plainPw) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			md.update(plainPw.getBytes());
+
+			byte byteData[] = md.digest();
+
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < byteData.length; i++) {
+				sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+			}
+
+			plainPw = sb.toString();
+
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return plainPw;
+	}
+
+
+
+
+
+
+
+
 
     public void showCourseInfo(){
         Index index;
