@@ -14,6 +14,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
+
 //java encrypt crypto/hash change to byte check it up 
 public class StarsPlanner
 {
@@ -294,6 +299,9 @@ public class StarsPlanner
         String username = s1.nextLine();
         System.out.println("Enter Password:");
         String password = s1.nextLine();
+        password = encrypt(password);
+        // System.out.println("hashed:  " + password);
+
         System.out.println("Enter Matric No:");
         int matricNumber = s1.nextInt();
         System.out.println("Enter Gender:");
@@ -316,6 +324,31 @@ public class StarsPlanner
             ex.printStackTrace();
         }
     }
+
+    // for testing
+    public static String encrypt(String plainPw) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			md.update(plainPw.getBytes());
+
+			byte byteData[] = md.digest();
+
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < byteData.length; i++) {
+				sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+			}
+
+			plainPw = sb.toString();
+
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return plainPw;
+	}
+
+
+
+
 
     public static void checkAvailSlotIndex(ArrayList courseList) 
     {
