@@ -515,6 +515,16 @@ public class StarsPlanner
                         int newVacancy = ind.getVacancies()+1;
                         System.out.println(newVacancy);
                         ind.setVacancies(newVacancy);
+                        try {
+                            FileOutputStream fos = new FileOutputStream("./src/data/courseList");
+                            ObjectOutputStream oos = new ObjectOutputStream(fos);   
+                            oos.writeObject(courseList);
+                            oos.flush();
+                            oos.close();
+                            }
+                        catch(Exception ex) {
+                            ex.printStackTrace();
+                        }
                         System.out.println("New: " + ind.getVacancies());
                         System.out.println("Successfully dropped course!");
                         try {
@@ -522,12 +532,8 @@ public class StarsPlanner
                             ObjectOutputStream oos = new ObjectOutputStream(fos);   
                             oos.writeObject(registerStudentList);
                             oos.close();
-                            fos = new FileOutputStream("./src/data/courseList");
-                            oos = new ObjectOutputStream(fos);   
-                            oos.writeObject(courseList);
                             oos.flush();
-                            oos.close();
-                            }
+                        }
                         catch(Exception ex) {
                             ex.printStackTrace();
                             }

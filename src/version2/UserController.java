@@ -131,6 +131,7 @@ public class UserController{
             if(!success)
                 System.out.println("Invalid login details");
         }
+        currentUser = u;
         return u;
     }
 
