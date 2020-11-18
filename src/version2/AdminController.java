@@ -2,7 +2,7 @@ import java.util.*;
 
 public class AdminController{
 
-    static UserController userController = new UserController();
+    UserController userController = new UserController();
     Scanner s1 = new Scanner(System.in);
 
     public void displayMenu() {
