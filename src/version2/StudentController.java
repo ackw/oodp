@@ -74,6 +74,8 @@ public class StudentController{
                             ind = userController.findIndex(index);
                             System.out.printf("Vacancies for %d: %d\n", ind.getIndexNumber(), ind.getVacancies());
                         }
+                        if(userController.findIndex(index) == null)
+                            System.out.println("Invalid index number. Please try again.");
                     } catch(Exception e){
                         System.out.println("Error, try again. ");
                     }

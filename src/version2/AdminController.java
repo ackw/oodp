@@ -41,7 +41,19 @@ public class AdminController{
                 case 4:
                     System.out.println();
                     System.out.println("4. Check available slot for an index number (vacancy in a class)");
-                    checkAvailSlotIndex(userController.getCourseList());
+                    try{
+                        System.out.print("Enter index number: "); 
+                        index= s1.nextInt();
+                        Index ind = null;
+                        if(userController.findIndex(index) != null){
+                            ind = userController.findIndex(index);
+                            System.out.printf("Vacancies for %d: %d\n", ind.getIndexNumber(), ind.getVacancies());
+                        }
+                        if(userController.findIndex(index) == null)
+                            System.out.println("Invalid index number. Please try again.");
+                    } catch(Exception e){
+                        System.out.println("Error, try again. ");
+                    }
                     System.out.println();
                     break;
                 default:
@@ -104,22 +116,28 @@ public class AdminController{
                         ((Index) course).getIndexNumber(), ((Index) course).getVacancies());
             }
             
-            System.out.println("Which index to update? ");
+            System.out.print("Which index to update? ");
             int input = sc.nextInt();
+            
+            if(userController.findIndex(input) == null){
+                System.out.println("Invalid index number. Please try again.");
+                return;
+            }
 
-            System.out.println("Update Options");
-            System.out.println("=====");
+            System.out.printf("\nUpdate Options\n");
+            System.out.println("==============");
             System.out.println("1. Update Course Code");
             System.out.println("2. Update School");
             System.out.println("3. Update Index");
             System.out.println("4. Update Vacancies");
+            System.out.print("Select your option: ");
 
             option = s1.nextInt();
             s1.nextLine();
 
             switch (option) {
                 case 1:
-                    System.out.println("Update course code: ");
+                    System.out.print("New course code: ");
                     String a = sc.next();
 
                     for (int i = 0; i < courseList.size(); i++) {
@@ -136,7 +154,7 @@ public class AdminController{
                     userController.editCourseList();
                     break;
                 case 2:
-                    System.out.println("Update school: ");
+                    System.out.print("New school: ");
                     String b = sc.next();
 
                     for (int i = 0; i < courseList.size(); i++) {
@@ -153,7 +171,7 @@ public class AdminController{
                     userController.editCourseList();
                     break;
                 case 3:
-                    System.out.println("Update index: ");
+                    System.out.print("New index: ");
                     int c = sc.nextInt();
 
                     for (int i = 0; i < courseList.size(); i++) {
@@ -178,7 +196,7 @@ public class AdminController{
                     userController.editCourseList();
                     break;
                 case 4:
-                    System.out.println("Update vacancies: ");
+                    System.out.print("New vacancies: ");
                     int d = sc.nextInt();
 
                     for (int i = 0; i < courseList.size(); i++) {
@@ -201,58 +219,5 @@ public class AdminController{
         }else{
             System.out.print("nope!");
         }
-    }
-
-    public static void checkAvailSlotIndex(ArrayList courseList) 
-    {
-        Course c = null;
-
-        Scanner s1 = new Scanner(System.in);
-        int indexChoice = promptIndexNumber(courseList);
-        if(indexChoice == 1){
-            return;
-        }
-
-        System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
-        for(int i = 0; i < courseList.size(); i++)
-        {
-            c = (Course) courseList.get(i);
-            if(indexChoice == ((Index)c).getIndexNumber())
-                System.out.printf("%-15s %-10s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber(), ((Index)c).getVacancies());
-        }
-    }
-
-    public static int promptIndexNumber(ArrayList courseList)
-    {
-        String s;
-        int check = 1;
-        Scanner s1 = new Scanner(System.in);
-        Course c;
-        int indexChoice = 0;
-            
-        do{
-            try{
-                System.out.print("Enter the index number: ");
-                indexChoice = s1.nextInt();
-                for(int i = 0; i < courseList.size(); i++){
-                    c = (Course) courseList.get(i);
-                    if(indexChoice == ((Index)c).getIndexNumber()){
-                        check = 2;
-                        break;
-                    }
-                    check = 1;
-                }
-                if(check != 2){
-                    System.out.println("hehe invalid index. try again");
-                    return check;
-                }
-            }
-            catch(Exception e){
-                System.out.println("Invalid index number. Please retry.");
-                s = s1.nextLine();
-                return 1;
-            }
-        }while(check == 1);
-        return indexChoice;
     }
 }
