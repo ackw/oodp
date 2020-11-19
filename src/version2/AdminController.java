@@ -38,6 +38,12 @@ public class AdminController{
                     addUpdateCourse(userController.getCourseList());
                     System.out.println();
                     break;
+                case 4:
+                    System.out.println();
+                    System.out.println("4. Check available slot for an index number (vacancy in a class)");
+                    checkAvailSlotIndex(userController.getCourseList());
+                    System.out.println();
+                    break;
                 default:
                     break;
             }
@@ -45,6 +51,7 @@ public class AdminController{
     }
 
     public void addUpdateCourse(ArrayList courseList) {
+        int option = 9;
         Scanner sc = new Scanner(System.in);
         Course course = null;
 
@@ -56,19 +63,36 @@ public class AdminController{
         if (choice.toUpperCase().equals(add)) {
             Course cor;
 
-            System.out.print("Course: ");
-            String a = sc.nextLine();
-            System.out.print("School: ");
-            String b = sc.nextLine();
-            System.out.print("Index: ");
-            int c = sc.nextInt();
-            System.out.print("Vacancies: ");
-            int d = sc.nextInt();
+            try {
+                System.out.print("Course: ");
+                String a = sc.nextLine();
+                System.out.print("School: ");
+                String b = sc.nextLine();
+                System.out.print("Index: ");
+                int c = sc.nextInt();
+                System.out.print("Vacancies: ");
+                int d = sc.nextInt();
 
-            cor = new Index(a, b, c, d);
+                for (int i = 0; i < courseList.size(); i++) {
+                    Course cos = (Course) courseList.get(i);
+                    if (c == ((Index) cos).getIndexNumber()) {
+                        System.out.println("Index already exists!");
+                        return;
+                    }
+                }
+                cor = new Index(a, b, c, d);
+                courseList.add(cor);
 
-            courseList.add(cor);
-            userController.editCourseList();
+                System.out.println("Updated!");
+                System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies");
+                System.out.printf("\n%-15s %-10s %-10s %-10s\n", a, b, c, d);
+                
+                userController.editCourseList();
+              }
+
+              catch(Exception e) {
+                System.out.println("Invalid input!");
+              }
 
         } else if (choice.toUpperCase().equals(upd)) {
             System.out.println("Update!\n");
@@ -79,30 +103,156 @@ public class AdminController{
                 System.out.printf("%-15s %-10s %-10s %-10s\n", course.getCourseCode(), course.getSchool(),
                         ((Index) course).getIndexNumber(), ((Index) course).getVacancies());
             }
-
+            
             System.out.println("Which index to update? ");
-            int a = sc.nextInt();
+            int input = sc.nextInt();
 
-            // will only allow admin to update vacancies
-            System.out.println("Update vacancies: ");
-            int b = sc.nextInt();
+            System.out.println("Update Options");
+            System.out.println("=====");
+            System.out.println("1. Update Course Code");
+            System.out.println("2. Update School");
+            System.out.println("3. Update Index");
+            System.out.println("4. Update Vacancies");
 
-            for (int i = 0; i < courseList.size(); i++) {
-                Course cos = (Course) courseList.get(i);
-                if (a == ((Index) cos).getIndexNumber()) {
-                    ((Index) cos).setVacancies(b);
-                    System.out.println("Updated!");
-                    System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies");
-                    System.out.printf("\n%-15s %-10s %-10s %-10s\n", cos.getCourseCode(), cos.getSchool(),
-                            ((Index) cos).getIndexNumber(), ((Index) cos).getVacancies());
+            option = s1.nextInt();
+            s1.nextLine();
+
+            switch (option) {
+                case 1:
+                    System.out.println("Update course code: ");
+                    String a = sc.next();
+
+                    for (int i = 0; i < courseList.size(); i++) {
+                        Course cos = (Course) courseList.get(i);
+                        if (input == ((Index) cos).getIndexNumber()) {
+                            ((Course) cos).setCourseCode(a);
+                            System.out.println("Updated!");
+                            System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies");
+                            System.out.printf("\n%-15s %-10s %-10s %-10s\n", cos.getCourseCode(), cos.getSchool(),
+                                    ((Index) cos).getIndexNumber(), ((Index) cos).getVacancies());
+                            break;
+                        }
+                    }
+                    userController.editCourseList();
                     break;
-                }
+                case 2:
+                    System.out.println("Update school: ");
+                    String b = sc.next();
+
+                    for (int i = 0; i < courseList.size(); i++) {
+                        Course cos = (Course) courseList.get(i);
+                        if (input == ((Index) cos).getIndexNumber()) {
+                            ((Course) cos).setSchool(b);
+                            System.out.println("Updated!");
+                            System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies");
+                            System.out.printf("\n%-15s %-10s %-10s %-10s\n", cos.getCourseCode(), cos.getSchool(),
+                                    ((Index) cos).getIndexNumber(), ((Index) cos).getVacancies());
+                            break;
+                        }
+                    }
+                    userController.editCourseList();
+                    break;
+                case 3:
+                    System.out.println("Update index: ");
+                    int c = sc.nextInt();
+
+                    for (int i = 0; i < courseList.size(); i++) {
+                        Course cos = (Course) courseList.get(i);
+                        if (c == ((Index) cos).getIndexNumber()) {
+                            System.out.println("Index already exists!");
+                            return;
+                        }
+                    }
+
+                    for (int i = 0; i < courseList.size(); i++) {
+                        Course cos = (Course) courseList.get(i);
+                        if (input == ((Index) cos).getIndexNumber()) {
+                            ((Index) cos).setIndexNumber(c);
+                            System.out.println("Updated!");
+                            System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies");
+                            System.out.printf("\n%-15s %-10s %-10s %-10s\n", cos.getCourseCode(), cos.getSchool(),
+                                    ((Index) cos).getIndexNumber(), ((Index) cos).getVacancies());
+                            break;
+                        }
+                    }
+                    userController.editCourseList();
+                    break;
+                case 4:
+                    System.out.println("Update vacancies: ");
+                    int d = sc.nextInt();
+
+                    for (int i = 0; i < courseList.size(); i++) {
+                        Course cos = (Course) courseList.get(i);
+                        if (input == ((Index) cos).getIndexNumber()) {
+                            ((Index) cos).setVacancies(d);
+                            System.out.println("Updated!");
+                            System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies");
+                            System.out.printf("\n%-15s %-10s %-10s %-10s\n", cos.getCourseCode(), cos.getSchool(),
+                                    ((Index) cos).getIndexNumber(), ((Index) cos).getVacancies());
+                            break;
+                        }
+                    }
+                    userController.editCourseList();
+                    break;
+                default:
+                    System.out.println("Invalid input!");
+                    break;
             }
-
-            userController.editCourseList();
-
         }else{
             System.out.print("nope!");
         }
+    }
+
+    public static void checkAvailSlotIndex(ArrayList courseList) 
+    {
+        Course c = null;
+
+        Scanner s1 = new Scanner(System.in);
+        int indexChoice = promptIndexNumber(courseList);
+        if(indexChoice == 1){
+            return;
+        }
+
+        System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
+        for(int i = 0; i < courseList.size(); i++)
+        {
+            c = (Course) courseList.get(i);
+            if(indexChoice == ((Index)c).getIndexNumber())
+                System.out.printf("%-15s %-10s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber(), ((Index)c).getVacancies());
+        }
+    }
+
+    public static int promptIndexNumber(ArrayList courseList)
+    {
+        String s;
+        int check = 1;
+        Scanner s1 = new Scanner(System.in);
+        Course c;
+        int indexChoice = 0;
+            
+        do{
+            try{
+                System.out.print("Enter the index number: ");
+                indexChoice = s1.nextInt();
+                for(int i = 0; i < courseList.size(); i++){
+                    c = (Course) courseList.get(i);
+                    if(indexChoice == ((Index)c).getIndexNumber()){
+                        check = 2;
+                        break;
+                    }
+                    check = 1;
+                }
+                if(check != 2){
+                    System.out.println("hehe invalid index. try again");
+                    return check;
+                }
+            }
+            catch(Exception e){
+                System.out.println("Invalid index number. Please retry.");
+                s = s1.nextLine();
+                return 1;
+            }
+        }while(check == 1);
+        return indexChoice;
     }
 }
