@@ -3,6 +3,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class userListInit {
@@ -22,6 +24,28 @@ public class userListInit {
         userList.add(u);
         u = new Student("Won Jae", "chew0393", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, 19678909, 'M', "KR");
         userList.add(u);
+
+       School sch = new School("SCSE");
+       String start = "2020-11-01 11:30";
+       String end = "2020-11-01 14:30";
+       String s1 = "School of Computer Science and Engineering";
+
+       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+       LocalDateTime scseStart = LocalDateTime.parse(start, formatter);
+       LocalDateTime scseEnd = LocalDateTime.parse(end, formatter);
+       sch.setStartAccess(scseStart);
+       sch.setEndAccess(scseEnd);
+       sch.setName(s1);
+
+       School sch2 = new School("SOH");
+       String start2 = "2020-11-03 09:30";
+       String end2 = "2020-11-03 12:30";
+       String s2 = "School of Humanities";
+
+       LocalDateTime sohStart = LocalDateTime.parse(start2, formatter);
+       LocalDateTime sohEnd = LocalDateTime.parse(end2, formatter);
+       sch2.setStartAccess(sohStart);
+       sch2.setEndAccess(sohEnd);
 
         //Writing arraylist to the file
         try {
