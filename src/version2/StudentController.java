@@ -1,14 +1,22 @@
 import java.util.*;
-
-
 import java.io.*;
 
+// imports for email
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 public class StudentController{
 
     UserController userController = new UserController();
     Scanner s1 = new Scanner(System.in);
     Console console = System.console();
+    public static int emails = 0; // index for email
 
     public void displayMenu(){
         System.out.println("Menu");
@@ -167,8 +175,96 @@ public class StudentController{
         userController.editRegisterStudentList();
         userController.editCourseList();
         //send cfm email?? to be implemented
+
+        emails = 1;
+        // using username to get their email address
+        String name = s.getName();
+        String usern = s.getUsername();
+        String code = ind.getCourseCode();
+        int num = ind.getIndexNumber();
+
+        Email(name, code, num, usern, registerStudentList);
+
         return "You have successfully registered for the course."; //implement send cfm emnail
     }
+
+    public static void Email(String name, String course, int index, String usern, ArrayList registerStudentList)
+    {
+        String recipient = "", subject = "", msg = "";
+
+        //email sent from
+        final String username = "oatarabica@gmail.com";
+		final String password = "absolutmunch";
+
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+        new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        // option 1: add course
+        // option 2: drop course
+        // option 3: in waitlist
+
+        switch(emails){
+            case 1: 
+                System.out.println("Add Course Email......");
+                recipient = usern + "@e.ntu.edu.sg";
+                subject = "Course Allocation";
+                msg = "Dear " + name + ", \n\n Congrats! You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply.";
+
+                break;
+            case 2: 
+                System.out.println();
+                System.out.println("Drop Course Email......");
+                break;
+            case 3: 
+                System.out.println();
+                System.out.println("Waitlist Email");
+                break;
+            default:
+                break;
+        }
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("oatarabica@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+            message.setSubject(subject);
+            message.setText(msg);
+
+            Transport.send(message);
+            System.out.println("\nAn email notification has been sent.");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            FileOutputStream fos = new FileOutputStream("./src/data/registerStudentList");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);   
+            oos.writeObject(registerStudentList);
+            oos.close();
+            }
+        
+        catch(Exception ex) {
+            ex.printStackTrace();
+            }
+    }
+
+
+
+
+
+
+
     public String dropCourse(int index, Student s){
         ArrayList registerStudentList = userController.getRegisterStudentList();
         RegisterStudent r;
@@ -361,4 +457,6 @@ public class StudentController{
         int index = s1.nextInt();
         return index;
     }
+
+    
 }
