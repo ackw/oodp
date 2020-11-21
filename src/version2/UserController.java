@@ -10,10 +10,12 @@ public class UserController{
     private final static String userListPath = "./src/data/userList";
     private final static String courseListPath = "./src/data/courseList";
     private final static String registerStudentPath = "./src/data/registerStudentList";
+    private final static String waitListPath = "./src/data/waitList";
     
     private static ArrayList<User> userList = new ArrayList<User>();
     private static ArrayList<Course> courseList = new ArrayList<Course>();
     private static ArrayList<RegisterStudent> registerStudentList = new ArrayList<RegisterStudent>();
+    private static ArrayList<WaitList> waitList = new ArrayList<WaitList>();
     private static User currentUser;
 
     public User getCurrentUser(){
@@ -27,6 +29,10 @@ public class UserController{
     }
     public ArrayList<RegisterStudent> getRegisterStudentList(){
         return registerStudentList;
+    }
+
+    public ArrayList<WaitList> getWaitList(){
+        return waitList;
     }
 
     public void loadUserList(){
@@ -106,6 +112,34 @@ public class UserController{
             ex.printStackTrace();
         }
     }
+
+    public void loadWaitList(){
+        try {
+            FileInputStream fis = new FileInputStream(waitListPath);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            waitList = (ArrayList) ois.readObject();
+            ois.close();
+            fis.close();
+            }
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+    }
+    public void editWaitList(){
+        try {
+            FileOutputStream fos = new FileOutputStream(waitListPath);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);   
+            oos.writeObject(waitList);
+            oos.close();
+            fos.close();
+            }
+    
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
 
     public User login(){
         Scanner s1 = new Scanner(System.in);

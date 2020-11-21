@@ -163,7 +163,16 @@ public class StudentController{
                 return "You are not allowed to register multiple index of the same course.";
         }
 
+        // waitlist
         if(ind.getVacancies() < 1){
+            emails = 3;
+            // using username to get their email address
+            String name = s.getName();
+            String usern = s.getUsername();
+            String code = ind.getCourseCode();
+            int num = ind.getIndexNumber();
+
+            Email(name, code, num, usern, registerStudentList);
             return "This course is full at the moment. You'll be added to waiting list."; //implement later
         }
         
@@ -186,83 +195,6 @@ public class StudentController{
 
         return "You have successfully registered for the course."; //implement send cfm emnail
     }
-
-    public static void Email(String name, String course, int index, String usern, ArrayList registerStudentList)
-    {
-        String recipient = "", subject = "", msg = "";
-
-        //email sent from
-        final String username = "oatarabica@gmail.com";
-		final String password = "absolutmunch";
-
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-
-        Session session = Session.getInstance(props,
-        new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-
-        // option 1: add course
-        // option 2: drop course
-        // option 3: in waitlist
-
-        switch(emails){
-            case 1: 
-                System.out.println("Add Course Email......");
-                recipient = usern + "@e.ntu.edu.sg";
-                subject = "Course Allocation";
-                msg = "Dear " + name + ", \n\n Congrats! You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply.";
-
-                break;
-            case 2: 
-                System.out.println();
-                System.out.println("Drop Course Email......");
-                break;
-            case 3: 
-                System.out.println();
-                System.out.println("Waitlist Email");
-                break;
-            default:
-                break;
-        }
-
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("oatarabica@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
-            message.setSubject(subject);
-            message.setText(msg);
-
-            Transport.send(message);
-            System.out.println("\nAn email notification has been sent.");
-
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            FileOutputStream fos = new FileOutputStream("./src/data/registerStudentList");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);   
-            oos.writeObject(registerStudentList);
-            oos.close();
-            }
-        
-        catch(Exception ex) {
-            ex.printStackTrace();
-            }
-    }
-
-
-
-
-
-
 
     public String dropCourse(int index, Student s){
         ArrayList registerStudentList = userController.getRegisterStudentList();
@@ -302,11 +234,101 @@ public class StudentController{
                     userController.editRegisterStudentList();
                     userController.editCourseList();
                     //send cfm email?? to be implemented
+
+                    // send email to current user
+                    emails = 2;
+                    // using username to get their email address
+                    String name = s.getName();
+                    String usern = s.getUsername();
+                    String code = ind.getCourseCode();
+                    int num = ind.getIndexNumber();
+
+                    Email(name, code, num, usern, registerStudentList);
+
                     return "You have successfully dropped the course."; //tobeimplemented send cfm email
                 }
             }
         }
         return null;
+    }
+
+    public static void Email(String name, String course, int index, String usern, ArrayList registerStudentList)
+    {
+        String recipient = "", subject = "", msg = "";
+
+        //email sent from
+        final String username = "oatarabica@gmail.com";
+		final String password = "absolutmunch";
+
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+        new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        // option 1: add course
+        // option 2: drop course
+        // option 3: in waitlist
+        // option 4: outta waitlist
+
+        recipient = usern + "@e.ntu.edu.sg";
+
+        switch(emails){
+            case 1: 
+                System.out.println("Sending add course email...");
+                subject = "Course Allocation";
+                msg = "Dear " + name + ", \n\n Congrats! You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n\n ** This is an automated email. Please do not reply. **";
+                break;
+            case 2: 
+                System.out.println("Sending drop course email...");
+                subject = "Course Dropped";
+                msg = "Dear " + name + ", \n\n You have been removed from " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n\n ** This is an automated email. Please do not reply. **";
+                break;
+            case 3: 
+                System.out.println("Sending waitlist email...");
+                subject = "Course Waitlist";
+                msg = "Dear " + name + ", \n\n You are currently in the waiting list for " + course + ", index " + index +". You will be informed when a slot is available. \n\n Regards, \n The NTU Registry \n\n ** This is an automated email. Please do not reply. **";
+                break;
+            case 4: 
+                System.out.println("Sending waitlist email...");
+                subject = "Course Allocation";
+                msg = "Dear " + name + ", \n\n Congrats! The wait is over. You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n\n ** This is an automated email. Please do not reply. **";
+                break;
+            default:
+                break;
+        }
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("oatarabica@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+            message.setSubject(subject);
+            message.setText(msg);
+
+            Transport.send(message);
+            System.out.println("\nAn email notification has been sent.");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            FileOutputStream fos = new FileOutputStream("./src/data/registerStudentList");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);   
+            oos.writeObject(registerStudentList);
+            oos.close();
+            }
+        
+        catch(Exception ex) {
+            ex.printStackTrace();
+            }
     }
 
     private String changeIndexNumber(int indexChoice, int newIndexChoice, Student s) {
