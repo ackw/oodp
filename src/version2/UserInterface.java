@@ -16,6 +16,7 @@ public class UserInterface{
         userControl.loadRegisterStudentList();
 
         while(choice != 2){
+            System.out.println("User chew0393 for sending student email");
             System.out.println("1. Login");
             System.out.println("2. Exit");
             System.out.print("Choice: ");

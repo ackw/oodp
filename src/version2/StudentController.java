@@ -63,7 +63,6 @@ public class StudentController{
                     } catch(Exception e){
                         System.out.println("Error, try again. ");
                     }
-                    //sendWaitlistNotif(currentUser, registerStudentList);
                     System.out.println();
                     break;
                 case 3: 
