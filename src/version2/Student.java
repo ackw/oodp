@@ -8,6 +8,7 @@ public class Student extends User implements Serializable
     private String nationality;
     private ArrayList registeredCourseList = new ArrayList();
     private Calendar startDate, endDate;
+    private String schoolID;
 
     public Student()
     {
@@ -16,7 +17,7 @@ public class Student extends User implements Serializable
         endDate = Calendar.getInstance();
     }
     
-    public Student(String n, String u, String p, Boolean t, int m, char g, String nat)
+    public Student(String n, String u, String p, Boolean t, int m, char g, String nat, String s)
     {
         super(n, u, p, t);
         matricNumber = m;
@@ -24,6 +25,7 @@ public class Student extends User implements Serializable
         nationality = nat;
         startDate = Calendar.getInstance();
         endDate = Calendar.getInstance();
+        schoolID = s;
     }
 
     public int getMatricNumber(){return matricNumber;}
@@ -40,6 +42,10 @@ public class Student extends User implements Serializable
 
     public Calendar setEndDate(){return endDate;} 
     public void setEndDate(Calendar d){endDate = d;}
+
+    public String getSchoolID() {
+        return schoolID;
+    }
 
     public String toString()
     {
