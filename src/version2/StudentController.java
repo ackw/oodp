@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.io.*;
 
@@ -41,7 +43,10 @@ public class StudentController{
             choice = s1.nextInt();
             s1.nextLine();
             switch(choice){
-                case 1: 
+                case 1:
+                    if (checkAccessPeriod(s.getSchoolID) == false) {
+                        break;
+                    }
                     System.out.println();
                     System.out.println("1. *Add Course");
                     userController.showCourseInfo();
@@ -53,7 +58,10 @@ public class StudentController{
                     }
                     System.out.println();
                     break;
-                case 2: 
+                case 2:
+                    if (checkAccessPeriod(s.getSchoolID) == false) {
+                        break;
+                    }
                     System.out.println();
                     System.out.println("2. Drop Course");
                     printCoursesRegistered(s);
@@ -477,6 +485,24 @@ public class StudentController{
         System.out.print("Enter index number: ");
         int index = s1.nextInt();
         return index;
+    }
+    public boolean checkAccessPeriod(String school) throws ParseException {
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+
+        School s = new School(school);
+        start = s.getStartAccess();
+        end = s.getEndAccess();
+
+        LocalDateTime curr = LocalDateTime.now();
+
+        if (start.isBefore(curr) && end.isAfter(curr)) {
+            return true;
+        }
+        else { System.out.println("Not in access period.");
+            return false;
+        }
+
     }
 
     
