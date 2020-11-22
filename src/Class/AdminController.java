@@ -1,7 +1,10 @@
+package Class;
 import java.util.*;
 import java.time.*;
 import java.time.format.*;
 import java.text.ParseException;
+import java.io.*;
+
 
 public class AdminController{
 
@@ -15,8 +18,8 @@ public class AdminController{
         System.out.println("DONE 2. Add a student (name, matric number, gender, nationality, etc)");
         System.out.println("DONE 3. Add/Update a course (course code, school, its index numbers and vacancy).");
         System.out.println("DONE 4. Check available slot for an index number (vacancy in a class)");
-        System.out.println("5. Print student list by index number.");
-        System.out.println("6. Print student list by course (all students registered for the selected course).");
+        System.out.println("DONE 5. Print student list by index number.");
+        System.out.println("DONE 6. Print student list by course (all students registered for the selected course).");
         System.out.println("DONE 0. Exit.");
         System.out.print("Enter choice: ");
     }
@@ -25,7 +28,6 @@ public class AdminController{
         Admin a = (Admin) userController.getCurrentUser();
         int choice = 9;
         int index = 0;
-        
         while (choice != 0) {
             displayMenu();
             choice = s1.nextInt();
@@ -45,7 +47,7 @@ public class AdminController{
                 case 3:
                     System.out.println();
                     System.out.println("3. Add/Update a course (course code, school, its index numbers and vacancy).");
-                    addUpdateCourse(userController.getCourseList(), userController.getScheduleList());
+                    addUpdateCourse(userController.getCourseList());
                     System.out.println();
                     break;
                 case 4:
@@ -66,13 +68,96 @@ public class AdminController{
                     }
                     System.out.println();
                     break;
+                case 5: 
+                    System.out.println();
+                    System.out.println("5. Print student list by index number.");
+                    userController.showCourseInfo();
+                    System.out.print("Enter index: ");
+                    index = s1.nextInt();
+                    printStudentListIndex(index);
+
+                    System.out.println();
+                    break;
+                case 6:
+                    System.out.println();
+                    System.out.println("6. Print student list by course (all students registered for the selected course).");
+                    userController.showCourseInfo();
+                    printStudentListCourse();
+                    System.out.println();
+                    break;
                 default:
                     break;
             }
         }
     }
 
-    public void addUpdateCourse(ArrayList courseList, ArrayList scheduleList) {
+    private void printStudentListCourse() {
+        Scanner s1 = new Scanner(System.in);
+        String courseID;
+        ArrayList courseList = userController.getCourseList();
+        ArrayList registerStudentList = userController.getRegisterStudentList();
+        Course c = null;
+        Boolean checkExist = false;
+        RegisterStudent rs;
+        int count = 0;
+        Student s;
+
+        System.out.print("Enter course code: ");
+        courseID = s1.nextLine().toUpperCase();
+        for(int i = 0; i < courseList.size(); i++){
+            c = (Course)courseList.get(i);
+            if(c.getCourseCode().equals(courseID)){
+                checkExist = true;
+                break;
+            }
+        }
+        if(!checkExist){
+            System.out.println("Invalid course ID. Please try again.");
+            return;
+        }
+        for(int i = 0; i < registerStudentList.size(); i++){
+            rs = (RegisterStudent) registerStudentList.get(i);
+            if(rs.getCourse().getCourseCode().equals(c.getCourseCode())){
+                count = -~count; 
+                if(count == 1)
+                    System.out.printf("\n%-20s %-7s %-10s\n", "Name", "Gender", "Nationality");
+                s = (Student)rs.getUser();
+                System.out.printf("%-20s %-7s %-10s\n", s.getName(), s.getGender(), s.getNationality());
+                
+            }
+            if(count == 0)
+                System.out.println("There are no students currently registered for this course code.");
+
+        }
+    }
+
+    private void printStudentListIndex(int index) {
+        Index ind;
+        ArrayList<RegisterStudent> registerStudentList = userController.getRegisterStudentList();
+        RegisterStudent rs;
+        Student s;
+        int count = 0;
+        if(userController.findIndex(index) == null){
+            System.out.println("Invalid index.");
+            return;
+        }
+        System.out.printf("Students in index %d:\n", index);
+        for(int i = 0; i < registerStudentList.size(); i++){
+            rs = registerStudentList.get(i);
+            ind = (Index)rs.getCourse();
+            if(ind.getIndexNumber() == index){
+                count -= 0xffffffff;
+                if(count == 1)
+                    System.out.printf("%-15s %-20s %-10s %-7s %-10s\n","Matric Number", "Name", "SchoolID", "Gender", "Nationality");
+                s = (Student)rs.getUser();
+                System.out.printf("%-15s %-20s %-10s %-7s %-10s\n", s.getMatricNumber(), s.getName(), s.getSchoolID(), s.getGender(), s.getNationality());
+            }
+        }
+        if(count == 0)
+            System.out.println("There are no students currently registered in the index.");
+    }
+
+    public void addUpdateCourse(ArrayList courseList) {
         int option = 9;
         Scanner sc = new Scanner(System.in);
         Course course = null;
@@ -84,7 +169,6 @@ public class AdminController{
 
         if (choice.toUpperCase().equals(add)) {
             Course cor;
-            Schedule s;
 
             try {
                 System.out.print("Course: ");
@@ -104,6 +188,9 @@ public class AdminController{
 
                 System.out.print("Vacancies: ");
                 int d = sc.nextInt();
+                System.out.print("Academic Units: ");
+                int z = sc.nextInt();
+
                 System.out.print("Day of the week for lab (1 for Monday, 2 for Tuesday, 3 for Wednesday, 4 for Thursday, 5 for Friday): ");
                 int labDay = sc.nextInt();
 
@@ -135,11 +222,29 @@ public class AdminController{
                 scheduleList.add(s);
 
                 System.out.println("Updated!");
-                System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies");
+                System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies", 
+                "Lab Day", "Lab Period", "Lecture Day", "Lecture Period", "Tutorial Day", "Tutorial Period");
                 System.out.printf("\n%-15s %-10s %-10s %-10s\n", a, b, c, d);
                 
                 userController.editCourseList();
                 userController.editScheduleList();
+              }
+
+                for (int i = 0; i < courseList.size(); i++) {
+                    Course cos = (Course) courseList.get(i);
+                    if (c == ((Index) cos).getIndexNumber()) {
+                        System.out.println("Index already exists!");
+                        return;
+                    }
+                }
+                cor = new Index(a, b, c, d, e);
+                courseList.add(cor);
+
+                System.out.println("Updated!");
+                System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", "Course Code", "School", "Index", "Vacancies", "Academic Units");
+                System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", a, b, c, d, e);
+                
+                userController.editCourseList();
               }
 
               catch(Exception e) {
@@ -335,6 +440,7 @@ public class AdminController{
         Scanner s1 = new Scanner(System.in);
         School sch;
         String schoolID;
+        Console console = System.console();
         ArrayList<User> userList = userController.getUserList();
         System.out.print("Please enter school ID: ");
         schoolID = s1.nextLine();
@@ -346,8 +452,8 @@ public class AdminController{
         String name = s1.nextLine();
         System.out.print("Enter Username: ");
         String username = s1.nextLine();
-        System.out.print("Enter Password: ");
-        String password = s1.nextLine();
+        char[] inputPw = console.readPassword("Enter Password: ");
+        String password = new String(inputPw);
         password = userController.encrypt(password);
         System.out.print("Enter Matric No: ");
         String matricNo = s1.nextLine();
@@ -380,78 +486,9 @@ public class AdminController{
                 }
             }
         }catch(Exception e){
-            System.out.println("error lol");
             return false;
         }
         return true;
 
-    }
-
-    public String numDay(int num){
-        String day = "";
-
-        switch(num){
-            case 1:
-                day = "Monday";
-                break;
-            case 2:
-                day = "Tuesday";
-                break;
-            case 3:
-                day = "Wednesday";
-                break;
-            case 4:
-                day = "Thursday";
-                break;
-            case 5:
-                day = "Friday";
-                break;
-            default:
-            break;
-        }
-        return day;
-    }
-
-    public String oddEven(int num){
-        String value = "";
-
-        switch(num){
-            case 1:
-                value = "ODD";
-                break;
-            case 2:
-                value = "EVEN";
-                break;
-            case 3:
-                value = "BOTH";
-                break;
-            default:
-            break;
-        }
-        return value;
-    }
-
-    public Boolean isConflict(int day1, int day2, int day3, LocalTime t1, LocalTime t2, LocalTime t3){
-        if(day1 == day2){
-            if(t1 == t2){
-                System.out.println("Invalid input! There is conflict between lecture and lab schedules!");
-                return true;
-            }
-        }
-
-        if(day1 == day3){
-            if(t1 == t3){
-                System.out.println("Invalid input! There is conflict between lab and tutorial schedules!");
-                return true;
-            }
-        }
-
-        if(day2 == day3){
-            if(t2 == t3){
-                System.out.println("Invalid input! There is conflict between lecture and tutorial schedules!");
-                return true;
-            }
-        }
-        return false;
     }
 }
