@@ -42,7 +42,6 @@ public class schoolListInit {
         sch2.setName(s2);
         schoolList.add(sch2);
 
-
         try {
             FileOutputStream fos = new FileOutputStream("./src/data/schoolList");
             ObjectOutputStream oos = new ObjectOutputStream(fos);   

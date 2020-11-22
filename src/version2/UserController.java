@@ -284,7 +284,7 @@ public class UserController{
         School sch = null;
         for(int i = 0; i < schoolList.size(); i++){
             sch = (School)schoolList.get(i);
-            if(sch.getSchoolID().equals(school)){
+            if(sch.getSchoolID().equals(school.toUpperCase())){
                 return sch;
             }  
         }
