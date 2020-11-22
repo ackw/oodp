@@ -357,7 +357,7 @@ public class StudentController {
             case 4: // waitlist success
                 subject = "Course Allocation";
                 msg = "Dear " + name + ", \n\n Congrats! The wait is over. You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
-                pr = "Student " + name + " on the waitlist has been added to to " + course + ", index " + index + ".";
+                pr = "Student " + name + " on the waitlist has been added to " + course + ", index " + index + ".";
                 break;
             default:
                 break;
