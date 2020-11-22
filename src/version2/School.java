@@ -9,6 +9,10 @@ public class School implements Serializable {
     private LocalDateTime startAccess;
     private LocalDateTime endAccess;
 
+    public School()
+    {
+    }
+
     public School(String SchoolID) {
         this.schoolID = schoolID;
         this.name = name;

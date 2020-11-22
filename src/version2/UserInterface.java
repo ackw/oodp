@@ -57,7 +57,7 @@ public class UserInterface{
         }
     }
 
-    private static void printMenu() {
+    private static void printMenu() {   
         if(currentUser instanceof Admin){
             adminControl.selectChoice();
         }

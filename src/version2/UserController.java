@@ -136,7 +136,7 @@ public class UserController{
         try {
             FileInputStream fis = new FileInputStream(schoolListPath);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            waitList = (ArrayList) ois.readObject();
+            schoolList = (ArrayList) ois.readObject();
             ois.close();
             fis.close();
             }

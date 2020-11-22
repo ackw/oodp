@@ -38,6 +38,7 @@ public class StudentController{
         int choice = 9;
         int index = 0;
         System.out.println(s.getSchoolID());
+        
         while(choice != 0){
             AdminController ac = new AdminController();
             displayMenu();
@@ -60,9 +61,9 @@ public class StudentController{
                     System.out.println();
                     break;
                 case 2:
-                    if (checkAccessPeriod(s.getSchoolID()) == false) {
-                        break;
-                    }
+                    // if (checkAccessPeriod(s.getSchoolID()) == false) {
+                    //     break;
+                    // }
                     System.out.println();
                     System.out.println("2. Drop Course");
                     printCoursesRegistered(s);
@@ -487,19 +488,21 @@ public class StudentController{
         int index = s1.nextInt();
         return index;
     }
-    public boolean checkAccessPeriod(String school) throws ParseException {
+    public boolean checkAccessPeriod(String school){
         LocalDateTime start = null;
         LocalDateTime end = null;
         ArrayList schoolList = userController.getSchoolList();
 
-        School s = new School(school);
+
+        School sch = new School();
         for(int i = 0; i < schoolList.size(); i++){
-            s = (School) schoolList.get(i);
-            if(s.getSchoolID().equals(school))
+            sch = (School) schoolList.get(i);
+            if(sch.getSchoolID().equals(school))
                 break;
         }
-        start = s.getStartAccess();
-        end = s.getEndAccess();
+
+        start = sch.getStartAccess();
+        end = sch.getEndAccess();
 
         LocalDateTime curr = LocalDateTime.now();
 
