@@ -144,6 +144,21 @@ public class UserController{
                 e.printStackTrace();
             }
     }
+
+    public void editSchoolList(){
+        try {
+            FileOutputStream fos = new FileOutputStream(schoolListPath);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);   
+            oos.writeObject(schoolList);
+            oos.close();
+            fos.close();
+            }
+    
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public void editWaitList(){
         try {
             FileOutputStream fos = new FileOutputStream(waitListPath);
@@ -242,14 +257,6 @@ public class UserController{
 		return plainPw;
 	}
 
-
-
-
-
-
-
-
-
     public void showCourseInfo(){
         Index index;
         System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
@@ -271,6 +278,18 @@ public class UserController{
         }
         ind = null;
         return ind;
+    }
+
+    public School findSchool(String school){
+        School sch = null;
+        for(int i = 0; i < schoolList.size(); i++){
+            sch = (School)schoolList.get(i);
+            if(sch.getSchoolID().equals(school)){
+                return sch;
+            }  
+        }
+        sch = null;
+        return sch;
     }
 
     

@@ -1,7 +1,7 @@
-import java.io.Serializable;
+
 import java.util.*;
 
-public class Student extends User implements Serializable
+public class Student extends User
 {
     private int matricNumber;
     private char gender;

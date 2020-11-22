@@ -1,4 +1,7 @@
 import java.util.*;
+import java.time.*;
+import java.time.format.*;
+import java.text.ParseException;
 
 public class AdminController{
 
@@ -8,13 +11,12 @@ public class AdminController{
     public void displayMenu() {
         System.out.println("Menu");
         System.out.println("=====");
-        System.out.println("1. Edit student access period");
-        System.out.println("DONE 2. Add a student (name, matric number, gender, nationality, etc)");
+        System.out.println("DONE 1. Edit student access period");
+        System.out.println("2. Add a student (name, matric number, gender, nationality, etc)");
         System.out.println("DONE 3. Add/Update a course (course code, school, its index numbers and vacancy).");
         System.out.println("DONE 4. Check available slot for an index number (vacancy in a class)");
-        System.out.println("DONE 5. Print student list by index number.");
-        System.out.println("DONE 6. Print student list by course (all students registered for the selected course).");
-        System.out.println("DONE 9. Logout");
+        System.out.println("5. Print student list by index number.");
+        System.out.println("6. Print student list by course (all students registered for the selected course).");
         System.out.println("DONE 0. Exit.");
         System.out.print("Enter choice: ");
     }
@@ -29,6 +31,9 @@ public class AdminController{
             s1.nextLine();
             switch (choice) {
                 case 1:
+                    displaySchoolAccessPeriod();
+                    System.out.println(editAccessPeriod());
+                    
                     break;
                 case 2:
                     break;
@@ -37,6 +42,7 @@ public class AdminController{
                     System.out.println("3. Add/Update a course (course code, school, its index numbers and vacancy).");
                     addUpdateCourse(userController.getCourseList());
                     System.out.println();
+
                     break;
                 case 4:
                     System.out.println();
@@ -219,5 +225,75 @@ public class AdminController{
         }else{
             System.out.print("nope!");
         }
+    }
+
+    public void displaySchoolAccessPeriod(){
+        ArrayList<School> schoolList = userController.getSchoolList();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        System.out.println("");
+        for(int i = 0; i < schoolList.size(); i++){
+            System.out.println("School ID: " + schoolList.get(i).getName());
+            System.out.println("School Name: " + schoolList.get(i).getSchoolID());
+            if(schoolList.get(i).getStartAccess() != null && schoolList.get(i).getEndAccess() != null){
+                System.out.println("Access Start Date: " + schoolList.get(i).getStartAccess().format(formatter));
+                System.out.println("Access End Date: " + schoolList.get(i).getEndAccess().format(formatter));
+            }
+            else{
+                System.out.println("Access Start Date: Not set.");
+                System.out.println("Access End Date: Not set.");
+            }
+            System.out.println("");
+        }
+    }
+
+    public LocalDateTime convertDate(String s){
+        LocalDateTime date = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        try{
+            date = LocalDateTime.parse(s, formatter);
+        } catch(DateTimeParseException e){
+            return null;
+        }
+        return date;
+    }
+
+    public String editAccessPeriod(){
+        Scanner s1 = new Scanner(System.in);
+        String schoolID, startDate, endDate;
+        School school;
+        LocalDateTime sd, ed;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        System.out.print("Enter the school ID: ");
+        schoolID = s1.nextLine();
+        school = userController.findSchool(schoolID); 
+        System.out.println("");
+        if(school == null)
+            return "School not found.";
+        if (school.getStartAccess() != null)
+            System.out.printf("%s's current start date is: %s\n", school.getSchoolID(), school.getStartAccess().format(formatter));
+        else
+            System.out.printf("%s's current start date is: Not set.\n");
+        if (school.getEndAccess() != null)
+            System.out.printf("%s's current end date is: %s\n\n", school.getSchoolID(), school.getEndAccess().format(formatter));
+        else
+            System.out.printf("%s's current start date is: Not set.\n");
+        System.out.print("Please enter new start date (yyyy-mm-dd HH:mm) ");
+        startDate = s1.nextLine();
+        sd = convertDate(startDate);
+        if(sd == null)
+            return "Error. Please try again in correct format \"yyyy-MM-DD HH:mm\" without the quotes. ";
+        System.out.print("Please enter new end date (yyyy-mm-dd HH:mm) ");
+        endDate = s1.nextLine();
+        ed = convertDate(endDate);
+        if(ed == null)
+            return "Error. Please try again in correct format \"yyyy-MM-DD HH:mm\" without the quotes. ";
+        System.out.println(sd);
+        System.out.println(ed);
+        school.setStartAccess(sd);
+        school.setEndAccess(ed);
+        userController.editSchoolList();
+        String returnString = String.format("%s's new start date is: %s\n", school.getSchoolID(), school.getStartAccess().format(formatter));
+        returnString = returnString + String.format("%s's new end date is: %s\nAccess period successfully updated.\n\n", school.getSchoolID(), school.getEndAccess().format(formatter));
+        return returnString;
     }
 }
