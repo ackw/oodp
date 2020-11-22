@@ -173,7 +173,7 @@ public class StudentController{
             
             if(u.getUsername().equals(s.getUsername()) && c.getCourseCode().equals(ind.getCourseCode()))
                 return "You are not allowed to register multiple index of the same course.";
-            if (u.getUsername().equals(s.getUsername()) && (s.getCurrentAUs() + c.getAcademicUnits() > s.getMaxAUs())){
+            if(u.getUsername().equals(s.getUsername()) && (s.getCurrentAUs() + c.getAcademicUnits() > s.getMaxAUs())){
                 return "Unable to register, will exceed maximum AUs!";
             }
         }
@@ -218,6 +218,7 @@ public class StudentController{
         RegisterStudent r;
         Course c;
         User u;
+        int courseAU2 = 0;
         boolean checkIndex = false;
         Index ind = userController.findIndex(index);
         if(ind == null){
@@ -230,7 +231,9 @@ public class StudentController{
             u = r.getUser();
             if(u.getUsername().equals(s.getUsername()) && index == ((Index)c).getIndexNumber())
                 checkIndex = true;
+            courseAU2 = c.getAcademicUnits();
         }
+
 
         if(!checkIndex)
             return "User does not have this index. Please choose a different index.";
@@ -261,6 +264,8 @@ public class StudentController{
                     int num = ind.getIndexNumber();
 
                     Email(name, code, num, usern, registerStudentList);
+                    int minusAU = s.getCurrentAUs() - courseAU2;
+                    s.setCurrentAUs(minusAU);
 
                     return "You have successfully dropped the course."; //tobeimplemented send cfm email
                 }
