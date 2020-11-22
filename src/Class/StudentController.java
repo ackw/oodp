@@ -1,6 +1,7 @@
 package Class;
 import java.text.ParseException;
-import java.time.LocalDateTime;
+import java.time.LocalDateTime.*;
+import java.time.*;
 import java.util.*;
 import java.io.*;
 
@@ -509,7 +510,7 @@ public class StudentController {
         if (start.isBefore(curr) && end.isAfter(curr)) {
             return true;
         }
-        else { System.out.println("Not in access period.");
+        else { System.out.printf("Not in access period.\n\n");
             return false;
         }
 

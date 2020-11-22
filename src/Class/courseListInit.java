@@ -1,4 +1,4 @@
-
+package Class;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class courseListInit {
         try {
             FileInputStream fis = new FileInputStream("./src/data/courseList");
             ObjectInputStream ois = new ObjectInputStream(fis);
-            returnlist = (ArrayList<Object>) ois.readObject();
+            returnlist = (ArrayList) ois.readObject();
             ois.close();
 
             System.out.println(returnlist);
