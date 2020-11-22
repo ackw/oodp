@@ -1,6 +1,7 @@
 package Class;
-import java.util.*;
+
 import java.time.*;
+import java.util.*;
 import java.time.format.*;
 import java.text.ParseException;
 import java.io.*;
@@ -28,6 +29,7 @@ public class AdminController{
         Admin a = (Admin) userController.getCurrentUser();
         int choice = 9;
         int index = 0;
+        
         while (choice != 0) {
             displayMenu();
             choice = s1.nextInt();
@@ -47,7 +49,7 @@ public class AdminController{
                 case 3:
                     System.out.println();
                     System.out.println("3. Add/Update a course (course code, school, its index numbers and vacancy).");
-                    addUpdateCourse(userController.getCourseList());
+                    addUpdateCourse(userController.getCourseList(), userController.getScheduleList());
                     System.out.println();
                     break;
                 case 4:
@@ -157,10 +159,13 @@ public class AdminController{
             System.out.println("There are no students currently registered in the index.");
     }
 
-    public void addUpdateCourse(ArrayList courseList) {
+    public void addUpdateCourse(ArrayList courseList, ArrayList scheduleList) {
         int option = 9;
         Scanner sc = new Scanner(System.in);
         Course course = null;
+        School school = null;
+        Boolean checkExist = false;
+        ArrayList schoolList = userController.getSchoolList();
 
         System.out.print("Add or Update Course: ");
         String choice = sc.nextLine();
@@ -169,18 +174,41 @@ public class AdminController{
 
         if (choice.toUpperCase().equals(add)) {
             Course cor;
+            Schedule s;
 
             try {
                 System.out.print("Course: ");
-                String a = sc.nextLine();
+                String a = s1.nextLine().toUpperCase();
+                for(int i = 0; i < courseList.size(); i++){
+                    cor = (Course)courseList.get(i);
+                    if(cor.getCourseCode().equals(a)){
+                        checkExist = true;
+                        break;
+                    }
+                }
+
+                if(checkExist){
+                    System.out.println("Course ID already exists. Please try again.");
+                    return;
+                }
+
                 System.out.print("School: ");
-                String b = sc.nextLine();
+                String b = s1.nextLine().toUpperCase();
+                for(int i = 0; i < schoolList.size(); i++){
+                    school = (School)schoolList.get(i);
+                    if(school.getSchoolID().equals(b)){
+                        checkExist = true;
+                        break;
+                    }
+                }
+
+                if(!checkExist){
+                    System.out.println("Invalid School ID. Please try again.");
+                    return;
+                }
+
                 System.out.print("Index: ");
                 int c = sc.nextInt();
-                System.out.print("Vacancies: ");
-                int d = sc.nextInt();
-                System.out.print("Academic Units: ");
-                int e = sc.nextInt();
 
                 for (int i = 0; i < courseList.size(); i++) {
                     Course cos = (Course) courseList.get(i);
@@ -189,14 +217,48 @@ public class AdminController{
                         return;
                     }
                 }
-                cor = new Index(a, b, c, d, e);
-                courseList.add(cor);
 
-                System.out.println("Updated!");
+                System.out.print("Academic Units: ");
+                int z = sc.nextInt();
+
+                System.out.print("Vacancies: ");
+                int d = sc.nextInt();
+                System.out.print("Day of the week for lab (1 for Monday, 2 for Tuesday, 3 for Wednesday, 4 for Thursday, 5 for Friday): ");
+                int labDay = sc.nextInt();
+
+                System.out.print("Lab Start Time (24 Hours Format, E.g. 1300): ");
+                String e = sc.next();
+                LocalTime labTime = LocalTime.parse(e, DateTimeFormatter.ofPattern("HHmm"));
+                System.out.print("Lab Week Type (1 for ODD, 2 for EVEN, 3 for BOTH): ");
+                int labType = sc.nextInt();
+                        
+                System.out.print("Day of the week for lecture (1 for Monday, 2 for Tuesday, 3 for Wednesday, 4 for Thursday, 5 for Friday): ");
+                int lecDay = sc.nextInt();
+                System.out.print("Lecture Start Time (24 Hours Format, E.g. 1300): ");
+                String f = sc.next();
+                LocalTime lecTime = LocalTime.parse(f, DateTimeFormatter.ofPattern("HHmm"));
+
+                System.out.print("Day of the week for tutorial (1 for Monday, 2 for Tuesday, 3 for Wednesday, 4 for Thursday, 5 for Friday): ");
+                int tutDay = sc.nextInt();
+                System.out.print("Tutorial Start Time (24 Hours Format, E.g. 1300): ");
+                String g = sc.next();
+                LocalTime tutTime = LocalTime.parse(g, DateTimeFormatter.ofPattern("HHmm"));
+
+                if(isConflict(labDay, lecDay, tutDay, labTime, lecTime, tutTime)){
+                    return;
+                }
+
+                cor = new Index(a, b, z, c, d);
+                courseList.add(cor);
+                s = new Schedule(c, numDay(labDay), oddEven(labType), numDay(lecDay), numDay(tutDay), labTime, lecTime, tutTime);
+                scheduleList.add(s);
+
+                System.out.println("Added!");
                 System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", "Course Code", "School", "Index", "Vacancies", "Academic Units");
-                System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", a, b, c, d, e);
+                System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", a, b, c, d, z);
                 
                 userController.editCourseList();
+                userController.editScheduleList();
               }
 
               catch(Exception e) {
@@ -442,5 +504,73 @@ public class AdminController{
         }
         return true;
 
+    }
+
+    public String numDay(int num){
+        String day = "";
+
+        switch(num){
+            case 1:
+                day = "Monday";
+                break;
+            case 2:
+                day = "Tuesday";
+                break;
+            case 3:
+                day = "Wednesday";
+                break;
+            case 4:
+                day = "Thursday";
+                break;
+            case 5:
+                day = "Friday";
+                break;
+            default:
+            break;
+        }
+        return day;
+    }
+
+    public String oddEven(int num){
+        String value = "";
+
+        switch(num){
+            case 1:
+                value = "ODD";
+                break;
+            case 2:
+                value = "EVEN";
+                break;
+            case 3:
+                value = "BOTH";
+                break;
+            default:
+            break;
+        }
+        return value;
+    }
+
+    public Boolean isConflict(int day1, int day2, int day3, LocalTime t1, LocalTime t2, LocalTime t3){
+        if(day1 == day2){
+            if(t1 == t2){
+                System.out.println("Invalid input! There is conflict between lecture and lab schedules!");
+                return true;
+            }
+        }
+
+        if(day1 == day3){
+            if(t1 == t3){
+                System.out.println("Invalid input! There is conflict between lab and tutorial schedules!");
+                return true;
+            }
+        }
+
+        if(day2 == day3){
+            if(t2 == t3){
+                System.out.println("Invalid input! There is conflict between lecture and tutorial schedules!");
+                return true;
+            }
+        }
+        return false;
     }
 }
