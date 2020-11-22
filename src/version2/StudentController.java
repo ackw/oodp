@@ -158,6 +158,7 @@ public class StudentController{
         RegisterStudent r;
         Course c;
         Index ind = userController.findIndex(index);
+        int courseAU = 0;
         if(ind == null){
             return "can't find index la";
         }
@@ -166,11 +167,15 @@ public class StudentController{
             r = (RegisterStudent)registerStudentList.get(i);
             c = r.getCourse();
             User u = r.getUser();
+            courseAU = c.getAcademicUnits();
             if(u.getUsername().equals(s.getUsername()) && index == ((Index)c).getIndexNumber())
                 return "User already has this module. Please choose a different index.";
             
             if(u.getUsername().equals(s.getUsername()) && c.getCourseCode().equals(ind.getCourseCode()))
                 return "You are not allowed to register multiple index of the same course.";
+            if (u.getUsername().equals(s.getUsername()) && (s.getCurrentAUs() + c.getAcademicUnits() > s.getMaxAUs())){
+                return "Unable to register, will exceed maximum AUs!";
+            }
         }
 
         // waitlist
@@ -202,6 +207,8 @@ public class StudentController{
         int num = ind.getIndexNumber();
 
         Email(name, code, num, usern, registerStudentList);
+        int addAU = s.getCurrentAUs() + courseAU;
+        s.setCurrentAUs(addAU);
 
         return "You have successfully registered for the course."; //implement send cfm emnail
     }
