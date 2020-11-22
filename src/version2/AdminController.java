@@ -84,6 +84,8 @@ public class AdminController{
                 int c = sc.nextInt();
                 System.out.print("Vacancies: ");
                 int d = sc.nextInt();
+                System.out.print("Academic Units: ");
+                int e = sc.nextInt();
 
                 for (int i = 0; i < courseList.size(); i++) {
                     Course cos = (Course) courseList.get(i);
@@ -92,12 +94,12 @@ public class AdminController{
                         return;
                     }
                 }
-                cor = new Index(a, b, c, d);
+                cor = new Index(a, b, c, d, e);
                 courseList.add(cor);
 
                 System.out.println("Updated!");
-                System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies");
-                System.out.printf("\n%-15s %-10s %-10s %-10s\n", a, b, c, d);
+                System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", "Course Code", "School", "Index", "Vacancies", "Academic Units");
+                System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", a, b, c, d, e);
                 
                 userController.editCourseList();
               }
