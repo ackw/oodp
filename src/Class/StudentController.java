@@ -224,8 +224,8 @@ public class StudentController {
     public String dropCourse(int index, Student s){
         ArrayList registerStudentList = userController.getRegisterStudentList();
         ArrayList waitList = userController.getWaitList();
-
         RegisterStudent r;
+        int courseAU2 = 0;
         WaitList w;
         Course c;
         User u;
@@ -239,6 +239,7 @@ public class StudentController {
             r = (RegisterStudent)registerStudentList.get(i);
             c = r.getCourse();
             u = r.getUser();
+            courseAU2 = c.getAcademicUnits();
             if(u.getUsername().equals(s.getUsername()) && index == ((Index)c).getIndexNumber())
                 checkIndex = true;
         }
@@ -299,6 +300,8 @@ public class StudentController {
 
                             // send email
                             emails = 4;
+                            int minusAU = s.getCurrentAUs() - courseAU2;
+                            s.setCurrentAUs(minusAU);
                             String name2 = t.getName();
                             String usern2 = t.getUsername();
                             String code2 = ind.getCourseCode();
