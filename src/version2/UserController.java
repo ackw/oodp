@@ -268,6 +268,16 @@ public class UserController{
         }
     }
 
+    public void showSchoolInfo(){
+        School sch;
+        System.out.println("SchoolID School Name");
+        System.out.println("======== ============");
+        for(int i = 0; i < getSchoolList().size(); i++){
+            sch = (School)getSchoolList().get(i);
+            System.out.printf("%-8s %s\n", sch.getSchoolID(), sch.getName());
+        }
+    }
+
     public Index findIndex(int index){
         Index ind = null;
         for(int i = 0; i < courseList.size(); i++){

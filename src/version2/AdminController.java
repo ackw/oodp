@@ -12,7 +12,7 @@ public class AdminController{
         System.out.println("Menu");
         System.out.println("=====");
         System.out.println("DONE 1. Edit student access period");
-        System.out.println("2. Add a student (name, matric number, gender, nationality, etc)");
+        System.out.println("DONE 2. Add a student (name, matric number, gender, nationality, etc)");
         System.out.println("DONE 3. Add/Update a course (course code, school, its index numbers and vacancy).");
         System.out.println("DONE 4. Check available slot for an index number (vacancy in a class)");
         System.out.println("5. Print student list by index number.");
@@ -33,16 +33,19 @@ public class AdminController{
                 case 1:
                     displaySchoolAccessPeriod();
                     System.out.println(editAccessPeriod());
-                    
                     break;
                 case 2:
+                    System.out.println();
+                    System.out.println("2. Add new student:");
+                    userController.showSchoolInfo();
+                    System.out.println(addStudent());
+                    System.out.println("");
                     break;
                 case 3:
                     System.out.println();
                     System.out.println("3. Add/Update a course (course code, school, its index numbers and vacancy).");
                     addUpdateCourse(userController.getCourseList());
                     System.out.println();
-
                     break;
                 case 4:
                     System.out.println();
@@ -295,5 +298,61 @@ public class AdminController{
         String returnString = String.format("%s's new start date is: %s\n", school.getSchoolID(), school.getStartAccess().format(formatter));
         returnString = returnString + String.format("%s's new end date is: %s\nAccess period successfully updated.\n\n", school.getSchoolID(), school.getEndAccess().format(formatter));
         return returnString;
+    }
+
+    public String addStudent(){
+        Scanner s1 = new Scanner(System.in);
+        School sch;
+        String schoolID;
+        ArrayList<User> userList = userController.getUserList();
+        System.out.print("Please enter school ID: ");
+        schoolID = s1.nextLine();
+        sch = userController.findSchool(schoolID);
+        if(sch == null){
+            return "School ID is invalid. Please try again. ";
+        }
+        System.out.print("Enter student name: ");
+        String name = s1.nextLine();
+        System.out.print("Enter Username: ");
+        String username = s1.nextLine();
+        System.out.print("Enter Password: ");
+        String password = s1.nextLine();
+        password = userController.encrypt(password);
+        System.out.print("Enter Matric No: ");
+        String matricNo = s1.nextLine();
+        System.out.print("Enter Gender (M/F): ");
+        char gender = s1.next().charAt(0);
+        s1.nextLine();
+        System.out.print("Enter Nationality: ");
+        String nationality = s1.nextLine();
+        if(!checkInput(matricNo, username))
+            return "Username or matric no already exist. Please try again.";
+        User u = new Student(name, username, password, false, matricNo, gender, nationality, schoolID);
+        userList.add(u);
+        userController.editUserList();
+        String returnStr = String.format("Student \"%s\" has been successfully added.", u.getName());
+        return returnStr;
+    }
+
+    public boolean checkInput(String matricNo, String username){
+        User u;
+        Student s;
+        try{
+            for(int i = 0; i < userController.getUserList().size(); i++){
+                u = userController.getUserList().get(i);
+                if(u.getUsername().equals(username))
+                    return false;
+                if(!u.getType()){
+                    s = (Student)userController.getUserList().get(i);
+                    if(s.getMatricNumber().equals(matricNo))
+                        return false;
+                }
+            }
+        }catch(Exception e){
+            System.out.println("error lol");
+            return false;
+        }
+        return true;
+
     }
 }
