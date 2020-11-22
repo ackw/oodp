@@ -162,7 +162,7 @@ public class StudentController {
         Course c;
         Index ind = userController.findIndex(index);
         if(ind == null){
-            return "can't find index la";
+            return "Index not found.";
         }
         for(int i = 0; i < registerStudentList.size(); i++)
         {
@@ -179,7 +179,6 @@ public class StudentController {
         // waitlist
         if(ind.getVacancies() < 1){
             emails = 3;
-            // using username to get their email address
             String name = s.getName();
             String usern = s.getUsername();
             String code = ind.getCourseCode();
@@ -189,8 +188,8 @@ public class StudentController {
     
             w = new WaitList(s, ind);
             waitList.add(w);
-            System.out.println(waitList);
-            return "This course is full at the moment. You'll be added to waiting list."; //implement later
+            userController.editWaitList();
+            return "This course is full at the moment. You'll be added to the waiting list. Please check your email.";
         }
     
         r = new RegisterStudent(s, ind);
@@ -201,7 +200,6 @@ public class StudentController {
         userController.editCourseList();
     
         emails = 1;
-        // using username to get their email address
         String name = s.getName();
         String usern = s.getUsername();
         String code = ind.getCourseCode();
@@ -209,7 +207,7 @@ public class StudentController {
     
         Email(name, code, num, usern, registerStudentList);
     
-        return "You have successfully registered for the course.";
+        return "You have successfully registered for the course. Please check your email.";
     }
     
     public String dropCourse(int index, Student s){
@@ -223,7 +221,7 @@ public class StudentController {
         boolean checkIndex = false;
         Index ind = userController.findIndex(index);
         if(ind == null){
-            return "can't find index la11";
+            return "Index not found.";
         }
     
         for(int i = 0; i < registerStudentList.size(); i++){
@@ -250,9 +248,8 @@ public class StudentController {
                     userController.editRegisterStudentList();
                     userController.editCourseList();
     
-                    // send email to current user
-                    emails = 2;
-                    // using username to get their email address
+                    // send email
+                    emails = 2; 
                     String name = s.getName();
                     String usern = s.getUsername();
                     String code = ind.getCourseCode();
@@ -261,27 +258,33 @@ public class StudentController {
                     Email(name, code, num, usern, registerStudentList);
     
                     // waitlist
-                    System.out.println(waitList.size());
                     for(int j = 0; j < waitList.size(); j++){
-                        System.out.println("in for loop");
-    
                         w = (WaitList)waitList.get(j);
                         ind = (Index)w.getCourse();
     
                         if(index == ind.getIndexNumber())
                         {
-                            // s is the current student
-                            // t = waitlist user?
                             Student t = (Student)w.getUser();
-                            // Student t = (Student)userController.ge();
-                            // add course for student in waitlist
-                            addCourse(index, t);
-                            //remove person from waitlist
+                            //addCourse(index, t);
+
+                            // register student
+                            for(int q = 0; q < registerStudentList.size(); q++)
+                            {
+                                r = (RegisterStudent)registerStudentList.get(i);
+                                c = r.getCourse();
+                                u = r.getUser();
+                            }
+                        
+                            r = new RegisterStudent(t, ind);
+                            registerStudentList.add(r);
+                            int newVacancy2 = ((Index)ind).getVacancies()-1;
+                            ((Index)ind).setVacancies(newVacancy2);
+                            userController.editRegisterStudentList();
+                            userController.editCourseList();
+
                             waitList.remove(j);
-                            System.out.println("Congrats! added to course. removed from waitlist.");
-                            System.out.println(waitList);
-        
-                            // send email to waitlist user
+
+                            // send email
                             emails = 4;
                             String name2 = t.getName();
                             String usern2 = t.getUsername();
@@ -290,11 +293,8 @@ public class StudentController {
         
                             Email(name2, code2, num2, usern2, waitList);
                         }
-    
-                        
                     }
-    
-                    return "You have successfully dropped the course.";
+                    return "You have successfully dropped the course. Please check your email.";
                 }
             }
         }
@@ -305,7 +305,7 @@ public class StudentController {
     {
         String recipient = "", subject = "", msg = "";
 
-        //email sent from
+        //email sender
         final String username = "oatarabica@gmail.com";
 		final String password = "absolutmunch";
 
@@ -322,33 +322,24 @@ public class StudentController {
             }
         });
 
-        // option 1: add course
-        // option 2: drop course
-        // option 3: in waitlist
-        // option 4: outta waitlist
-
         recipient = usern + "@e.ntu.edu.sg";
 
         switch(emails){
-            case 1: 
-                System.out.println("Sending add course email...");
+            case 1: // add course
                 subject = "Course Allocation";
-                msg = "Dear " + name + ", \n\n Congrats! You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n\n ** This is an automated email. Please do not reply. **";
+                msg = "Dear " + name + ", \n\n Congrats! You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
                 break;
-            case 2: 
-                System.out.println("Sending drop course email...");
+            case 2: // drop course
                 subject = "Course Dropped";
-                msg = "Dear " + name + ", \n\n You have been removed from " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n\n ** This is an automated email. Please do not reply. **";
+                msg = "Dear " + name + ", \n\n You have been removed from " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
                 break;
-            case 3: 
-                System.out.println("Sending waitlist email...");
+            case 3: // waitlist confirmation
                 subject = "Course Waitlist";
-                msg = "Dear " + name + ", \n\n You are currently in the waiting list for " + course + ", index " + index +". You will be informed when a slot is available. \n\n Regards, \n The NTU Registry \n\n ** This is an automated email. Please do not reply. **";
+                msg = "Dear " + name + ", \n\n You are currently in the waiting list for " + course + ", index " + index +". You will be informed when a slot is available. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
                 break;
-            case 4: 
-                System.out.println("Sending waitlist email...");
+            case 4: // waitlist success
                 subject = "Course Allocation";
-                msg = "Dear " + name + ", \n\n Congrats! The wait is over. You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n\n ** This is an automated email. Please do not reply. **";
+                msg = "Dear " + name + ", \n\n Congrats! The wait is over. You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
                 break;
             default:
                 break;
@@ -362,7 +353,7 @@ public class StudentController {
             message.setText(msg);
 
             Transport.send(message);
-            System.out.println("\nAn email notification has been sent.");
+            // System.out.println("\nAn email notification has been sent.");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -389,11 +380,13 @@ public class StudentController {
 
         ArrayList registerStudentList = userController.getRegisterStudentList();
         ArrayList courseList = userController.getCourseList();
+        ArrayList waitList = userController.getWaitList();
         Boolean checkIndex = false;
         RegisterStudent r;
         Course c;
         User u;
         int newVacancy;
+        WaitList w;
         
         //checks if user has the courseindex registered
         for(int i = 0; i < registerStudentList.size(); i++){ 
@@ -416,9 +409,22 @@ public class StudentController {
                 return "User already has this module. Please choose a different index.";
         }
         if(newIndex.getVacancies() < 1){
-            return "This course is full at the moment. You'll be added to waiting list."; //implement later
+            emails = 3;
+            String name = s.getName();
+            String usern = s.getUsername();
+            String code = newIndex.getCourseCode();
+            int num = newIndex.getIndexNumber();
+    
+            Email(name, code, num, usern, registerStudentList);
+    
+            w = new WaitList(s, newIndex);
+            waitList.add(w);
+            userController.editWaitList();
+            return "This course is full at the moment. You'll be added to the waiting list. Please check your email.";
+
+            //return "This course is full at the moment. You'll be added to waiting list."; //implement later
         }
-        
+
         r = new RegisterStudent(s, newIndex);
         registerStudentList.add(r);
         newVacancy = ((Index)newIndex).getVacancies()-1;
@@ -463,7 +469,6 @@ public class StudentController {
         else{
             for(int i = 0; i < registerStudentList.size(); i++)
             {
-                
                 r = (RegisterStudent)registerStudentList.get(i);
                 c = r.getCourse();
                 u = r.getUser();
@@ -531,7 +536,6 @@ public class StudentController {
         LocalDateTime start = null;
         LocalDateTime end = null;
         ArrayList schoolList = userController.getSchoolList();
-
 
         School sch = new School();
         for(int i = 0; i < schoolList.size(); i++){
