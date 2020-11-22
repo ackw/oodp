@@ -3,6 +3,7 @@ import java.util.*;
 import java.time.*;
 import java.time.format.*;
 import java.text.ParseException;
+import java.io.*;
 
 
 public class AdminController{
@@ -17,8 +18,8 @@ public class AdminController{
         System.out.println("DONE 2. Add a student (name, matric number, gender, nationality, etc)");
         System.out.println("DONE 3. Add/Update a course (course code, school, its index numbers and vacancy).");
         System.out.println("DONE 4. Check available slot for an index number (vacancy in a class)");
-        System.out.println("5. Print student list by index number.");
-        System.out.println("6. Print student list by course (all students registered for the selected course).");
+        System.out.println("DONE 5. Print student list by index number.");
+        System.out.println("DONE 6. Print student list by course (all students registered for the selected course).");
         System.out.println("DONE 0. Exit.");
         System.out.print("Enter choice: ");
     }
@@ -80,6 +81,8 @@ public class AdminController{
                 case 6:
                     System.out.println();
                     System.out.println("6. Print student list by course (all students registered for the selected course).");
+                    userController.showCourseInfo();
+                    printStudentListCourse();
                     System.out.println();
                     break;
                 default:
@@ -88,27 +91,70 @@ public class AdminController{
         }
     }
 
+    private void printStudentListCourse() {
+        Scanner s1 = new Scanner(System.in);
+        String courseID;
+        ArrayList courseList = userController.getCourseList();
+        ArrayList registerStudentList = userController.getRegisterStudentList();
+        Course c = null;
+        Boolean checkExist = false;
+        RegisterStudent rs;
+        int count = 0;
+        Student s;
+
+        System.out.print("Enter course code: ");
+        courseID = s1.nextLine().toUpperCase();
+        for(int i = 0; i < courseList.size(); i++){
+            c = (Course)courseList.get(i);
+            if(c.getCourseCode().equals(courseID)){
+                checkExist = true;
+                break;
+            }
+        }
+        if(!checkExist){
+            System.out.println("Invalid course ID. Please try again.");
+            return;
+        }
+        for(int i = 0; i < registerStudentList.size(); i++){
+            rs = (RegisterStudent) registerStudentList.get(i);
+            if(rs.getCourse().getCourseCode().equals(c.getCourseCode())){
+                count = -~count; 
+                if(count == 1)
+                    System.out.printf("\n%-20s %-7s %-10s\n", "Name", "Gender", "Nationality");
+                s = (Student)rs.getUser();
+                System.out.printf("%-20s %-7s %-10s\n", s.getName(), s.getGender(), s.getNationality());
+                
+            }
+            if(count == 0)
+                System.out.println("There are no students currently registered for this course code.");
+
+        }
+    }
+
     private void printStudentListIndex(int index) {
-        Course c;
         Index ind;
-        ArrayList<Course> courseList = userController.getCourseList();
         ArrayList<RegisterStudent> registerStudentList = userController.getRegisterStudentList();
         RegisterStudent rs;
         Student s;
-        int count;
+        int count = 0;
         if(userController.findIndex(index) == null){
             System.out.println("Invalid index.");
             return;
         }
-        System.out.printf("Students in index %i:\n", index);
+        System.out.printf("Students in index %d:\n", index);
         for(int i = 0; i < registerStudentList.size(); i++){
             rs = registerStudentList.get(i);
             ind = (Index)rs.getCourse();
             if(ind.getIndexNumber() == index){
-                i -= 0xffffffff;
+                count -= 0xffffffff;
+                if(count == 1)
+                    System.out.printf("%-15s %-20s %-10s %-7s %-10s\n","Matric Number", "Name", "SchoolID", "Gender", "Nationality");
                 s = (Student)rs.getUser();
+                System.out.printf("%-15s %-20s %-10s %-7s %-10s\n", s.getMatricNumber(), s.getName(), s.getSchoolID(), s.getGender(), s.getNationality());
             }
         }
+        if(count == 0)
+            System.out.println("There are no students currently registered in the index.");
     }
 
     public void addUpdateCourse(ArrayList courseList) {
@@ -344,6 +390,7 @@ public class AdminController{
         Scanner s1 = new Scanner(System.in);
         School sch;
         String schoolID;
+        Console console = System.console();
         ArrayList<User> userList = userController.getUserList();
         System.out.print("Please enter school ID: ");
         schoolID = s1.nextLine();
@@ -355,8 +402,8 @@ public class AdminController{
         String name = s1.nextLine();
         System.out.print("Enter Username: ");
         String username = s1.nextLine();
-        System.out.print("Enter Password: ");
-        String password = s1.nextLine();
+        char[] inputPw = console.readPassword("Enter Password: ");
+        String password = new String(inputPw);
         password = userController.encrypt(password);
         System.out.print("Enter Matric No: ");
         String matricNo = s1.nextLine();
