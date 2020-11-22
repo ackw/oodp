@@ -156,7 +156,9 @@ public class StudentController {
 
     public String addCourse(int index, Student s) {
         ArrayList registerStudentList = userController.getRegisterStudentList();
+        ArrayList waitList = userController.getWaitList();
         RegisterStudent r;
+        WaitList w;
         Course c;
         Index ind = userController.findIndex(index);
         if(ind == null){
@@ -169,11 +171,11 @@ public class StudentController {
             User u = r.getUser();
             if(u.getUsername().equals(s.getUsername()) && index == ((Index)c).getIndexNumber())
                 return "User already has this module. Please choose a different index.";
-            
+    
             if(u.getUsername().equals(s.getUsername()) && c.getCourseCode().equals(ind.getCourseCode()))
                 return "You are not allowed to register multiple index of the same course.";
         }
-
+    
         // waitlist
         if(ind.getVacancies() < 1){
             emails = 3;
@@ -182,34 +184,40 @@ public class StudentController {
             String usern = s.getUsername();
             String code = ind.getCourseCode();
             int num = ind.getIndexNumber();
-
+    
             Email(name, code, num, usern, registerStudentList);
+    
+            w = new WaitList(s, ind);
+            waitList.add(w);
+            System.out.println(waitList);
             return "This course is full at the moment. You'll be added to waiting list."; //implement later
         }
-        
+    
         r = new RegisterStudent(s, ind);
         registerStudentList.add(r);
         int newVacancy = ((Index)ind).getVacancies()-1;
         ((Index)ind).setVacancies(newVacancy);
         userController.editRegisterStudentList();
         userController.editCourseList();
-        //send cfm email?? to be implemented
-
+    
         emails = 1;
         // using username to get their email address
         String name = s.getName();
         String usern = s.getUsername();
         String code = ind.getCourseCode();
         int num = ind.getIndexNumber();
-
+    
         Email(name, code, num, usern, registerStudentList);
-
-        return "You have successfully registered for the course."; //implement send cfm emnail
+    
+        return "You have successfully registered for the course.";
     }
-
+    
     public String dropCourse(int index, Student s){
         ArrayList registerStudentList = userController.getRegisterStudentList();
+        ArrayList waitList = userController.getWaitList();
+
         RegisterStudent r;
+        WaitList w;
         Course c;
         User u;
         boolean checkIndex = false;
@@ -217,7 +225,7 @@ public class StudentController {
         if(ind == null){
             return "can't find index la11";
         }
-
+    
         for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
             c = r.getCourse();
@@ -225,27 +233,23 @@ public class StudentController {
             if(u.getUsername().equals(s.getUsername()) && index == ((Index)c).getIndexNumber())
                 checkIndex = true;
         }
-
+    
         if(!checkIndex)
             return "User does not have this index. Please choose a different index.";
-
+    
         for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
             ind = (Index)r.getCourse();
             if(index == ind.getIndexNumber())
             {
-                
                 if(s.getUsername().equals(((User)r.getUser()).getUsername()))
                 {
-                    
                     registerStudentList.remove(i);
                     int newVacancy = ((Index)ind).getVacancies()+1;
                     ((Index)ind).setVacancies(newVacancy);
-                    //send email
                     userController.editRegisterStudentList();
                     userController.editCourseList();
-                    //send cfm email?? to be implemented
-
+    
                     // send email to current user
                     emails = 2;
                     // using username to get their email address
@@ -253,10 +257,44 @@ public class StudentController {
                     String usern = s.getUsername();
                     String code = ind.getCourseCode();
                     int num = ind.getIndexNumber();
-
+    
                     Email(name, code, num, usern, registerStudentList);
-
-                    return "You have successfully dropped the course."; //tobeimplemented send cfm email
+    
+                    // waitlist
+                    System.out.println(waitList.size());
+                    for(int j = 0; j < waitList.size(); j++){
+                        System.out.println("in for loop");
+    
+                        w = (WaitList)waitList.get(j);
+                        ind = (Index)w.getCourse();
+    
+                        if(index == ind.getIndexNumber())
+                        {
+                            // s is the current student
+                            // t = waitlist user?
+                            Student t = (Student)w.getUser();
+                            // Student t = (Student)userController.ge();
+                            // add course for student in waitlist
+                            addCourse(index, t);
+                            //remove person from waitlist
+                            waitList.remove(j);
+                            System.out.println("Congrats! added to course. removed from waitlist.");
+                            System.out.println(waitList);
+        
+                            // send email to waitlist user
+                            emails = 4;
+                            String name2 = t.getName();
+                            String usern2 = t.getUsername();
+                            String code2 = ind.getCourseCode();
+                            int num2 = ind.getIndexNumber();
+        
+                            Email(name2, code2, num2, usern2, waitList);
+                        }
+    
+                        
+                    }
+    
+                    return "You have successfully dropped the course.";
                 }
             }
         }

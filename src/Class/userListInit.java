@@ -24,7 +24,7 @@ public class userListInit {
         userList.add(u);
         u = new Student("Low Mai Kai", "user4", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, "U2032423H", 'M', "MY", "SCSE");
         userList.add(u);
-        u = new Student("Won Jae", "chew0393", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, "U1824273H", 'M', "KR", "SOH");
+        u = new Student("Won Jae", "chew0393", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, "U1824273H", 'M', "KR", "SCSE");
         userList.add(u);
 
         //Writing arraylist to the file

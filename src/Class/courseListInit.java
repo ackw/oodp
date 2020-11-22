@@ -14,7 +14,7 @@ public class courseListInit {
 
         //Writing arraylist to the file
         Course c;
-        c = new Index("CZ2002", "SCSE", 20021, 20);
+        c = new Index("CZ2002", "SCSE", 20021, 1);
         courseList.add(c);
         c = new Index("CZ2002", "SCSE", 20022, 25);
         courseList.add(c);
