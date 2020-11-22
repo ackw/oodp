@@ -406,17 +406,21 @@ public class StudentController {
         Course c;
         User u;
         ArrayList<RegisterStudent> registerStudentList = userController.getRegisterStudentList();
+        int totalAU = 0;
         if(checkRegisterStudentList(s) == 1) //checks if student has any courses registered before doing anything
             return;
-        System.out.printf("\n%-15s %-10s %-10s\n","Course Code", "School", "Index");
+        System.out.printf("\n%-15s %-10s %-10s %-3s\n","Course Code", "School", "Index", "AUs");
         for(int i = 0; i < registerStudentList.size(); i++)
         {
             r = (RegisterStudent)registerStudentList.get(i);
             c = r.getCourse();
             u = r.getUser();
-            if(u.getUsername().equals(s.getUsername()))
-                System.out.printf("%-15s %-10s %-10s\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber());
+            if(u.getUsername().equals(s.getUsername())){
+                System.out.printf("%-15s %-10s %-10s %-3d\n", c.getCourseCode(), c.getSchool(), ((Index)c).getIndexNumber(), ((Index)c).getAcademicUnits());
+                totalAU += ((Index)c).getAcademicUnits();
+            }
         }
+        System.out.println("Total AUs: " + totalAU);
     }
 
     public int checkRegisterStudentList(Student s){

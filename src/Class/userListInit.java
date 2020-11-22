@@ -20,11 +20,11 @@ public class userListInit {
         u = new Admin("Wu Liu Qi", "user2", "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6", true);
         userList.add(u);
         // u = new Student("Sum Ting Wong", "user3", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, 19234234, 'F', "SG", "andrelchew@icloud.com");
-        u = new Student("Sum Ting Wong", "user3", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, U1923423H, 'F', "SG", "SCSE", 21, 21);
+        u = new Student("Sum Ting Wong", "user3", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, "U1923423H", 'F', "SG", "SCSE", 21, 0);
         userList.add(u);
-        u = new Student("Low Mai Kai", "user4", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, U2032423H, 'M', "MY", "SCSE", 21, 9);
+        u = new Student("Low Mai Kai", "user4", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, "U2032423H", 'M', "MY", "SCSE", 21, 0);
         userList.add(u);
-        u = new Student("Won Jae", "chew0393", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, U1824273H, 'M', "KR", "SOH", 21, 3);
+        u = new Student("Won Jae", "chew0393", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, "U1824273H", 'M', "KR", "SCSE", 21, 0);
         userList.add(u);
 
         //Writing arraylist to the file
