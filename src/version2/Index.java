@@ -11,9 +11,9 @@ public class Index extends Course implements Serializable
         super();
     }
 
-    public Index(String c, String s, int i, int v)
+    public Index(String c, String s,int a, int i, int v)
     {
-        super(c, s);
+        super(c, s, a);
         indexNumber = i;
         vacancies = v;
     }
