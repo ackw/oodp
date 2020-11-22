@@ -19,15 +19,15 @@ public class Student extends User implements Serializable
         endDate = Calendar.getInstance();
     }
     
-    public Student(String n, String u, String p, Boolean t, String m, char g, String nat, String s, int a, int c)
+    public Student(String n, String u, String p, Boolean t, String m, char g, String nat, String s)
     {
         super(n, u, p, t);
         matricNumber = m;
         gender = g;
         nationality = nat;
         schoolID = s;
-        maxAUs = a;
-        currentAUs = c;
+        maxAUs = 21;
+        currentAUs = 0;
     }
 
     public String getMatricNumber(){return matricNumber;}
