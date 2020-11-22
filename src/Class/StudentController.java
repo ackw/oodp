@@ -183,6 +183,7 @@ public class StudentController {
     
         // waitlist
         if(ind.getVacancies() < 1){
+            System.out.println("This course is full at the moment. You'll be added to the waiting list.");
             emails = 3;
             String name = s.getName();
             String usern = s.getUsername();
@@ -194,7 +195,8 @@ public class StudentController {
             w = new WaitList(s, ind);
             waitList.add(w);
             userController.editWaitList();
-            return "This course is full at the moment. You'll be added to the waiting list. Please check your email.";
+            // return "This course is full at the moment. You'll be added to the waiting list. Please check your email.";
+            return "";
         }
     
         r = new RegisterStudent(s, ind);
@@ -204,6 +206,7 @@ public class StudentController {
         userController.editRegisterStudentList();
         userController.editCourseList();
     
+        System.out.println("You have successfully registered for the course.");
         emails = 1;
         String name = s.getName();
         String usern = s.getUsername();
@@ -214,7 +217,8 @@ public class StudentController {
         int addAU = s.getCurrentAUs() + courseAU;
         s.setCurrentAUs(addAU);
 
-        return "You have successfully registered for the course."; //implement send cfm emnail
+        // return "You have successfully registered for the course."; //implement send cfm emnail
+        return "";
     }
     
     public String dropCourse(int index, Student s){
@@ -254,6 +258,8 @@ public class StudentController {
                     ((Index)ind).setVacancies(newVacancy);
                     userController.editRegisterStudentList();
                     userController.editCourseList();
+
+                    System.out.println("You have successfully dropped the course.");
     
                     // send email
                     emails = 2; 
@@ -301,7 +307,8 @@ public class StudentController {
                             Email(name2, code2, num2, usern2, waitList);
                         }
                     }
-                    return "You have successfully dropped the course. Please check your email.";
+                    // return "You have successfully dropped the course. Please check your email.";
+                    return "";
                 }
             }
         }
@@ -310,7 +317,7 @@ public class StudentController {
 
     public static void Email(String name, String course, int index, String usern, ArrayList registerStudentList)
     {
-        String recipient = "", subject = "", msg = "";
+        String recipient = "", subject = "", msg = "", pr = "";
 
         //email sender
         final String username = "oatarabica@gmail.com";
@@ -335,18 +342,22 @@ public class StudentController {
             case 1: // add course
                 subject = "Course Allocation";
                 msg = "Dear " + name + ", \n\n Congrats! You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
+                pr = "An email confirmation has been sent to your email.";
                 break;
             case 2: // drop course
                 subject = "Course Dropped";
                 msg = "Dear " + name + ", \n\n You have been removed from " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
+                pr = "An email confirmation has been sent to your email.";
                 break;
             case 3: // waitlist confirmation
                 subject = "Course Waitlist";
                 msg = "Dear " + name + ", \n\n You are currently in the waiting list for " + course + ", index " + index +". You will be informed when a slot is available. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
+                pr = "An email confirmation has been sent to your email.";
                 break;
             case 4: // waitlist success
                 subject = "Course Allocation";
                 msg = "Dear " + name + ", \n\n Congrats! The wait is over. You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
+                pr = "Student " + name + " on the waitlist has been added to to " + course + ", index " + index + ".";
                 break;
             default:
                 break;
@@ -361,6 +372,7 @@ public class StudentController {
 
             Transport.send(message);
             // System.out.println("\nAn email notification has been sent.");
+            System.out.println(pr);
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -427,10 +439,12 @@ public class StudentController {
     
             Email(name, code, num, usern, registerStudentList);
     
+            System.out.println("This course is full at the moment. You'll be added to the waiting list.");
+
             w = new WaitList(s, newIndex);
             waitList.add(w);
             userController.editWaitList();
-            return "This course is full at the moment. You'll be added to the waiting list. Please check your email.";
+            return "";
 
             //return "This course is full at the moment. You'll be added to waiting list."; //implement later
         }
