@@ -163,6 +163,9 @@ public class AdminController{
         int option = 9;
         Scanner sc = new Scanner(System.in);
         Course course = null;
+        School school = null;
+        Boolean checkExist = false;
+        ArrayList schoolList = userController.getSchoolList();
 
         System.out.print("Add or Update Course: ");
         String choice = sc.nextLine();
@@ -175,9 +178,35 @@ public class AdminController{
 
             try {
                 System.out.print("Course: ");
-                String a = sc.nextLine();
+                String a = s1.nextLine().toUpperCase();
+                for(int i = 0; i < courseList.size(); i++){
+                    cor = (Course)courseList.get(i);
+                    if(cor.getCourseCode().equals(a)){
+                        checkExist = true;
+                        break;
+                    }
+                }
+
+                if(checkExist){
+                    System.out.println("Course ID already exists. Please try again.");
+                    return;
+                }
+
                 System.out.print("School: ");
-                String b = sc.nextLine();
+                String b = s1.nextLine().toUpperCase();
+                for(int i = 0; i < schoolList.size(); i++){
+                    school = (School)schoolList.get(i);
+                    if(school.getSchoolID().equals(b)){
+                        checkExist = true;
+                        break;
+                    }
+                }
+
+                if(!checkExist){
+                    System.out.println("Invalid School ID. Please try again.");
+                    return;
+                }
+
                 System.out.print("Index: ");
                 int c = sc.nextInt();
 
