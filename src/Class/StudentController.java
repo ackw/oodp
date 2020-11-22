@@ -1,3 +1,4 @@
+package Class;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -13,7 +14,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class StudentController{
+public class StudentController {
 
     UserController userController = new UserController();
     Scanner s1 = new Scanner(System.in);
@@ -37,7 +38,6 @@ public class StudentController{
         Student s = (Student)userController.getCurrentUser();
         int choice = 9;
         int index = 0;
-        System.out.println(s.getSchoolID());
         
         while(choice != 0){
             AdminController ac = new AdminController();

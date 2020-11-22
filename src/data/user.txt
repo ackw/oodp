@@ -1,6 +1,0 @@
-matricNum,name,password,role,email,gender,nationality
-01,joe,2bcfed104f31fbd45d865d3f4f7d2333bd9c51b4,admin,u1@ntu.com,m,singaporean
-02,ben,www,admin,u2@ntu.com,m,british
-03,lou,123,user,u3@ntu.com,f,british
-04,han,tt,user,u4@ntu.com,f,korean
-05,ray,pass,user,u5@ntu.com,m,american

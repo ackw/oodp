@@ -1,7 +1,8 @@
-
+package Class;
 import java.util.*;
+import java.io.Serializable;
 
-public class Student extends User
+public class Student extends User implements Serializable
 {
     private String matricNumber;
     private char gender;

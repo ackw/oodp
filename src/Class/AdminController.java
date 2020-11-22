@@ -1,7 +1,9 @@
+package Class;
 import java.util.*;
 import java.time.*;
 import java.time.format.*;
 import java.text.ParseException;
+
 
 public class AdminController{
 
@@ -65,8 +67,46 @@ public class AdminController{
                     }
                     System.out.println();
                     break;
+                case 5: 
+                    System.out.println();
+                    System.out.println("5. Print student list by index number.");
+                    userController.showCourseInfo();
+                    System.out.print("Enter index: ");
+                    index = s1.nextInt();
+                    printStudentListIndex(index);
+
+                    System.out.println();
+                    break;
+                case 6:
+                    System.out.println();
+                    System.out.println("6. Print student list by course (all students registered for the selected course).");
+                    System.out.println();
+                    break;
                 default:
                     break;
+            }
+        }
+    }
+
+    private void printStudentListIndex(int index) {
+        Course c;
+        Index ind;
+        ArrayList<Course> courseList = userController.getCourseList();
+        ArrayList<RegisterStudent> registerStudentList = userController.getRegisterStudentList();
+        RegisterStudent rs;
+        Student s;
+        int count;
+        if(userController.findIndex(index) == null){
+            System.out.println("Invalid index.");
+            return;
+        }
+        System.out.printf("Students in index %i:\n", index);
+        for(int i = 0; i < registerStudentList.size(); i++){
+            rs = registerStudentList.get(i);
+            ind = (Index)rs.getCourse();
+            if(ind.getIndexNumber() == index){
+                i -= 0xffffffff;
+                s = (Student)rs.getUser();
             }
         }
     }
@@ -349,7 +389,6 @@ public class AdminController{
                 }
             }
         }catch(Exception e){
-            System.out.println("error lol");
             return false;
         }
         return true;
