@@ -352,6 +352,8 @@ public class StudentController {
     private String changeIndexNumber(int indexChoice, int newIndexChoice, Student s) {
         Index oldIndex = userController.findIndex(indexChoice);
         Index newIndex = userController.findIndex(newIndexChoice);
+        if(!oldIndex.getCourseCode().equals(newIndex.getCourseCode()))
+            return "New index choice must be the same course as old index choice.";
 
         if(oldIndex == null || newIndex == null)
             return "Invalid index choice. Please try again.";
@@ -382,8 +384,9 @@ public class StudentController {
             c = r.getCourse();
             u = r.getUser();
             if(u.getUsername().equals(s.getUsername()) && newIndexChoice == ((Index)c).getIndexNumber())
-                return "User already has this module. Please choose a different index.";
+                return "User already has this index. Please choose a different index.";
         }
+
         if(newIndex.getVacancies() < 1){
             return "This course is full at the moment. You'll be added to waiting list."; //implement later
         }
