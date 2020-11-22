@@ -8,6 +8,8 @@ public class Student extends User implements Serializable
     private String nationality;
     private Calendar startDate, endDate;
     private String schoolID;
+    private int maxAUs;
+    private int currentAUs;
 
     public Student()
     {
@@ -16,13 +18,15 @@ public class Student extends User implements Serializable
         endDate = Calendar.getInstance();
     }
     
-    public Student(String n, String u, String p, Boolean t, int m, char g, String nat, String s)
+    public Student(String n, String u, String p, Boolean t, int m, char g, String nat, String s, int a, int c)
     {
         super(n, u, p, t);
         matricNumber = m;
         gender = g;
         nationality = nat;
         schoolID = s;
+        maxAUs = a;
+        currentAUs = c;
     }
 
     public int getMatricNumber(){return matricNumber;}
@@ -44,6 +48,18 @@ public class Student extends User implements Serializable
         return schoolID;
     }
 
+    public int getMaxAUs(){
+        return maxAUs;
+    }
+    public void setMaxAUs(int maxAUs){
+        this.maxAUs = maxAUs;
+    }
+    public int getCurrentAUs(){
+        return currentAUs;
+    }
+    public void setCurrentAUs(int c1){
+        this.currentAUs = c1;
+    }
     public String toString()
     {
        return super.toString() + "\nMatric Number: " + matricNumber + "\nGender: " + gender + "\nNationality: " + nationality;
