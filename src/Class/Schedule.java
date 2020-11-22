@@ -1,3 +1,5 @@
+package Class;
+
 import java.io.Serializable;
 import java.time.LocalTime;
 

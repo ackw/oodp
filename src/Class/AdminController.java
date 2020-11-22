@@ -1,6 +1,7 @@
 package Class;
-import java.util.*;
+
 import java.time.*;
+import java.util.*;
 import java.time.format.*;
 import java.text.ParseException;
 import java.io.*;
@@ -223,25 +224,7 @@ public class AdminController{
                 s = new Schedule(c, numDay(labDay), oddEven(labType), numDay(lecDay), numDay(tutDay), labTime, lecTime, tutTime);
                 scheduleList.add(s);
 
-                System.out.println("Updated!");
-                System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies", 
-                "Lab Day", "Lab Period", "Lecture Day", "Lecture Period", "Tutorial Day", "Tutorial Period");
-                System.out.printf("\n%-15s %-10s %-10s %-10s\n", a, b, c, d);
-                
-                userController.editCourseList();
-                userController.editScheduleList();
-
-                for (int i = 0; i < courseList.size(); i++) {
-                    Course cos = (Course) courseList.get(i);
-                    if (c == ((Index) cos).getIndexNumber()) {
-                        System.out.println("Index already exists!");
-                        return;
-                    }
-                }
-                cor = new Index(a, b, c, d, e);
-                courseList.add(cor);
-
-                System.out.println("Updated!");
+                System.out.println("Added!");
                 System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", "Course Code", "School", "Index", "Vacancies", "Academic Units");
                 System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", a, b, c, d, z);
                 
