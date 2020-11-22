@@ -6,7 +6,6 @@ public class Student extends User implements Serializable
     private int matricNumber;
     private char gender;
     private String nationality;
-    private ArrayList registeredCourseList = new ArrayList();
     private Calendar startDate, endDate;
     private String schoolID;
 
@@ -23,8 +22,6 @@ public class Student extends User implements Serializable
         matricNumber = m;
         gender = g;
         nationality = nat;
-        startDate = Calendar.getInstance();
-        endDate = Calendar.getInstance();
         schoolID = s;
     }
 

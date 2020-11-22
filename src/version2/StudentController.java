@@ -37,6 +37,7 @@ public class StudentController{
         Student s = (Student)userController.getCurrentUser();
         int choice = 9;
         int index = 0;
+        System.out.println(s.getSchoolID());
         while(choice != 0){
             AdminController ac = new AdminController();
             displayMenu();
@@ -44,7 +45,7 @@ public class StudentController{
             s1.nextLine();
             switch(choice){
                 case 1:
-                    if (checkAccessPeriod(s.getSchoolID) == false) {
+                    if (checkAccessPeriod(s.getSchoolID()) == false) {
                         break;
                     }
                     System.out.println();
@@ -59,7 +60,7 @@ public class StudentController{
                     System.out.println();
                     break;
                 case 2:
-                    if (checkAccessPeriod(s.getSchoolID) == false) {
+                    if (checkAccessPeriod(s.getSchoolID()) == false) {
                         break;
                     }
                     System.out.println();
@@ -489,8 +490,14 @@ public class StudentController{
     public boolean checkAccessPeriod(String school) throws ParseException {
         LocalDateTime start = null;
         LocalDateTime end = null;
+        ArrayList schoolList = userController.getSchoolList();
 
         School s = new School(school);
+        for(int i = 0; i < schoolList.size(); i++){
+            s = (School) schoolList.get(i);
+            if(s.getSchoolID().equals(school))
+                break;
+        }
         start = s.getStartAccess();
         end = s.getEndAccess();
 

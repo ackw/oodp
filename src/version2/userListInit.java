@@ -18,34 +18,12 @@ public class userListInit {
         u = new Admin("Wu Liu Qi", "user2", "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6", true);
         userList.add(u);
         // u = new Student("Sum Ting Wong", "user3", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, 19234234, 'F', "SG", "andrelchew@icloud.com");
-        u = new Student("Sum Ting Wong", "user3", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, 19234234, 'F', "SG");
+        u = new Student("Sum Ting Wong", "user3", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, 19234234, 'F', "SG", "SCSE");
         userList.add(u);
-        u = new Student("Low Mai Kai", "user4", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, 18492841, 'M', "MY");
+        u = new Student("Low Mai Kai", "user4", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, 18492841, 'M', "MY", "SCSE");
         userList.add(u);
-        u = new Student("Won Jae", "chew0393", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, 19678909, 'M', "KR");
+        u = new Student("Won Jae", "chew0393", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, 19678909, 'M', "KR", "SOH");
         userList.add(u);
-
-       School sch = new School("SCSE");
-       String start = "2020-11-01 11:30";
-       String end = "2020-11-01 14:30";
-       String s1 = "School of Computer Science and Engineering";
-
-       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-       LocalDateTime scseStart = LocalDateTime.parse(start, formatter);
-       LocalDateTime scseEnd = LocalDateTime.parse(end, formatter);
-       sch.setStartAccess(scseStart);
-       sch.setEndAccess(scseEnd);
-       sch.setName(s1);
-
-       School sch2 = new School("SOH");
-       String start2 = "2020-11-03 09:30";
-       String end2 = "2020-11-03 12:30";
-       String s2 = "School of Humanities";
-
-       LocalDateTime sohStart = LocalDateTime.parse(start2, formatter);
-       LocalDateTime sohEnd = LocalDateTime.parse(end2, formatter);
-       sch2.setStartAccess(sohStart);
-       sch2.setEndAccess(sohEnd);
 
         //Writing arraylist to the file
         try {

@@ -11,11 +11,13 @@ public class UserController{
     private final static String courseListPath = "./src/data/courseList";
     private final static String registerStudentPath = "./src/data/registerStudentList";
     private final static String waitListPath = "./src/data/waitList";
+    private final static String schoolListPath = "./src/data/schoolList";
     
     private static ArrayList<User> userList = new ArrayList<User>();
     private static ArrayList<Course> courseList = new ArrayList<Course>();
     private static ArrayList<RegisterStudent> registerStudentList = new ArrayList<RegisterStudent>();
     private static ArrayList<WaitList> waitList = new ArrayList<WaitList>();
+    private static ArrayList<School> schoolList = new ArrayList<School>();
     private static User currentUser;
 
     public User getCurrentUser(){
@@ -33,6 +35,10 @@ public class UserController{
 
     public ArrayList<WaitList> getWaitList(){
         return waitList;
+    }
+
+    public ArrayList<School> getSchoolList(){
+        return schoolList;
     }
 
     public void loadUserList(){
@@ -116,6 +122,19 @@ public class UserController{
     public void loadWaitList(){
         try {
             FileInputStream fis = new FileInputStream(waitListPath);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            waitList = (ArrayList) ois.readObject();
+            ois.close();
+            fis.close();
+            }
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+    }
+
+    public void loadSchoolList(){
+        try {
+            FileInputStream fis = new FileInputStream(schoolListPath);
             ObjectInputStream ois = new ObjectInputStream(fis);
             waitList = (ArrayList) ois.readObject();
             ois.close();

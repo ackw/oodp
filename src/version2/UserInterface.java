@@ -14,6 +14,8 @@ public class UserInterface{
         userControl.loadUserList();
         userControl.loadCourseList();
         userControl.loadRegisterStudentList();
+        userControl.loadSchoolList();
+        
 
         while(choice != 2){
             System.out.println("1. Login (Username chew0393 for sending student email)");
