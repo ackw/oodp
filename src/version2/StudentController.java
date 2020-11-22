@@ -1,5 +1,6 @@
 import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.io.*;
 
@@ -116,7 +117,7 @@ public class StudentController{
                     }
                     System.out.println();
                     break;
-                case 6: 
+                case 6:
                     System.out.println();
                     System.out.println("6. Swop Index Number with Another Student");
                     System.out.printf("\n%s's currently registered courses:\n====================================================", s.getName());
@@ -514,6 +515,29 @@ public class StudentController{
         }
 
     }
+    
+    public Boolean isConflict(int day1, int day2, int day3, LocalTime t1, LocalTime t2, LocalTime t3){
+        if(day1 == day2){
+            if(t1 == t2){
+                System.out.println("Invalid input! There is conflict between lecture and lab schedules!");
+                return true;
+            }
+        }
 
+        if(day1 == day3){
+            if(t1 == t3){
+                System.out.println("Invalid input! There is conflict between lab and tutorial schedules!");
+                return true;
+            }
+        }
+
+        if(day2 == day3){
+            if(t2 == t3){
+                System.out.println("Invalid input! There is conflict between lecture and tutorial schedules!");
+                return true;
+            }
+        }
+        return false;
+    }
     
 }

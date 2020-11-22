@@ -12,12 +12,14 @@ public class UserController{
     private final static String registerStudentPath = "./src/data/registerStudentList";
     private final static String waitListPath = "./src/data/waitList";
     private final static String schoolListPath = "./src/data/schoolList";
+    private final static String scheduleListPath = "./src/data/scheduleList";
     
     private static ArrayList<User> userList = new ArrayList<User>();
     private static ArrayList<Course> courseList = new ArrayList<Course>();
     private static ArrayList<RegisterStudent> registerStudentList = new ArrayList<RegisterStudent>();
     private static ArrayList<WaitList> waitList = new ArrayList<WaitList>();
     private static ArrayList<School> schoolList = new ArrayList<School>();
+    private static ArrayList<Schedule> scheduleList = new ArrayList<Schedule>();
     private static User currentUser;
 
     public User getCurrentUser(){
@@ -39,6 +41,10 @@ public class UserController{
 
     public ArrayList<School> getSchoolList(){
         return schoolList;
+    }
+
+    public ArrayList<Schedule> getScheduleList(){
+        return scheduleList;
     }
 
     public void loadUserList(){
@@ -66,7 +72,6 @@ public class UserController{
             ex.printStackTrace();
         }
     }
-
     public void loadCourseList(){
         try {
             FileInputStream fis = new FileInputStream(courseListPath);
@@ -131,7 +136,7 @@ public class UserController{
                 e.printStackTrace();
             }
     }
-
+    
     public void loadSchoolList(){
         try {
             FileInputStream fis = new FileInputStream(schoolListPath);
@@ -144,7 +149,6 @@ public class UserController{
                 e.printStackTrace();
             }
     }
-
     public void editSchoolList(){
         try {
             FileOutputStream fos = new FileOutputStream(schoolListPath);
@@ -173,7 +177,30 @@ public class UserController{
         }
     }
 
-
+    public void loadScheduleList(){
+        try {
+            FileInputStream fis = new FileInputStream(scheduleListPath);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            scheduleList = (ArrayList) ois.readObject();
+            ois.close();
+            fis.close();
+            }
+        catch (Exception e) {
+                e.printStackTrace();
+            }
+    }
+    public void editScheduleList(){
+        try {
+            FileOutputStream fos = new FileOutputStream(scheduleListPath);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);   
+            oos.writeObject(scheduleList);
+            oos.close();
+            fos.close();
+            }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     public User login(){
         Scanner s1 = new Scanner(System.in);

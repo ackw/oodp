@@ -3,8 +3,8 @@ import java.io.Serializable;
 
 public class Index extends Course implements Serializable
 {
-    private int indexNumber;
-    private int vacancies;
+    protected int indexNumber;
+    protected int vacancies;
 
     public Index()
     {
@@ -27,8 +27,4 @@ public class Index extends Course implements Serializable
     {
        return super.toString() + "\nIndex Number: " + indexNumber + "\nVacancies: " + vacancies;
     }
-
-
-    
-
 }

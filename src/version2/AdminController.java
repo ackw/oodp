@@ -25,6 +25,7 @@ public class AdminController{
         Admin a = (Admin) userController.getCurrentUser();
         int choice = 9;
         int index = 0;
+        
         while (choice != 0) {
             displayMenu();
             choice = s1.nextInt();
@@ -44,7 +45,7 @@ public class AdminController{
                 case 3:
                     System.out.println();
                     System.out.println("3. Add/Update a course (course code, school, its index numbers and vacancy).");
-                    addUpdateCourse(userController.getCourseList());
+                    addUpdateCourse(userController.getCourseList(), userController.getScheduleList());
                     System.out.println();
                     break;
                 case 4:
@@ -71,7 +72,7 @@ public class AdminController{
         }
     }
 
-    public void addUpdateCourse(ArrayList courseList) {
+    public void addUpdateCourse(ArrayList courseList, ArrayList scheduleList) {
         int option = 9;
         Scanner sc = new Scanner(System.in);
         Course course = null;
@@ -83,6 +84,7 @@ public class AdminController{
 
         if (choice.toUpperCase().equals(add)) {
             Course cor;
+            Schedule s;
 
             try {
                 System.out.print("Course: ");
@@ -91,8 +93,6 @@ public class AdminController{
                 String b = sc.nextLine();
                 System.out.print("Index: ");
                 int c = sc.nextInt();
-                System.out.print("Vacancies: ");
-                int d = sc.nextInt();
 
                 for (int i = 0; i < courseList.size(); i++) {
                     Course cos = (Course) courseList.get(i);
@@ -101,14 +101,46 @@ public class AdminController{
                         return;
                     }
                 }
+
+                System.out.print("Vacancies: ");
+                int d = sc.nextInt();
+                System.out.print("Day of the week for lab (1 for Monday, 2 for Tuesday, 3 for Wednesday, 4 for Thursday, 5 for Friday): ");
+                int labDay = sc.nextInt();
+
+                System.out.print("Lab Start Time (24 Hours Format, E.g. 1300): ");
+                String e = sc.next();
+                LocalTime labTime = LocalTime.parse(e, DateTimeFormatter.ofPattern("HHmm"));
+                System.out.print("Lab Week Type (1 for ODD, 2 for EVEN, 3 for BOTH): ");
+                int labType = sc.nextInt();
+                        
+                System.out.print("Day of the week for lecture (1 for Monday, 2 for Tuesday, 3 for Wednesday, 4 for Thursday, 5 for Friday): ");
+                int lecDay = sc.nextInt();
+                System.out.print("Lecture Start Time (24 Hours Format, E.g. 1300): ");
+                String f = sc.next();
+                LocalTime lecTime = LocalTime.parse(f, DateTimeFormatter.ofPattern("HHmm"));
+
+                System.out.print("Day of the week for tutorial (1 for Monday, 2 for Tuesday, 3 for Wednesday, 4 for Thursday, 5 for Friday): ");
+                int tutDay = sc.nextInt();
+                System.out.print("Tutorial Start Time (24 Hours Format, E.g. 1300): ");
+                String g = sc.next();
+                LocalTime tutTime = LocalTime.parse(g, DateTimeFormatter.ofPattern("HHmm"));
+
+                if(isConflict(labDay, lecDay, tutDay, labTime, lecTime, tutTime)){
+                    return;
+                }
+
                 cor = new Index(a, b, c, d);
                 courseList.add(cor);
+                s = new Schedule(c, numDay(labDay), oddEven(labType), numDay(lecDay), numDay(tutDay), labTime, lecTime, tutTime);
+                scheduleList.add(s);
 
                 System.out.println("Updated!");
-                System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies");
+                System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies", 
+                "Lab Day", "Lab Period", "Lecture Day", "Lecture Period", "Tutorial Day", "Tutorial Period");
                 System.out.printf("\n%-15s %-10s %-10s %-10s\n", a, b, c, d);
                 
                 userController.editCourseList();
+                userController.editScheduleList();
               }
 
               catch(Exception e) {
@@ -354,5 +386,73 @@ public class AdminController{
         }
         return true;
 
+    }
+
+    public String numDay(int num){
+        String day = "";
+
+        switch(num){
+            case 1:
+                day = "Monday";
+                break;
+            case 2:
+                day = "Tuesday";
+                break;
+            case 3:
+                day = "Wednesday";
+                break;
+            case 4:
+                day = "Thursday";
+                break;
+            case 5:
+                day = "Friday";
+                break;
+            default:
+            break;
+        }
+        return day;
+    }
+
+    public String oddEven(int num){
+        String value = "";
+
+        switch(num){
+            case 1:
+                value = "ODD";
+                break;
+            case 2:
+                value = "EVEN";
+                break;
+            case 3:
+                value = "BOTH";
+                break;
+            default:
+            break;
+        }
+        return value;
+    }
+
+    public Boolean isConflict(int day1, int day2, int day3, LocalTime t1, LocalTime t2, LocalTime t3){
+        if(day1 == day2){
+            if(t1 == t2){
+                System.out.println("Invalid input! There is conflict between lecture and lab schedules!");
+                return true;
+            }
+        }
+
+        if(day1 == day3){
+            if(t1 == t3){
+                System.out.println("Invalid input! There is conflict between lab and tutorial schedules!");
+                return true;
+            }
+        }
+
+        if(day2 == day3){
+            if(t2 == t3){
+                System.out.println("Invalid input! There is conflict between lecture and tutorial schedules!");
+                return true;
+            }
+        }
+        return false;
     }
 }
