@@ -362,6 +362,17 @@ public class StudentController {
                 msg = "Dear " + name + ", \n\n Congrats! The wait is over. You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
                 pr = "Student " + name + " on the waitlist has been added to " + course + ", index " + index + ".";
                 break;
+            case 5: // change index confirmation
+                subject = "Course Allocation";
+                msg = "Dear " + name + ", \n\n Congrats! Your index number for " + course + " has been updated to " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
+                pr = "";
+                break;
+            case 6: // swop index confirmation
+                subject = "Course Allocation";
+                msg = "Dear " + name + ", \n\n Congrats on the successful swop! Your index number has been updated to " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
+                pr = "An email confirmation has been sent to "+ name +"'s email.";
+                break;
+
             default:
                 break;
         }
@@ -461,6 +472,14 @@ public class StudentController {
 
         dropCourse(indexChoice, s);
 
+        emails = 5;
+        String name = s.getName();
+        String usern = s.getUsername();
+        String code = newIndex.getCourseCode();
+        int num = newIndex.getIndexNumber();
+
+        Email(name, code, num, usern, registerStudentList);
+
         String returnMsg = String.format("Successfully switched index %d with %d", indexChoice, newIndexChoice);
         return returnMsg;
     }
@@ -556,6 +575,22 @@ public class StudentController {
             if(u.getUsername().equals(s2.getUsername()) && index2 == ((Index)c).getIndexNumber())
                 r.setUser(s);
         }
+
+        emails = 6;
+        String name = s.getName();
+        String usern = s.getUsername();
+        String code = "";
+        int num = index;
+
+        Email(name, code, num, usern, registerStudentList);
+
+        String name2 = s2.getName();
+        String usern2 = s2.getUsername();
+        String code2 = "";
+        int num2 = index2;
+
+        Email(name2, code2, num2, usern2, registerStudentList);
+        
         String returnMsg = String.format("Swopped %s's index of %d with %s's index of %d.", s.getName(), index, s2.getName(), index2);
         return returnMsg;
     }
