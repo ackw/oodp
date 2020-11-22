@@ -28,6 +28,10 @@ public class AdminController{
         Admin a = (Admin) userController.getCurrentUser();
         int choice = 9;
         int index = 0;
+<<<<<<< HEAD
+=======
+        
+>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a
         while (choice != 0) {
             displayMenu();
             choice = s1.nextInt();
@@ -47,7 +51,11 @@ public class AdminController{
                 case 3:
                     System.out.println();
                     System.out.println("3. Add/Update a course (course code, school, its index numbers and vacancy).");
+<<<<<<< HEAD
                     addUpdateCourse(userController.getCourseList());
+=======
+                    addUpdateCourse(userController.getCourseList(), userController.getScheduleList());
+>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a
                     System.out.println();
                     break;
                 case 4:
@@ -91,6 +99,10 @@ public class AdminController{
         }
     }
 
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:src/Class/AdminController.java
+>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a
     private void printStudentListCourse() {
         Scanner s1 = new Scanner(System.in);
         String courseID;
@@ -158,6 +170,12 @@ public class AdminController{
     }
 
     public void addUpdateCourse(ArrayList courseList) {
+<<<<<<< HEAD
+=======
+========
+    public void addUpdateCourse(ArrayList courseList, ArrayList scheduleList) {
+>>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a:src/version2/AdminController.java
+>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a
         int option = 9;
         Scanner sc = new Scanner(System.in);
         Course course = null;
@@ -169,6 +187,10 @@ public class AdminController{
 
         if (choice.toUpperCase().equals(add)) {
             Course cor;
+<<<<<<< HEAD
+=======
+            Schedule s;
+>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a
 
             try {
                 System.out.print("Course: ");
@@ -177,6 +199,16 @@ public class AdminController{
                 String b = sc.nextLine();
                 System.out.print("Index: ");
                 int c = sc.nextInt();
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:src/Class/AdminController.java
+                System.out.print("Vacancies: ");
+                int d = sc.nextInt();
+                System.out.print("Academic Units: ");
+                int e = sc.nextInt();
+========
+>>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a:src/version2/AdminController.java
+>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a
 
                 for (int i = 0; i < courseList.size(); i++) {
                     Course cos = (Course) courseList.get(i);
@@ -185,12 +217,21 @@ public class AdminController{
                         return;
                     }
                 }
+<<<<<<< HEAD
 
                 System.out.print("Vacancies: ");
                 int d = sc.nextInt();
                 System.out.print("Academic Units: ");
                 int z = sc.nextInt();
 
+=======
+<<<<<<<< HEAD:src/Class/AdminController.java
+                cor = new Index(a, b, c, d, e);
+========
+
+                System.out.print("Vacancies: ");
+                int d = sc.nextInt();
+>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a
                 System.out.print("Day of the week for lab (1 for Monday, 2 for Tuesday, 3 for Wednesday, 4 for Thursday, 5 for Friday): ");
                 int labDay = sc.nextInt();
 
@@ -217,11 +258,16 @@ public class AdminController{
                 }
 
                 cor = new Index(a, b, c, d);
+<<<<<<< HEAD
+=======
+>>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a:src/version2/AdminController.java
+>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a
                 courseList.add(cor);
                 s = new Schedule(c, numDay(labDay), oddEven(labType), numDay(lecDay), numDay(tutDay), labTime, lecTime, tutTime);
                 scheduleList.add(s);
 
                 System.out.println("Updated!");
+<<<<<<< HEAD
                 System.out.printf("\n%-15s %-10s %-10s %-10s\n", "Course Code", "School", "Index", "Vacancies", 
                 "Lab Day", "Lab Period", "Lecture Day", "Lecture Period", "Tutorial Day", "Tutorial Period");
                 System.out.printf("\n%-15s %-10s %-10s %-10s\n", a, b, c, d);
@@ -241,10 +287,16 @@ public class AdminController{
                 courseList.add(cor);
 
                 System.out.println("Updated!");
+=======
+>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a
                 System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", "Course Code", "School", "Index", "Vacancies", "Academic Units");
                 System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", a, b, c, d, e);
                 
                 userController.editCourseList();
+<<<<<<< HEAD
+=======
+                userController.editScheduleList();
+>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a
               }
 
               catch(Exception e) {
@@ -491,4 +543,75 @@ public class AdminController{
         return true;
 
     }
+<<<<<<< HEAD
+=======
+
+    public String numDay(int num){
+        String day = "";
+
+        switch(num){
+            case 1:
+                day = "Monday";
+                break;
+            case 2:
+                day = "Tuesday";
+                break;
+            case 3:
+                day = "Wednesday";
+                break;
+            case 4:
+                day = "Thursday";
+                break;
+            case 5:
+                day = "Friday";
+                break;
+            default:
+            break;
+        }
+        return day;
+    }
+
+    public String oddEven(int num){
+        String value = "";
+
+        switch(num){
+            case 1:
+                value = "ODD";
+                break;
+            case 2:
+                value = "EVEN";
+                break;
+            case 3:
+                value = "BOTH";
+                break;
+            default:
+            break;
+        }
+        return value;
+    }
+
+    public Boolean isConflict(int day1, int day2, int day3, LocalTime t1, LocalTime t2, LocalTime t3){
+        if(day1 == day2){
+            if(t1 == t2){
+                System.out.println("Invalid input! There is conflict between lecture and lab schedules!");
+                return true;
+            }
+        }
+
+        if(day1 == day3){
+            if(t1 == t3){
+                System.out.println("Invalid input! There is conflict between lab and tutorial schedules!");
+                return true;
+            }
+        }
+
+        if(day2 == day3){
+            if(t2 == t3){
+                System.out.println("Invalid input! There is conflict between lecture and tutorial schedules!");
+                return true;
+            }
+        }
+        return false;
+    }
+>>>>>>> c89577ae2c6aea1e22f9b4a76aa1291bb18fa87a
 }
