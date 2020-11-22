@@ -17,7 +17,7 @@ public class schoolListInit {
         //Writing arraylist to the file
         School sch = new School();
         String start = "2020-11-22 11:30";
-        String end = "2020-11-22 14:20";
+        String end = "2020-11-22 14:30";
         String s1 = "School of Computer Science and Engineering";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
