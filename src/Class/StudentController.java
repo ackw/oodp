@@ -122,7 +122,7 @@ public class StudentController {
                     System.out.println("6. Swop Index Number with Another Student");
                     System.out.printf("\n%s's currently registered courses:\n====================================================", s.getName());
                     printCoursesRegistered(s);
-                    System.out.println("Enter the index you'd wish to change: ");
+                    System.out.print("Enter the index you'd wish to change: ");
                     index = s1.nextInt();
                     s1.nextLine();
                     System.out.print("Enter username of student you're swopping with: ");
@@ -527,6 +527,9 @@ public class StudentController {
 
         if(i1 == null || i2 == null)
             return "Invalid index entered. Please try again.";
+
+        if(!i1.getCourseCode().equals(i2.getCourseCode()))
+            return "New index choice must be the same course as old index choice.";
 
         for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
