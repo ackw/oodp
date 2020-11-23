@@ -109,6 +109,13 @@ public class StudentController {
                         userController.showCourseInfo();
                         System.out.print("Enter new index number:");
                         int newIndex = s1.nextInt();
+
+                        if(checkSchedule(newIndex, s))
+                        {
+                            System.out.printf("Adding of new course failed.\n\n");
+                            break;
+                        }
+
                         System.out.println(changeIndexNumber(index, newIndex, s));
 
                     } catch(Exception e){
@@ -142,6 +149,13 @@ public class StudentController {
                     printCoursesRegistered(s2);
                     System.out.println("Enter the index you'd wish to change with: ");
                     int index2 = s1.nextInt();
+
+                    if(checkSchedule(index2, s))
+                        {
+                            System.out.printf("Adding of new course failed.\n\n");
+                            break;
+                        }
+
                     System.out.println(swopIndexStudent(s, index, s2, index2));
                     System.out.println();
                     break;
@@ -190,7 +204,7 @@ public class StudentController {
             String usern = s.getUsername();
             String code = ind.getCourseCode();
             int num = ind.getIndexNumber();
-    
+            
             Email(name, code, num, usern, registerStudentList);
     
             w = new WaitList(s, ind);
@@ -582,6 +596,7 @@ public class StudentController {
         Student u;
         Index ind = userController.findIndex(index);
         Schedule newSchedule = ind.getSchedule();
+
         if (ind == null){
             System.out.println("Invalid index returned.");
         }
@@ -591,7 +606,7 @@ public class StudentController {
             currentIndex = (Index)r.getCourse();
 
             if(u.getUsername().equals(s.getUsername())){
-                if(newSchedule.checkConflict(currentIndex.getSchedule()) == true) 
+                if(newSchedule.checkConflict(currentIndex.getSchedule()) == true)
                     return true;
             }
         }

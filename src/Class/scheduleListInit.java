@@ -16,15 +16,15 @@ public class scheduleListInit {
 
         //Writing arraylist to the file
         Schedule s;
-        s = new Schedule(20021, "Monday", "ODD", "Tuesday", "Wednesday", LocalTime.of(8,30,00), LocalTime.of(12,30,00), LocalTime.of(8,30,00));
+        s = new Schedule(20021, "Monday", "ODD", "Thursday", "Wednesday", LocalTime.of(8,30,00), LocalTime.of(12,30,00), LocalTime.of(8,30,00));
         scheduleList.add(s);
-        s = new Schedule(20022, "Thursday", "BOTH", "Tuesday", "Friday", LocalTime.of(12,30,00), LocalTime.of(15,30,00), LocalTime.of(8,00,00));
+        s = new Schedule(20022, "Monday", "BOTH", "Tuesday", "Friday", LocalTime.of(9,30,00), LocalTime.of(15,30,00), LocalTime.of(8,00,00));
         scheduleList.add(s);
-        s = new Schedule(20031, "Wednesy", "EVEN", "Monday", "Wednesday", LocalTime.of(8,30,00), LocalTime.of(16,00,00), LocalTime.of(14,30,00));
+        s = new Schedule(20031, "Wednesday", "EVEN", "Monday", "Wednesday", LocalTime.of(8,30,00), LocalTime.of(16,00,00), LocalTime.of(14,30,00));
         scheduleList.add(s);
         s = new Schedule(20032, "Monday", "EVEN", "Thursday", "Thursday", LocalTime.of(9,30,00), LocalTime.of(12,30,00), LocalTime.of(8,00,00));
         scheduleList.add(s);
-        s = new Schedule(20241, "Tuesday", "ODD", "Friday", "Monday", LocalTime.of(10,30,00), LocalTime.of(8,00,00), LocalTime.of(10,30,00));
+        s = new Schedule(20241, "Monday", "ODD", "Friday", "Tuesday", LocalTime.of(10,30,00), LocalTime.of(8,00,00), LocalTime.of(10,30,00));
         scheduleList.add(s);
         s = new Schedule(20242, "Monday", "EVEN", "Tuesday", "Friday", LocalTime.of(8,00,00), LocalTime.of(13,00,00), LocalTime.of(17,00,00));
         scheduleList.add(s);

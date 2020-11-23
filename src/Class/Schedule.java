@@ -31,26 +31,26 @@ public class Schedule extends Index implements Serializable {
         endTut = startTut.plusHours(1);
     }
     
-    public String labDay() {return labDay;}
-    public void setlabDay(String labDay){this.labDay = labDay;}
-    public String labType() {return labType;}
-    public void setlabType(String labType){this.labType = labType;}
-    public String lecDay(){return lecDay;}
-    public void setlecDay(String lecDay){this.lecDay = lecDay;}
-    public String tutDay(){return tutDay;}
-    public void settutDay(String tutDay){this.tutDay = tutDay;}
-    public LocalTime startLab(){return startLab;}
-    public void setstartLab(LocalTime startLab){this.startLab = startLab;}
-    public LocalTime endLab(){return endLab;}
-    public void setendLab(LocalTime endLab){this.endLab = endLab;}
-    public LocalTime startLec(){return startLec;}
-    public void setstartLec(LocalTime startLec){this.startLec = startLec;}
-    public LocalTime endLec(){return endLec;}
-    public void setendLec(LocalTime endLec){this.endLec = endLec;}
-    public LocalTime startTut(){return startTut;}
-    public void setstartTut(LocalTime startTut){this.startTut = startTut;}
-    public LocalTime endTut(){return endTut;}
-    public void setendTut(LocalTime endTut){this.endTut = endTut;}
+    public String getLabDay() {return labDay;}
+    public void setLabDay(String labDay){this.labDay = labDay;}
+    public String getLabType() {return labType;}
+    public void setLabType(String labType){this.labType = labType;}
+    public String getLecDay(){return lecDay;}
+    public void setLecDay(String lecDay){this.lecDay = lecDay;}
+    public String getTutDay(){return tutDay;}
+    public void setTutDay(String tutDay){this.tutDay = tutDay;}
+    public LocalTime getStartLab(){return startLab;}
+    public void setStartLab(LocalTime startLab){this.startLab = startLab;}
+    public LocalTime getEndLab(){return endLab;}
+    public void setEndLab(LocalTime endLab){this.endLab = endLab;}
+    public LocalTime getStartLec(){return startLec;}
+    public void setStartLec(LocalTime startLec){this.startLec = startLec;}
+    public LocalTime getEndLec(){return endLec;}
+    public void setEndLec(LocalTime endLec){this.endLec = endLec;}
+    public LocalTime getStartTut(){return startTut;}
+    public void setStartTut(LocalTime startTut){this.startTut = startTut;}
+    public LocalTime getEndTut(){return endTut;}
+    public void setEndTut(LocalTime endTut){this.endTut = endTut;}
 
     public String toString()
     {
@@ -62,61 +62,78 @@ public class Schedule extends Index implements Serializable {
 
     public boolean checkConflict(Schedule s){
 
-        if(isConflict(s.labDay, s.startLab, s.endLab , startLab, endLab)){
-			System.out.println("Error! Lab clash with existing course(s) lab.");
+        if(isConflictLab(s.labDay, s.labType, s.startLab, s.endLab, startLab, endLab)){
+			System.out.println("Error! " + s.getIndexNumber()  + " LAB" + "(" + s.labType + ")" + " clash with " + indexNumber  + " LAB" + "(" + labType + ").");
+			return true;
+        }
+        
+        if(isConflict(s.labDay, lecDay, s.startLab, s.endLab, startLec, endLec)){
+            System.out.println("Error! " + s.getIndexNumber() + " LAB clash with " + indexNumber + " LECTURE.");
+			return true;
+        }
+        
+        if(isConflict(s.labDay, tutDay, s.startLab, s.endLab, startTut, endTut)){
+            System.out.println("Error! " + s.getIndexNumber() + " LAB clash with " + indexNumber + " TUTORIAL.");
 			return true;
 		}
 
-		if(isConflict(s.labDay, s.startLab, s.endLab, startTut, endTut)){
-			System.out.println("Error! Lab clash with existing course(s) tutorial.");
+		if(isConflict(s.lecDay, labDay, s.startLec, s.endLec, startLab, endLab)){
+            System.out.println("Error! " + s.getIndexNumber() + " LECTURE clash with " + indexNumber + " LAB.");
 			return true;
-		}
+        }
 
-		if(isConflict(s.labDay, s.startLab, s.endLab, startLec, endLec)){
-			System.out.println("Error! Lab clash with existing course(s) lecture.");
+        if(isConflict(s.lecDay, lecDay, s.startLec, s.endLec, startLec, endLec)){
+            System.out.println("Error! " + s.getIndexNumber() + " LECTURE clash with " + indexNumber + " LECTURE.");
 			return true;
-		}
+        }
+        
+        if(isConflict(s.lecDay, tutDay, s.startLec, s.endLec, startTut, endTut)){
+            System.out.println("Error! " + s.getIndexNumber() + " LECTURE clash with " + indexNumber + " TUTORIAL.");
+			return true;
+        }
+        
+		if(isConflict(s.tutDay, labDay, s.startTut, s.endTut, startLab, endLab)){
+            System.out.println("Error! " + s.getIndexNumber() + " TUTORIAL clash with " + indexNumber + " LAB.");
+			return true;
+        }
 
-		if(isConflict(s.lecDay, s.startLec, s.endLec, startLab, endLab)){
-			System.out.println("Error! Lecture clash with existing course(s) lab.");
+        if(isConflict(s.tutDay, lecDay, s.startTut, s.endTut, startLec, endLec)){
+            System.out.println("Error! " + s.getIndexNumber() + " TUTORIAL clash with " + indexNumber + " LECTURE.");
 			return true;
         }
-        
-		if(isConflict(s.lecDay, s.startLec, s.endLec, startTut, endTut)){
-			System.out.println("Error! Lecture clash with existing course(s) tutorial.");
+
+        if(isConflict(s.tutDay, tutDay, s.startTut, s.endTut, startTut, endTut)){
+            System.out.println("Error! " + s.getIndexNumber() + " TUTORIAL clash with " + indexNumber + " TUTORIAL.");
 			return true;
         }
-        
-		if(isConflict(s.lecDay, s.startLec, s.endLec, startLec, endLec)){
-			System.out.println("Error! Lecture clash with existing course(s) lecture.");
-			return true;
-        }
-        
-		if(isConflict(s.tutDay, s.startTut, s.endTut, startLab,endLab)){
-			System.out.println("Error! Tutorial clash with existing course(s) lab.");
-			return true;
-        }
-        
-		if(isConflict(s.tutDay, s.startTut, s.endTut, startTut, endTut)){
-			System.out.println("Error! Tutorial clash with existing course(s) tutorial.");
-			return true;
-        }
-        
-		if(isConflict(s.tutDay, s.startTut, s.endTut, startLab, endLab)){
-			System.out.println("Error! Tutorial clash with existing course(s) lab.");
-			return true;
-		}
         return false;
      }
      
-     public boolean isConflict(String day, LocalTime t1, LocalTime t2, LocalTime d1, LocalTime d2)
-     {
-        if(day != labDay && day != lecDay && day != tutDay)
+     public boolean isConflict(String currentDay, String newDay, LocalTime currentStartTime, LocalTime currentEndTime, LocalTime newStartTime, LocalTime newEndTime)
+     {  
+        if(!currentDay.equals(newDay)){
             return false;
-        
-        if((t1.isBefore(d2)) && (t2.isAfter(d1)))
+        }
+
+        //System.out.print("currentDay is " + currentDay + " newDay is " + newDay);
+            
+        if((currentStartTime.isBefore(newEndTime)) && (currentEndTime.isAfter(newStartTime)))
             return true;
 
+        return false;
+     }
+
+     public boolean isConflictLab(String currentLabDay, String currentLabType, LocalTime currentStartTime, LocalTime currentEndTime, LocalTime newStartTime, LocalTime newEndTime)
+     {  
+        if(!currentLabDay.equals(labDay)){
+            return false;
+        }
+
+        if(currentLabType.equals(labType)){
+            if((currentStartTime.isBefore(newEndTime)) && (currentEndTime.isAfter(newStartTime)))
+                return true;
+        }
+            
         return false;
      }
 }
