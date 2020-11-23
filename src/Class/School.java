@@ -22,6 +22,13 @@ public class School implements Serializable {
     {
     }
 
+    /** 
+     * Constructor to create a school.
+     * @param schoolID SchoolID (SCSE / SPMS for etc)
+     * @param name Full name of the school (School of ....)
+     * @param startAccess This indicates the starting dateTime where students from this school can access add drop.
+     * @param endAccess This indicates the ending dateTime where students from this school can acesss add drop.
+     */
     public School(String SchoolID, String name, LocalDateTime startAccess, LocalDateTime endAccess) {
         this.schoolID = SchoolID;
         this.name = name;
@@ -30,68 +37,17 @@ public class School implements Serializable {
     }
 
     
-    /** 
-     * @return String
-     */
-    public String getSchoolID() {
-        return schoolID;
-    }
-
+    public String getSchoolID() {return schoolID;}
+    public void setSchoolID(String school) {this.schoolID = school;}
     
-    /** 
-     * @param school
-     */
-    public void setSchoolID(String school) {
-        this.schoolID = school;
-    }
+    public String getName() {return name;}
+    public void setName(String name) {this.name = name;}
 
-    
-    /** 
-     * @return String
-     */
-    public String getName() {
-        return name;
-    }
+    public LocalDateTime getStartAccess() {return startAccess;}
+    public void setStartAccess(LocalDateTime startAccess) {this.startAccess = startAccess;}
 
-    
-    /** 
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    
-    /** 
-     * @return LocalDateTime
-     */
-    public LocalDateTime getStartAccess() {
-        return startAccess;
-    }
-
-    
-    /** 
-     * @param startAccess
-     */
-    public void setStartAccess(LocalDateTime startAccess) {
-        this.startAccess = startAccess;
-    }
-
-    
-    /** 
-     * @return LocalDateTime
-     */
-    public LocalDateTime getEndAccess() {
-        return endAccess;
-    }
-
-    
-    /** 
-     * @param endAccess
-     */
-    public void setEndAccess(LocalDateTime endAccess) {
-        this.endAccess = endAccess;
-    }
+    public LocalDateTime getEndAccess() {return endAccess;}
+    public void setEndAccess(LocalDateTime endAccess) {this.endAccess = endAccess;}
 
 }
 

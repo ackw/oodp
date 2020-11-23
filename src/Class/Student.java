@@ -14,11 +14,29 @@ import java.util.*;
 
 public class Student extends User implements Serializable
 {
+    /** 
+     *  matricNumber for the student, should be unique.
+     */
     private String matricNumber;
+    /** 
+     *  M = Male, F = Female
+     */
     private char gender;
+    /** 
+     *  Nationality for student.
+     */
     private String nationality;
+    /** 
+     *  SchoolID should match list of schoolIDs in school list.
+     */
     private String schoolID;
+    /** 
+     *  Maximum academic units each student is allowed to take. By default is 21.
+     */
     private int maxAUs;
+    /** 
+     *  Current academic units that this student has.
+     */
     private int currentAUs;
 
     public Student()

@@ -10,18 +10,36 @@ import java.io.Serializable;
  @version 1.0
  @since 2020-11-23
 */
-
 public class Index extends Course implements Serializable
 {
+    /** 
+     *  indexNumberfor the index, should be unique.
+     */
     protected int indexNumber;
-    private int vacancies;
+
+    /** 
+     *  Vacancies the index, should be 10 as specified in requirements.
+     */
+    protected int vacancies;
+
+    /** 
+     *  Schedule that's related to each index.
+     */
     protected Schedule schedule;
 
     public Index()
     {
         super();
     }
-
+    /** 
+     * Constructor to create an index. 
+     * @param c CourseCode (CZ2001 / CZ2002 etc)
+     * @param s School (SCSE / SPMS etc)
+     * @param a AcademicUnits (AUs)
+     * @param i IndexNumber (Should be unique)
+     * @param v Vacancy (10 according to requirements)
+     * @param d Schedule for each index.
+     */
     public Index(String c, String s,int a, int i, int v, Schedule d)
     {
         super(c, s, a);
@@ -30,33 +48,15 @@ public class Index extends Course implements Serializable
         schedule = d;
     }
 
+    public int getIndexNumber(){return indexNumber;}
+    public void setIndexNumber(int i){indexNumber = i;}
+    public int getVacancies(){return vacancies;}
+    public void setVacancies(int v){vacancies = v;}
     public Schedule getSchedule(){return schedule;}
     public void setSchedule(Schedule d){schedule = d;}
-	
-    /** 
-     * @param toString(
-     * @return int
-     */
-    public int getIndexNumber(){return indexNumber;}
-    
-    /** 
-     * @param toString(
-     */
-    public void setIndexNumber(int i){indexNumber = i;}
-    
-    /** 
-     * @param toString(
-     * @return int
-     */
-    public int getVacancies(){return vacancies;}
-    
-    /** 
-     * @param toString(
-     */
-    public void setVacancies(int v){vacancies = v;}
 
-    
     /** 
+     * This method returns the variables of related Index.
      * @return String
      */
     public String toString()

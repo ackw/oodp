@@ -12,73 +12,51 @@ import java.io.Serializable;
 
 public class Course implements Serializable
 {
+    /** 
+     * courseCode for the course, should be unique.
+     */
     protected String courseCode;
+    /** 
+     * Full name for the course.
+     */
     protected String school;
+    /** 
+     * The weighted academic unit for each course.
+     */
     protected int academicUnits;
 
 
     public Course()
     {
     }
-
-    public Course(String c, String s, int a)
-    {
+    /** 
+     * Constructor to add course
+     * @param courseCode
+     * @param school
+     * @param academicUnits
+     */
+    public Course(String c, String s, int a){
         courseCode = c;
         school = s;
         academicUnits = a;
     }
-    
-    /** 
-     * @param academicUnits
-     * @return String
-     */
     public String getCourseCode(){return courseCode;}
-    
-    /** 
-     * @param academicUnits
-     */
     public void setCourseCode(String c){courseCode = c;}
 
-    
-    /** 
-     * @param academicUnits
-     * @return String
-     */
     public String getSchool(){return school;}
-    
-    /** 
-     * @param academicUnits
-     */
     public void setSchool(String s){school = s;}
 
-    
-    /** 
-     * @param academicUnits
-     * @return int
-     */
     public int getAcademicUnits(){return academicUnits;}
-    
+    public void setAcademicUnits(int academicUnits) {this.academicUnits = academicUnits;}
+
     /** 
-     * @param academicUnits
-     */
-    public void setAcademicUnits(int academicUnits) {
-        this.academicUnits = academicUnits;
-    }
-    
-    
-    /** 
+     * This method returns the variables of related Course.
      * @return String
      */
-    //public ArrayList<Index> getIndexList(){return indexList;}
-
     public String toString()
     {
        return "Course Name: " + courseCode + "\nSchool: " + school;
     }
-    
-
-    //public addIndex()
-    //public dropIndex()
 
 
 

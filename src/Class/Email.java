@@ -9,7 +9,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
-<fill in pls>.
+ <to be filled>
  @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
  @version 1.0
  @since 2020-11-23
