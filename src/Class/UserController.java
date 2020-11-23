@@ -279,7 +279,7 @@ public class UserController{
                 }
             }
             if(!success)
-                System.out.println("Invalid login details");
+                System.out.println("Invalid login details. Please try again.");
         }
         currentUser = u;
         return u;
