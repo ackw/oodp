@@ -2,7 +2,7 @@ package Class;
 
 /**
  Represents an admin user.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-20
 */

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  Represents a course.
  A course contains course code, school, and academic units.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */

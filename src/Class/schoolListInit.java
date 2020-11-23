@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  Initializes the initial dummy data for School.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */
@@ -38,7 +38,7 @@ public class schoolListInit {
 
         sch = new School("SCSE", "School of Computer Science and Engineering", timeStart, timeEnd);
         schoolList.add(sch);
-        sch = new School("MAE", "chool of Mechanical and Aerospace Engineering", timeStart, timeEnd);
+        sch = new School("MAE", "School of Mechanical and Aerospace Engineering", timeStart, timeEnd);
         schoolList.add(sch);
         sch = new School("MSE", "School of Materials Science and Engineering", timeStart, timeEnd);
         schoolList.add(sch);

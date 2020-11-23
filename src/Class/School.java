@@ -7,7 +7,7 @@ import java.time.*;
  Represents each School.
  Each school contains its own start/end access period which can be modified to limit access for students.
  They also contain a unique school ID, as well as it's name.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */

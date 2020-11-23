@@ -18,7 +18,7 @@ public class AdminController{
     UserController userController = new UserController();
     Scanner s1 = new Scanner(System.in);
     /**
-     * Displays Admin menu
+     * Display Admin menu
      */
     public void displayMenu() {
         System.out.println("Menu");
@@ -32,9 +32,7 @@ public class AdminController{
         System.out.println("DONE 0. Exit.");
         System.out.print("Enter choice: ");
     }
-    /**
-     * This method calls displayMenu() and prompts for choice of function
-     */
+
     public void selectChoice() {
         Admin a = (Admin) userController.getCurrentUser();
         int choice = 9;
@@ -102,9 +100,7 @@ public class AdminController{
             }
         }
     }
-    /**
-     * This method prints all students that are registered for the courseID the user inputs.
-     */
+
     private void printStudentListCourse() {
         Scanner s1 = new Scanner(System.in);
         String courseID;
@@ -147,8 +143,7 @@ public class AdminController{
 
     
     /** 
-     * This method prints all students based on the user input for index.
-     * @param index This is the index the user input.
+     * @param index
      */
     private void printStudentListIndex(int index) {
         Index ind;
@@ -178,9 +173,8 @@ public class AdminController{
 
     
     /** 
-     * This method allows user to choose to ADD / UPDATE course.
-     * @param courseList For program reference to and make updates when needed.
-     * @param scheduleList For program to take reference to and make updates when needed.
+     * @param courseList
+     * @param scheduleList
      */
     public void addUpdateCourse(ArrayList courseList, ArrayList scheduleList) {
         int option = 9;
@@ -402,9 +396,7 @@ public class AdminController{
             System.out.print("nope!");
         }
     }
-    /**
-     * This method displays all school's access period.
-     */
+
     public void displaySchoolAccessPeriod(){
         ArrayList<School> schoolList = userController.getSchoolList();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -426,10 +418,8 @@ public class AdminController{
 
     
     /** 
-     * This method convert a user's input for date time into proper LocalDateTime format.
-     * Null value is returned for invalid input.
-     * @param s User's string input for date time, to be converted. 
-     * @return LocalDateTime null is returned if it's invalid. If not, the proper LocalDateTime variable.
+     * @param s
+     * @return LocalDateTime
      */
     public LocalDateTime convertDate(String s){
         LocalDateTime date = null;
@@ -444,8 +434,7 @@ public class AdminController{
 
     
     /** 
-     * Changes add/drop access period for a selected school
-     * @return Message is returned based on the error / success.
+     * @return String
      */
     public String editAccessPeriod(){
         Scanner s1 = new Scanner(System.in);
@@ -489,8 +478,7 @@ public class AdminController{
 
     
     /** 
-     * Prompts for details and adds students into userList.
-     * @return Message is returned based on the error / success.
+     * @return String
      */
     public String addStudent(){
         Scanner s1 = new Scanner(System.in);
@@ -529,11 +517,9 @@ public class AdminController{
 
     
     /** 
-     * This method is called during addStudent and takes in the input for matricNo and username 
-     * to check if the username or matricNo already exist.
-     * @param matricNo This variable should be unique. 
-     * @param username This variable should be unique
-     * @return boolean IF TRUE = there's a conflict, IF FALSE = there's a conflict.
+     * @param matricNo
+     * @param username
+     * @return boolean
      */
     public boolean checkInput(String matricNo, String username){
         User u;
@@ -553,13 +539,14 @@ public class AdminController{
             return false;
         }
         return true;
+
     }
 
     
     /** 
-     * <to be filled>
-     * @param num
-     * @return String
+     * This method converts the integer user input for weekdays into strings.
+     * @param num Int input from the user.
+     * @return String Return weekdays as string.
      */
     public String numDay(int num){
         String day = "";
@@ -588,9 +575,9 @@ public class AdminController{
 
     
     /** 
-     * <to be filled>
-     * @param num
-     * @return String
+     * This method is for converting integer user input into string for type of lab week.
+     * @param num Integer user input.
+     * @return String Returns string for the type of lab week.
      */
     public String oddEven(int num){
         String value = "";
@@ -611,11 +598,15 @@ public class AdminController{
         return value;
     }
 
-    /** 
-     * <to be filled>
-     * @param day1
-     * @param t2
-     * @param t3
+     /** 
+     * This method is called for checking there is conflict between lab, lecture and tutorial schedules
+     * when creating new course.
+     * @param day1 Lab day input from the user.
+     * @param day2 Lecture day input from the user.
+     * @param day3 Tutorial day input from the user.
+     * @param t1 Lab starting time from the user.
+     * @param t2 Lecture starting time from the user.
+     * @param t3 Tutorial starting time from the user.
      * @return Boolean
      */
 

@@ -10,18 +10,24 @@ import java.security.SecureRandom;
 /**
  Helps direct users to their own controller. 
  If they're Admin, to AdminController; If they're Student, to StudentController.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */
 public class UserController{
+    /** 
+     * Initializes all the data file paths to be passed into program to be initialized.
+     */
     private final static String userListPath = "./src/data/userList";
     private final static String courseListPath = "./src/data/courseList";
     private final static String registerStudentPath = "./src/data/registerStudentList";
     private final static String waitListPath = "./src/data/waitList";
     private final static String schoolListPath = "./src/data/schoolList";
     private final static String scheduleListPath = "./src/data/scheduleList";
-    
+
+    /** 
+     * Creates the relevant data lists.
+     */
     private static ArrayList<User> userList = new ArrayList<User>();
     private static ArrayList<Course> courseList = new ArrayList<Course>();
     private static ArrayList<RegisterStudent> registerStudentList = new ArrayList<RegisterStudent>();
@@ -34,55 +40,41 @@ public class UserController{
     /** 
      * @return User
      */
-    public User getCurrentUser(){
-        return currentUser;
-    }
+    public User getCurrentUser(){return currentUser;}
     
     /** 
      * @return ArrayList<User>
      */
-    public ArrayList<User> getUserList(){
-        return userList;
-    }
+    public ArrayList<User> getUserList(){return userList;}
     
     /** 
      * @return ArrayList<Course>
      */
-    public ArrayList<Course> getCourseList(){
-        return courseList;
-    }
+    public ArrayList<Course> getCourseList(){return courseList;}
     
     /** 
      * @return ArrayList<RegisterStudent>
      */
-    public ArrayList<RegisterStudent> getRegisterStudentList(){
-        return registerStudentList;
-    }
+    public ArrayList<RegisterStudent> getRegisterStudentList(){return registerStudentList;}
 
-    
     /** 
      * @return ArrayList<WaitList>
      */
-    public ArrayList<WaitList> getWaitList(){
-        return waitList;
-    }
-
+    public ArrayList<WaitList> getWaitList(){return waitList;}
     
     /** 
      * @return ArrayList<School>
      */
-    public ArrayList<School> getSchoolList(){
-        return schoolList;
-    }
+    public ArrayList<School> getSchoolList(){return schoolList;}
 
-    
     /** 
      * @return ArrayList<Schedule>
      */
-    public ArrayList<Schedule> getScheduleList(){
-        return scheduleList;
-    }
+    public ArrayList<Schedule> getScheduleList(){return scheduleList;}
 
+    /** 
+     * Load list methods are used to read list initially.
+     */
     public void loadScheduleList(){
         try {
             FileInputStream fis = new FileInputStream(scheduleListPath);
@@ -95,6 +87,9 @@ public class UserController{
                 e.printStackTrace();
             }
     }
+    /** 
+     * Edit list methods are used to edit lists whenever required.
+     */
     public void editScheduleList(){
         try {
             FileOutputStream fos = new FileOutputStream(scheduleListPath);
@@ -242,9 +237,8 @@ public class UserController{
     }
 
 
-
-    
     /** 
+     * This method processes the login whenever required.
      * @return User
      */
     public User login(){
@@ -256,7 +250,7 @@ public class UserController{
         // user login details
         while(!success)
         {
-            System.out.print("Enter Username: ");
+            System.out.print("\nEnter Username: ");
             String inputUsername = s1.nextLine();
 
             // run encrypt() to check if its the same as stored
@@ -268,10 +262,6 @@ public class UserController{
             for(int i = 0; i < userList.size(); i++)
             {
                 u = (User) userList.get(i);
-
-                //System.out.print("to hash " + encrypt(inputPw));
-
-                //if(u.getUsername().equals(inputUsername) && inputPw.equals("688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6"))
                 if(u.getUsername().equals(inputUsername) && u.getPassword().equals(inputPw))
                 {
                     success = true;
@@ -279,7 +269,7 @@ public class UserController{
                 }
             }
             if(!success)
-                System.out.println("Invalid login details");
+                System.out.println("Invalid login details. Please try again.");
         }
         currentUser = u;
         return u;
@@ -287,6 +277,7 @@ public class UserController{
 
     
     /** 
+     * This overloaded method of login is used to authenticate the user when required.
      * @param inputUsername
      * @param inputPw
      * @return User
@@ -317,6 +308,7 @@ public class UserController{
 
     
     /** 
+     * This method passes in plainPw which processes the encryption, then returns an encrypted string back.
      * @param plainPw
      * @return String
      */
@@ -340,6 +332,9 @@ public class UserController{
 		return plainPw;
 	}
 
+    /** 
+     * This method shows all courses available in list along with their relevant details.
+     */
     public void showCourseInfo(){
         Index index;
         System.out.printf("\n%-15s %-10s %-10s %-10s\n","Course Code", "School", "Index", "Vacancies");
@@ -347,10 +342,12 @@ public class UserController{
         for(int i = 0; i < getCourseList().size(); i++){
             index = (Index)getCourseList().get(i);
             System.out.printf("%-15s %-10s %-10s %-10s\n", index.getCourseCode(), index.getSchool(), index.getIndexNumber(), index.getVacancies());
-            
         }
     }
 
+    /** 
+     * This method shows all schools available in list along with their relevant details.
+     */
     public void showSchoolInfo(){
         School sch;
         System.out.println("SchoolID School Name");
@@ -363,6 +360,9 @@ public class UserController{
 
     
     /** 
+     * This method takes in an index integer, and returns an index object if index is found.
+     * In the case the index is invalid, null will be returned.
+     * This method helps to check if user has entered a valid index integer.
      * @param index
      * @return Index
      */
@@ -380,6 +380,9 @@ public class UserController{
 
     
     /** 
+     * This method takes in an school string, and returns an School object if school is found.
+     * In the case the school is invalid, null will be returned.
+     * This method helps to check if user has entered a valid school.
      * @param school
      * @return School
      */

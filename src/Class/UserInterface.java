@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  Performs the initial initializing of everything.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */
@@ -15,9 +15,6 @@ public class UserInterface{
     private static AdminController adminControl;
     private static StudentController studentControl;
     
-    /** 
-     * @param args
-     */
     public static void main(String[] args){
         Scanner s1 = new Scanner(System.in);
         int choice = 0;
@@ -29,8 +26,9 @@ public class UserInterface{
         userControl.loadSchoolList();
         userControl.loadScheduleList();
         
+        //displays the initial menu
         while(choice != 2){
-            System.out.println("1. Login (Username chew0393 for sending student email)");
+            System.out.println("\n1. Login (Username chew0393 for sending student email)");
             System.out.println("2. Exit");
             System.out.print("Choice: ");
             try{
@@ -60,6 +58,9 @@ public class UserInterface{
         }
     }
 
+    /** 
+     * This method sets up controller respective to the type of user that's logged in.
+     */
     private static void setController() {
         if(currentUser instanceof Admin){
             adminControl = new AdminController();
@@ -69,6 +70,9 @@ public class UserInterface{
         }
     }
 
+    /** 
+     * This method prints menu based on the type of user.
+     */
     private static void printMenu() {   
         if(currentUser instanceof Admin){
             adminControl.selectChoice();

@@ -7,7 +7,7 @@ import java.util.*;
  Each student extends user, contains its own unique matric number.
  Other variables includes gender, nationality, its related schoolID, max AU, as well as the current AU.
  By default, a student's max AU is 21 and initial starting AU is 0.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */

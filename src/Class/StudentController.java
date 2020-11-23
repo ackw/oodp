@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMessage;
 
 /**
  Represents the functions of a student.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */
@@ -28,26 +28,31 @@ public class StudentController {
     UserController userController = new UserController();
     Scanner s1 = new Scanner(System.in);
     Console console = System.console();
-    public static int emails = 0; // index for email
+    public static int emails = 0;
 
+    /**
+     * Displays Student menu
+     */
     public void displayMenu(){
         System.out.println("Menu");
         System.out.println("=====");
-        System.out.println("DONE 1. *Add Course");
-        System.out.println("DONE 2. Drop Course");
-        System.out.println("DONE 3. Check/Print Courses Registered");
-        System.out.println("DONE 4. Check Vacancies Available");
-        System.out.println("DONE 5. Change Index Number of Course");
-        System.out.println("DONE 6. Swop Index Number with Another Student");
-        System.out.println("DONE 0. Logout");
-        System.out.print("Enter choice: ");
+        System.out.println("1. Add Course");
+        System.out.println("2. Drop Course");
+        System.out.println("3. Check/Print Courses Registered");
+        System.out.println("4. Check Vacancies Available");
+        System.out.println("5. Change Index Number of Course");
+        System.out.println("6. Swop Index Number with Another Student");
+        System.out.println("0. Logout");
+        System.out.print("\nEnter choice: ");
     }
-
+    /**
+     * This method calls displayMenu() and prompts for choice of function
+     */
     public void selectChoice(){
         Student s = (Student)userController.getCurrentUser();
         int choice = 9;
         int index = 0;
-        
+
         while(choice != 0){
             AdminController ac = new AdminController();
             displayMenu();
@@ -58,8 +63,7 @@ public class StudentController {
                     if (checkAccessPeriod(s.getSchoolID()) == false) {
                         break;
                     }
-                    System.out.println();
-                    System.out.println("1. *Add Course");
+                    System.out.println("\n1. *Add Course");
                     userController.showCourseInfo();
                     try{
                         index = promptIndex();
@@ -70,11 +74,10 @@ public class StudentController {
                     System.out.println();
                     break;
                 case 2:
-                    // if (checkAccessPeriod(s.getSchoolID()) == false) {
-                    //     break;
-                    // }
-                    System.out.println();
-                    System.out.println("2. Drop Course");
+                    if (checkAccessPeriod(s.getSchoolID()) == false) {
+                        break;
+                    }
+                    System.out.println("\n2. Drop Course");
                     printCoursesRegistered(s);
                     try{
                         index = promptIndex();
@@ -84,15 +87,13 @@ public class StudentController {
                     }
                     System.out.println();
                     break;
-                case 3: 
-                    System.out.println();
-                    System.out.println("3. Check/Print Courses Registered");
+                case 3:
+                    System.out.println("\n3. Check/Print Courses Registered");
                     printCoursesRegistered(s);
                     System.out.println();
                     break;
                 case 4:
-                    System.out.println();
-                    System.out.println("4. Check Vacancies Available");
+                    System.out.println("\n4. Check Vacancies Available");
                     try{
                         index = promptIndex();
                         Index ind = null;
@@ -107,9 +108,11 @@ public class StudentController {
                     }
                     System.out.println();
                     break;
-                case 5: 
-                    System.out.println();
-                    System.out.println("5. Change Index Number of Course");
+                case 5:
+                    if (checkAccessPeriod(s.getSchoolID()) == false) {
+                        break;
+                    }
+                    System.out.println("\n5. Change Index Number of Course");
                     System.out.printf("\nHere's the list of all currently registered courses:\n====================================================");
                     printCoursesRegistered(s);
                     try{
@@ -132,9 +135,11 @@ public class StudentController {
                     }
                     System.out.println();
                     break;
-                case 6: 
-                    System.out.println();
-                    System.out.println("6. Swop Index Number with Another Student");
+                case 6:
+                    if (checkAccessPeriod(s.getSchoolID()) == false) {
+                        break;
+                    }
+                    System.out.println("\n6. Swop Index Number with Another Student");
                     System.out.printf("\n%s's currently registered courses:\n====================================================", s.getName());
                     printCoursesRegistered(s);
                     System.out.print("Enter the index you'd wish to change: ");
@@ -145,7 +150,7 @@ public class StudentController {
                     char[] password = console.readPassword("Enter password of student you're swopping with: ");
                     String inputPw = new String(password);
                     User user = userController.login(username, inputPw);
-                    
+
                     if(user.getUsername() == s.getUsername()){
                         System.out.println("New user cannot be the same as current user. Please try again.");
                     }
@@ -168,19 +173,19 @@ public class StudentController {
                     System.out.println(swopIndexStudent(s, index, s2, index2));
                     System.out.println();
                     break;
-                case 0: 
-                    System.out.println("");
+                case 0:
                     break;
                 default: break;
             }
         }
     }
 
-    
-    /** 
-     * @param index
-     * @param s
-     * @return String
+
+    /**
+     * This method takes in the index and current user (Student s) and adds index to student.
+     * @param index Index to be added
+     * @param s Student that current wants to add a course.
+     * @return String Relevant message that is returned to user. Could be either success or error message.
      */
     public String addCourse(int index, Student s) {
         ArrayList registerStudentList = userController.getRegisterStudentList();
@@ -191,7 +196,7 @@ public class StudentController {
         Index ind = userController.findIndex(index);
         int courseAU = 0;
         if(ind == null){
-            return "Index not found.";
+            return "Invalid index entered. Please try again.";
         }
         for(int i = 0; i < registerStudentList.size(); i++)
         {
@@ -200,8 +205,8 @@ public class StudentController {
             User u = r.getUser();
             courseAU = c.getAcademicUnits();
             if(u.getUsername().equals(s.getUsername()) && index == ((Index)c).getIndexNumber())
-                return "User already has this module. Please choose a different index.";
-    
+                return "You have previously registered for this module. Please choose a different course.";
+
             if(u.getUsername().equals(s.getUsername()) && c.getCourseCode().equals(ind.getCourseCode()))
                 return "You are not allowed to register multiple index of the same course.";
             if (u.getUsername().equals(s.getUsername()) && (s.getCurrentAUs() + c.getAcademicUnits() > s.getMaxAUs())){
@@ -211,7 +216,7 @@ public class StudentController {
 
         if(checkSchedule(index, s))
             return "Adding of new course failed.";
-    
+
         // waitlist
         if(ind.getVacancies() < 1){
             System.out.println("This course is full at the moment. You'll be added to the waiting list.");
@@ -220,43 +225,40 @@ public class StudentController {
             String usern = s.getUsername();
             String code = ind.getCourseCode();
             int num = ind.getIndexNumber();
-            
             Email(name, code, num, usern, registerStudentList);
-    
+
             w = new WaitList(s, ind);
             waitList.add(w);
             userController.editWaitList();
-            // return "This course is full at the moment. You'll be added to the waiting list. Please check your email.";
             return "";
         }
-    
+
         r = new RegisterStudent(s, ind);
         registerStudentList.add(r);
         int newVacancy = ((Index)ind).getVacancies()-1;
         ((Index)ind).setVacancies(newVacancy);
         userController.editRegisterStudentList();
         userController.editCourseList();
-    
+
         System.out.println("You have successfully registered for the course.");
         emails = 1;
         String name = s.getName();
         String usern = s.getUsername();
         String code = ind.getCourseCode();
         int num = ind.getIndexNumber();
-    
         Email(name, code, num, usern, registerStudentList);
+
         int addAU = s.getCurrentAUs() + courseAU;
         s.setCurrentAUs(addAU);
-
-        // return "You have successfully registered for the course."; //implement send cfm emnail
         return "";
     }
-    
-    
-    /** 
-     * @param index
-     * @param s
-     * @return String
+
+
+    /**
+     * This method takes in the index and current user (Student s) and drops index from student.
+     * @param index Index to be added.
+     * @param s Student that wishes to drop the course.
+     * @return String Relevant message that is returned to user. Could be either success or error message.
      */
     public String dropCourse(int index, Student s){
         ArrayList registerStudentList = userController.getRegisterStudentList();
@@ -269,9 +271,9 @@ public class StudentController {
         boolean checkIndex = false;
         Index ind = userController.findIndex(index);
         if(ind == null){
-            return "Index not found.";
+            return "Invalid index entered. Please try again.";
         }
-    
+
         for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
             c = r.getCourse();
@@ -280,10 +282,10 @@ public class StudentController {
             if(u.getUsername().equals(s.getUsername()) && index == ((Index)c).getIndexNumber())
                 checkIndex = true;
         }
-    
+
         if(!checkIndex)
-            return "User does not have this index. Please choose a different index.";
-    
+            return "You have not registered for this index. Please try again.";
+
         for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
             ind = (Index)r.getCourse();
@@ -298,25 +300,24 @@ public class StudentController {
                     userController.editCourseList();
 
                     System.out.println("You have successfully dropped the course.");
-    
+
                     // send email
-                    emails = 2; 
+                    emails = 2;
                     String name = s.getName();
                     String usern = s.getUsername();
                     String code = ind.getCourseCode();
                     int num = ind.getIndexNumber();
-    
+
                     Email(name, code, num, usern, registerStudentList);
-    
+
                     // waitlist
                     for(int j = 0; j < waitList.size(); j++){
                         w = (WaitList)waitList.get(j);
                         ind = (Index)w.getCourse();
-    
+
                         if(index == ind.getIndexNumber())
                         {
                             Student t = (Student)w.getUser();
-                            //addCourse(index, t);
 
                             // register student
                             for(int q = 0; q < registerStudentList.size(); q++)
@@ -325,7 +326,7 @@ public class StudentController {
                                 c = r.getCourse();
                                 u = r.getUser();
                             }
-                        
+
                             r = new RegisterStudent(t, ind);
                             registerStudentList.add(r);
                             int newVacancy2 = ((Index)ind).getVacancies()-1;
@@ -343,11 +344,9 @@ public class StudentController {
                             String usern2 = t.getUsername();
                             String code2 = ind.getCourseCode();
                             int num2 = ind.getIndexNumber();
-        
                             Email(name2, code2, num2, usern2, waitList);
                         }
                     }
-                    // return "You have successfully dropped the course. Please check your email.";
                     return "";
                 }
             }
@@ -355,8 +354,9 @@ public class StudentController {
         return null;
     }
 
-    
-    /** 
+
+    /**
+     * <to be filled>
      * @param name
      * @param course
      * @param index
@@ -430,7 +430,6 @@ public class StudentController {
             message.setText(msg);
 
             Transport.send(message);
-            // System.out.println("\nAn email notification has been sent.");
             System.out.println(pr);
 
         } catch (MessagingException e) {
@@ -439,22 +438,24 @@ public class StudentController {
 
         try {
             FileOutputStream fos = new FileOutputStream("./src/data/registerStudentList");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);   
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(registerStudentList);
             oos.close();
             }
-        
+
         catch(Exception ex) {
             ex.printStackTrace();
             }
     }
 
-    
-    /** 
-     * @param indexChoice
-     * @param newIndexChoice
-     * @param s
-     * @return String
+
+    /**
+     * This index takes in both index choices, current and new, as well as current user Student s.
+     * This processes the checks and swopping of index for the student.
+     * @param indexChoice Current index
+     * @param newIndexChoice New index to change to
+     * @param s Current user
+     * @return String Relevant message to be returned back to user. Could be both error or success message.
      */
     private String changeIndexNumber(int indexChoice, int newIndexChoice, Student s) {
         Index oldIndex = userController.findIndex(indexChoice);
@@ -463,7 +464,7 @@ public class StudentController {
             return "New index choice must be the same course as old index choice.";
 
         if(oldIndex == null || newIndex == null)
-            return "Invalid index choice. Please try again.";
+            return "Invalid index entered. Please try again.";
 
         ArrayList registerStudentList = userController.getRegisterStudentList();
         ArrayList courseList = userController.getCourseList();
@@ -474,9 +475,9 @@ public class StudentController {
         User u;
         int newVacancy;
         WaitList w;
-        
+
         //checks if user has the courseindex registered
-        for(int i = 0; i < registerStudentList.size(); i++){ 
+        for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
             c = r.getCourse();
             u = r.getUser();
@@ -485,7 +486,7 @@ public class StudentController {
             }
         }
         if(!checkIndex)
-            return "User does not have this index. Please choose a different index.";
+            return "You have not registered for this index. Please try again.";
 
         for(int i = 0; i < registerStudentList.size(); i++)
         {
@@ -502,17 +503,15 @@ public class StudentController {
             String usern = s.getUsername();
             String code = newIndex.getCourseCode();
             int num = newIndex.getIndexNumber();
-    
+
             Email(name, code, num, usern, registerStudentList);
-    
+
             System.out.println("This course is full at the moment. You'll be added to the waiting list.");
 
             w = new WaitList(s, newIndex);
             waitList.add(w);
             userController.editWaitList();
             return "";
-
-            //return "This course is full at the moment. You'll be added to waiting list."; //implement later
         }
 
         r = new RegisterStudent(s, newIndex);
@@ -536,8 +535,9 @@ public class StudentController {
         return returnMsg;
     }
 
-    
-    /** 
+
+    /**
+     * This method processes the printing for all courses currently registered by Student s that is passed into the method.
      * @param s
      */
     public void printCoursesRegistered(Student s){
@@ -546,7 +546,7 @@ public class StudentController {
         User u;
         ArrayList<RegisterStudent> registerStudentList = userController.getRegisterStudentList();
         int totalAU = 0;
-        if(checkRegisterStudentList(s) == 1) //checks if student has any courses registered before doing anything
+        if(checkRegisterStudentList(s) == 1) //checks if student has any courses registered
             return;
         System.out.printf("\n%-15s %-10s %-10s %-3s\n","Course Code", "School", "Index", "AUs");
         for(int i = 0; i < registerStudentList.size(); i++)
@@ -562,10 +562,14 @@ public class StudentController {
         System.out.println("Total AUs: " + totalAU);
     }
 
-    
-    /** 
-     * @param s
-     * @return int
+
+    /**
+     * This method performs the validation checks for printCoursesRegistered(Student s).
+     * It helps to check if user has registered for any modules.
+     * In the case the user has courses registered, 0 is returned to user. 
+     * Alternatively, 1 is returned to user if user has no courses registered.
+     * @param s Student S to be checked for.
+     * @return int 0 is returned if user has courses registered, 1 is returned if user has none.
      */
     public int checkRegisterStudentList(Student s){
         RegisterStudent r;
@@ -574,7 +578,7 @@ public class StudentController {
         boolean checkUser = false;
         ArrayList<RegisterStudent> registerStudentList = userController.getRegisterStudentList();
         if(registerStudentList.size() == 0){
-            System.out.println("User does not have any courses registered. Please choose a different option.");
+            System.out.println("You have not registered for any courses. Please choose a different option.");
             return 1;
         }
         else{
@@ -587,20 +591,21 @@ public class StudentController {
                     checkUser = true;
             }
             if(!checkUser){
-                System.out.println("User does not have any courses registered. Please choose a different option.");
+                System.out.println("You have not registered for any courses. Please choose a different option.");
                 return 1;
             }
         }
         return 0;
     }
 
-    
-    /** 
-     * @param s
-     * @param index
-     * @param s2
-     * @param index2
-     * @return String
+
+    /**
+     * This method performs the swopping of index between students.
+     * @param s  Current logged in student
+     * @param index Index of currently logged in student to swop with.
+     * @param s2 Student to swop index with.
+     * @param index2 Index of student to swop index with.
+     * @return String Relevant message will be returned, both error or success messages.
      */
     public String swopIndexStudent(Student s, int index, Student s2, int index2){
         Index i1 = userController.findIndex(index);
@@ -617,7 +622,7 @@ public class StudentController {
             return "Invalid index entered. Please try again.";
 
         if(!i1.getCourseCode().equals(i2.getCourseCode()))
-            return "New index choice must be the same course as old index choice.";
+            return "Both new and old index entered must be of the same course.";
 
         for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
@@ -629,11 +634,11 @@ public class StudentController {
                 checkIndex2 = true;
         }
         if(i2.getIndexNumber() == i1.getIndexNumber())
-            return "Both index numbers are the same. Please choose a different index.";
+            return "Both index numbers entered are the same. Please choose a different index.";
         if(!checkIndex && checkIndex2)
-            return "User does not have this index. Please choose a different index.";
+            return "You have not registered for this index. Please try again.";
         //tobeimplemented add check user does not have 2 of same course after adding
-        //do the swop swop swop 
+        //do the swop swop swop
         for(int i = 0; i < registerStudentList.size(); i++)
         {
             r = (RegisterStudent)registerStudentList.get(i);
@@ -659,13 +664,13 @@ public class StudentController {
         int num2 = index2;
 
         Email(name2, code2, num2, usern2, registerStudentList);
-        
+
         String returnMsg = String.format("Swopped %s's index of %d with %s's index of %d.", s.getName(), index, s2.getName(), index2);
         return returnMsg;
     }
 
-    
-    /** 
+
+    /**
      * @return int
      */
     public int promptIndex(){
@@ -674,10 +679,12 @@ public class StudentController {
         int index = s1.nextInt();
         return index;
     }
-    
-    /** 
-     * @param school
-     * @return boolean
+
+    /**
+     * This method is called whenever access period has to be checked.
+     * It takes in school variable that is passed in and returns boolean.
+     * @param school School value that is passed in.
+     * @return boolean Return TRUE if valid access period, return FALSE if invalid or null.
      */
     public boolean checkAccessPeriod(String school){
         LocalDateTime start = null;
@@ -699,12 +706,29 @@ public class StudentController {
         if (start.isBefore(curr) && end.isAfter(curr)) {
             return true;
         }
-        else { System.out.printf("Not in access period.\n\n");
+        else if (end.isBefore(curr)) {
+            System.out.printf("Your access period is over. You are not allowed to register for courses now.\n\n");
+            return false;
+        }
+        else if (start.isAfter(curr)) {
+            System.out.printf("Your access period has not started. You are not allowed to register for courses now.\n\n");
+            return false;
+        }
+        else{
+            System.out.printf("Not in access period.\n\n");
             return false;
         }
 
     }
 
+
+    /**
+     * This method is called whenever schedule has to be checked.
+     * It takes in school variable that is passed in along with index to check with and returns boolean.
+     * @param index Index whose schedule to check with
+     * @param s Student to check if new index will clash with student's currently existing registered courses.
+     * @return boolean Return TRUE if there are clash, return FALSE if there are no clashes.
+     */
     public boolean checkSchedule(int index, Student s)
     {
         ArrayList<RegisterStudent> registerStudentList = userController.getRegisterStudentList();
@@ -713,7 +737,11 @@ public class StudentController {
         Student u;
         Index ind = userController.findIndex(index);
         Schedule newSchedule = ind.getSchedule();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 9ebf0035d3b0243c220d73147629389f2321ec00
         for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
             u = (Student)r.getUser();
