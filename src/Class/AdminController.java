@@ -135,10 +135,9 @@ public class AdminController{
                 System.out.printf("%-20s %-7s %-10s\n", s.getName(), s.getGender(), s.getNationality());
                 
             }
-            if(count == 0)
-                System.out.println("There are no students currently registered for this course code.");
-
         }
+        if(count == 0)
+            System.out.println("There are no students currently registered for this course code.");
     }
 
     
