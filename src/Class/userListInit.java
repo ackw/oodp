@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 /**
  Initializes the initial dummy data for user data.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */
@@ -31,7 +31,6 @@ public class userListInit {
         userList.add(u);
         u = new Student("Wu Liu Qi", "user2", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, "U1923871A", 'F', "SG", "SCSE");
         userList.add(u);
-        // u = new Student("Sum Ting Wong", "user3", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, 19234234, 'F', "SG", "andrelchew@icloud.com");
         u = new Student("Sum Ting Wong", "user3", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, "U1928765F", 'F', "SG", "SCSE");
         userList.add(u);
         u = new Student("Low Mai Kai", "user4", "489cd5dbc708c7e541de4d7cd91ce6d0f1613573b7fc5b40d3942ccb9555cf35", false, "U2032423H", 'M', "MY", "SCBE");

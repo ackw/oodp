@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMessage;
 
 /**
  Represents the functions of a student.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */
@@ -28,7 +28,7 @@ public class StudentController {
     UserController userController = new UserController();
     Scanner s1 = new Scanner(System.in);
     Console console = System.console();
-    public static int emails = 0; // index for email
+    public static int emails = 0;
 
     /**
      * Displays Student menu
@@ -36,13 +36,13 @@ public class StudentController {
     public void displayMenu(){
         System.out.println("Menu");
         System.out.println("=====");
-        System.out.println("DONE 1. *Add Course");
-        System.out.println("DONE 2. Drop Course");
-        System.out.println("DONE 3. Check/Print Courses Registered");
-        System.out.println("DONE 4. Check Vacancies Available");
-        System.out.println("DONE 5. Change Index Number of Course");
-        System.out.println("DONE 6. Swop Index Number with Another Student");
-        System.out.println("DONE 0. Logout");
+        System.out.println("1. Add Course");
+        System.out.println("2. Drop Course");
+        System.out.println("3. Check/Print Courses Registered");
+        System.out.println("4. Check Vacancies Available");
+        System.out.println("5. Change Index Number of Course");
+        System.out.println("6. Swop Index Number with Another Student");
+        System.out.println("0. Logout");
         System.out.print("\nEnter choice: ");
     }
     /**
@@ -225,13 +225,11 @@ public class StudentController {
             String usern = s.getUsername();
             String code = ind.getCourseCode();
             int num = ind.getIndexNumber();
-
             Email(name, code, num, usern, registerStudentList);
 
             w = new WaitList(s, ind);
             waitList.add(w);
             userController.editWaitList();
-            // return "This course is full at the moment. You'll be added to the waiting list. Please check your email.";
             return "";
         }
 
@@ -248,12 +246,10 @@ public class StudentController {
         String usern = s.getUsername();
         String code = ind.getCourseCode();
         int num = ind.getIndexNumber();
-
         Email(name, code, num, usern, registerStudentList);
+
         int addAU = s.getCurrentAUs() + courseAU;
         s.setCurrentAUs(addAU);
-
-        // return "You have successfully registered for the course."; //implement send cfm emnail
         return "";
     }
 
@@ -322,7 +318,6 @@ public class StudentController {
                         if(index == ind.getIndexNumber())
                         {
                             Student t = (Student)w.getUser();
-                            //addCourse(index, t);
 
                             // register student
                             for(int q = 0; q < registerStudentList.size(); q++)
@@ -349,11 +344,9 @@ public class StudentController {
                             String usern2 = t.getUsername();
                             String code2 = ind.getCourseCode();
                             int num2 = ind.getIndexNumber();
-
                             Email(name2, code2, num2, usern2, waitList);
                         }
                     }
-                    // return "You have successfully dropped the course. Please check your email.";
                     return "";
                 }
             }
@@ -437,7 +430,6 @@ public class StudentController {
             message.setText(msg);
 
             Transport.send(message);
-            // System.out.println("\nAn email notification has been sent.");
             System.out.println(pr);
 
         } catch (MessagingException e) {
@@ -520,8 +512,6 @@ public class StudentController {
             waitList.add(w);
             userController.editWaitList();
             return "";
-
-            //return "This course is full at the moment. You'll be added to waiting list."; //implement later
         }
 
         r = new RegisterStudent(s, newIndex);
@@ -556,7 +546,7 @@ public class StudentController {
         User u;
         ArrayList<RegisterStudent> registerStudentList = userController.getRegisterStudentList();
         int totalAU = 0;
-        if(checkRegisterStudentList(s) == 1) //checks if student has any courses registered before doing anything
+        if(checkRegisterStudentList(s) == 1) //checks if student has any courses registered
             return;
         System.out.printf("\n%-15s %-10s %-10s %-3s\n","Course Code", "School", "Index", "AUs");
         for(int i = 0; i < registerStudentList.size(); i++)
@@ -721,7 +711,6 @@ public class StudentController {
             return false;
         }
         else if (start.isAfter(curr)) {
-            // System.out.printf("Your access period will be from " + start + " to " + end + ".\n\n");
             System.out.printf("Your access period has not started. You are not allowed to register for courses now.\n\n");
             return false;
         }

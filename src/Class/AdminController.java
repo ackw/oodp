@@ -8,7 +8,7 @@ import java.io.*;
 
 /**
  Represents the functions of admin.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */
@@ -23,14 +23,14 @@ public class AdminController{
     public void displayMenu() {
         System.out.println("Menu");
         System.out.println("=====");
-        System.out.println("DONE 1. Edit student access period");
-        System.out.println("DONE 2. Add a student (name, matric number, gender, nationality, etc)");
-        System.out.println("DONE 3. Add/Update a course (course code, school, its index numbers and vacancy).");
-        System.out.println("DONE 4. Check available slot for an index number (vacancy in a class)");
-        System.out.println("DONE 5. Print student list by index number.");
-        System.out.println("DONE 6. Print student list by course (all students registered for the selected course).");
-        System.out.println("DONE 0. Exit.");
-        System.out.print("Enter choice: ");
+        System.out.println("1. Edit Student Access Period");
+        System.out.println("2. Add Student");
+        System.out.println("3. Add/Update Course");
+        System.out.println("4. Check Class Vacancy");
+        System.out.println("5. Print Student List by Index Number");
+        System.out.println("6. Print Student List by Course");
+        System.out.println("0. Logout");
+        System.out.print("\nEnter choice: ");
     }
     /**
      * This method calls displayMenu() and prompts for choice of function
