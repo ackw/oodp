@@ -19,11 +19,33 @@ public class Index extends Course implements Serializable
         vacancies = v;
     }
 
-	public int getIndexNumber(){return indexNumber;}
+	
+    /** 
+     * @param toString(
+     * @return int
+     */
+    public int getIndexNumber(){return indexNumber;}
+    
+    /** 
+     * @param toString(
+     */
     public void setIndexNumber(int i){indexNumber = i;}
+    
+    /** 
+     * @param toString(
+     * @return int
+     */
     public int getVacancies(){return vacancies;}
+    
+    /** 
+     * @param toString(
+     */
     public void setVacancies(int v){vacancies = v;}
 
+    
+    /** 
+     * @return String
+     */
     public String toString()
     {
        return super.toString() + "\nIndex Number: " + indexNumber + "\nVacancies: " + vacancies;

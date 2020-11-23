@@ -23,27 +23,55 @@ public class UserController{
     private static ArrayList<Schedule> scheduleList = new ArrayList<Schedule>();
     private static User currentUser;
 
+    
+    /** 
+     * @return User
+     */
     public User getCurrentUser(){
         return currentUser;
     }
+    
+    /** 
+     * @return ArrayList<User>
+     */
     public ArrayList<User> getUserList(){
         return userList;
     }
+    
+    /** 
+     * @return ArrayList<Course>
+     */
     public ArrayList<Course> getCourseList(){
         return courseList;
     }
+    
+    /** 
+     * @return ArrayList<RegisterStudent>
+     */
     public ArrayList<RegisterStudent> getRegisterStudentList(){
         return registerStudentList;
     }
 
+    
+    /** 
+     * @return ArrayList<WaitList>
+     */
     public ArrayList<WaitList> getWaitList(){
         return waitList;
     }
 
+    
+    /** 
+     * @return ArrayList<School>
+     */
     public ArrayList<School> getSchoolList(){
         return schoolList;
     }
 
+    
+    /** 
+     * @return ArrayList<Schedule>
+     */
     public ArrayList<Schedule> getScheduleList(){
         return scheduleList;
     }
@@ -208,6 +236,10 @@ public class UserController{
 
 
 
+    
+    /** 
+     * @return User
+     */
     public User login(){
         Scanner s1 = new Scanner(System.in);
         Console console = System.console();
@@ -246,6 +278,12 @@ public class UserController{
         return u;
     }
 
+    
+    /** 
+     * @param inputUsername
+     * @param inputPw
+     * @return User
+     */
     public User login(String inputUsername, String inputPw){
         Scanner s1 = new Scanner(System.in);
         User u = null;
@@ -270,6 +308,11 @@ public class UserController{
         return u;
     }
 
+    
+    /** 
+     * @param plainPw
+     * @return String
+     */
     public static String encrypt(String plainPw) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -311,6 +354,11 @@ public class UserController{
         }
     }
 
+    
+    /** 
+     * @param index
+     * @return Index
+     */
     public Index findIndex(int index){
         Index ind = null;
         for(int i = 0; i < courseList.size(); i++){
@@ -323,6 +371,11 @@ public class UserController{
         return ind;
     }
 
+    
+    /** 
+     * @param school
+     * @return School
+     */
     public School findSchool(String school){
         School sch = null;
         for(int i = 0; i < schoolList.size(); i++){

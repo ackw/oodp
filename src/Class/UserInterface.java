@@ -7,6 +7,10 @@ public class UserInterface{
     private static UserController userControl;
     private static AdminController adminControl;
     private static StudentController studentControl;
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args){
         Scanner s1 = new Scanner(System.in);
         int choice = 0;

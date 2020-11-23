@@ -133,6 +133,10 @@ public class AdminController{
         }
     }
 
+    
+    /** 
+     * @param index
+     */
     private void printStudentListIndex(int index) {
         Index ind;
         ArrayList<RegisterStudent> registerStudentList = userController.getRegisterStudentList();
@@ -159,6 +163,11 @@ public class AdminController{
             System.out.println("There are no students currently registered in the index.");
     }
 
+    
+    /** 
+     * @param courseList
+     * @param scheduleList
+     */
     public void addUpdateCourse(ArrayList courseList, ArrayList scheduleList) {
         int option = 9;
         Scanner sc = new Scanner(System.in);
@@ -399,6 +408,11 @@ public class AdminController{
         }
     }
 
+    
+    /** 
+     * @param s
+     * @return LocalDateTime
+     */
     public LocalDateTime convertDate(String s){
         LocalDateTime date = null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -410,6 +424,10 @@ public class AdminController{
         return date;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String editAccessPeriod(){
         Scanner s1 = new Scanner(System.in);
         String schoolID, startDate, endDate;
@@ -450,6 +468,10 @@ public class AdminController{
         return returnString;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String addStudent(){
         Scanner s1 = new Scanner(System.in);
         School sch;
@@ -485,6 +507,12 @@ public class AdminController{
         return returnStr;
     }
 
+    
+    /** 
+     * @param matricNo
+     * @param username
+     * @return boolean
+     */
     public boolean checkInput(String matricNo, String username){
         User u;
         Student s;
@@ -506,6 +534,11 @@ public class AdminController{
 
     }
 
+    
+    /** 
+     * @param num
+     * @return String
+     */
     public String numDay(int num){
         String day = "";
 
@@ -531,6 +564,11 @@ public class AdminController{
         return day;
     }
 
+    
+    /** 
+     * @param num
+     * @return String
+     */
     public String oddEven(int num){
         String value = "";
 
@@ -550,6 +588,16 @@ public class AdminController{
         return value;
     }
 
+    
+    /** 
+     * @param day1
+     * @param day2
+     * @param day3
+     * @param t1
+     * @param t2
+     * @param t3
+     * @return Boolean
+     */
     public Boolean isConflict(int day1, int day2, int day3, LocalTime t1, LocalTime t2, LocalTime t3){
         if(day1 == day2){
             if(t1 == t2){

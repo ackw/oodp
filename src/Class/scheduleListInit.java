@@ -10,6 +10,11 @@ import java.util.ArrayList;
 
 public class scheduleListInit {
 
+   
+   /** 
+    * @param args
+    * @throws IOException
+    */
    public static void main(String[] args) throws IOException {
         ArrayList<Object> returnlist = new ArrayList<Object>();
         ArrayList<Object> scheduleList = new ArrayList<Object>();

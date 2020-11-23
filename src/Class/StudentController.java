@@ -154,6 +154,12 @@ public class StudentController {
         }
     }
 
+    
+    /** 
+     * @param index
+     * @param s
+     * @return String
+     */
     public String addCourse(int index, Student s) {
         ArrayList registerStudentList = userController.getRegisterStudentList();
         ArrayList waitList = userController.getWaitList();
@@ -221,6 +227,12 @@ public class StudentController {
         return "";
     }
     
+    
+    /** 
+     * @param index
+     * @param s
+     * @return String
+     */
     public String dropCourse(int index, Student s){
         ArrayList registerStudentList = userController.getRegisterStudentList();
         ArrayList waitList = userController.getWaitList();
@@ -318,6 +330,14 @@ public class StudentController {
         return null;
     }
 
+    
+    /** 
+     * @param name
+     * @param course
+     * @param index
+     * @param usern
+     * @param registerStudentList
+     */
     public static void Email(String name, String course, int index, String usern, ArrayList registerStudentList)
     {
         String recipient = "", subject = "", msg = "", pr = "";
@@ -404,6 +424,13 @@ public class StudentController {
             }
     }
 
+    
+    /** 
+     * @param indexChoice
+     * @param newIndexChoice
+     * @param s
+     * @return String
+     */
     private String changeIndexNumber(int indexChoice, int newIndexChoice, Student s) {
         Index oldIndex = userController.findIndex(indexChoice);
         Index newIndex = userController.findIndex(newIndexChoice);
@@ -484,6 +511,10 @@ public class StudentController {
         return returnMsg;
     }
 
+    
+    /** 
+     * @param s
+     */
     public void printCoursesRegistered(Student s){
         RegisterStudent r;
         Course c;
@@ -506,6 +537,11 @@ public class StudentController {
         System.out.println("Total AUs: " + totalAU);
     }
 
+    
+    /** 
+     * @param s
+     * @return int
+     */
     public int checkRegisterStudentList(Student s){
         RegisterStudent r;
         Course c;
@@ -533,6 +569,14 @@ public class StudentController {
         return 0;
     }
 
+    
+    /** 
+     * @param s
+     * @param index
+     * @param s2
+     * @param index2
+     * @return String
+     */
     public String swopIndexStudent(Student s, int index, Student s2, int index2){
         Index i1 = userController.findIndex(index);
         Index i2 = userController.findIndex(index2);
@@ -595,12 +639,21 @@ public class StudentController {
         return returnMsg;
     }
 
+    
+    /** 
+     * @return int
+     */
     public int promptIndex(){
         Scanner s1 = new Scanner(System.in);
         System.out.print("Enter index number: ");
         int index = s1.nextInt();
         return index;
     }
+    
+    /** 
+     * @param school
+     * @return boolean
+     */
     public boolean checkAccessPeriod(String school){
         LocalDateTime start = null;
         LocalDateTime end = null;

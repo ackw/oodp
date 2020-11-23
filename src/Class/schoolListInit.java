@@ -12,6 +12,11 @@ import java.util.ArrayList;
 
 public class schoolListInit {
 
+    
+    /** 
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         ArrayList<Object> returnlist = new ArrayList<Object>();
         ArrayList<Object> schoolList = new ArrayList<Object>();

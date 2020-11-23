@@ -12,6 +12,10 @@ import javax.mail.internet.MimeMessage;
 
 public class Email {
 
+	
+	/** 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		final String username = "oatarabica@gmail.com";
