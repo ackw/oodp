@@ -2,12 +2,21 @@ package Class;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ Represents each Student.
+ Each student extends user, contains its own unique matric number.
+ Other variables includes gender, nationality, its related schoolID, max AU, as well as the current AU.
+ By default, a student's max AU is 21 and initial starting AU is 0.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
+
 public class Student extends User implements Serializable
 {
     private String matricNumber;
     private char gender;
     private String nationality;
-    private Calendar startDate, endDate;
     private String schoolID;
     private int maxAUs;
     private int currentAUs;
@@ -15,8 +24,6 @@ public class Student extends User implements Serializable
     public Student()
     {
         super();
-        startDate = Calendar.getInstance();
-        endDate = Calendar.getInstance();
     }
     
     public Student(String n, String u, String p, Boolean t, String m, char g, String nat, String s)
@@ -65,31 +72,6 @@ public class Student extends User implements Serializable
      * @param getSchoolID(
      */
     public void setNationality(String nat){nationality = nat;}
-
-    
-    /** 
-     * @param getSchoolID(
-     * @return Calendar
-     */
-    public Calendar getStartDate(){return startDate;} 
-    
-    /** 
-     * @param getSchoolID(
-     */
-    public void setStartDate(Calendar d){startDate = d;}
-
-    
-    /** 
-     * @param getSchoolID(
-     * @return Calendar
-     */
-    public Calendar setEndDate(){return endDate;} 
-    
-    /** 
-     * @param getSchoolID(
-     */
-    public void setEndDate(Calendar d){endDate = d;}
-
     
     /** 
      * @return String
@@ -133,14 +115,5 @@ public class Student extends User implements Serializable
     public String toString()
     {
        return super.toString() + "\nMatric Number: " + matricNumber + "\nGender: " + gender + "\nNationality: " + nationality;
-    }
-    
-    
-    /** 
-     * @return String
-     */
-    public String dateToString()
-    {
-        return "startDate: " + startDate.get(Calendar.DATE) + "/" + startDate.get(Calendar.MONTH) + "/" + startDate.get(Calendar.YEAR) + "\n endDate: " + endDate.get(Calendar.DATE) + "/" + endDate.get(Calendar.MONTH) + "/" + endDate.get(Calendar.YEAR);
     }
 }

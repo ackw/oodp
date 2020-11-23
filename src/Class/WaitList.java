@@ -2,6 +2,14 @@ package Class;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ Represents a waitlist.
+ A waitlist contains a user and a course.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
+
 public class WaitList implements Serializable
 {
     private User user;

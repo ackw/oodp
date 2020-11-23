@@ -8,6 +8,13 @@ import java.io.ObjectOutputStream;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+/**
+ Initializes the initial dummy data for Schedules.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
+
 public class scheduleListInit {
 
    

@@ -2,6 +2,14 @@ package Class;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ Represents the data when a user registers for a course.. 
+ Contains the relevant course and the user.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
+
 public class RegisterStudent implements Serializable
 {
     private User user;

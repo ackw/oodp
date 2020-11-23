@@ -3,6 +3,13 @@ package Class;
 import java.io.Serializable;
 import java.time.LocalTime;
 
+/**
+ <fill in pls>
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
+
 public class Schedule extends Index implements Serializable {
     private String labDay;
     private String labType;

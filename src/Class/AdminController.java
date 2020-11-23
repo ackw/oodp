@@ -6,6 +6,12 @@ import java.time.format.*;
 import java.text.ParseException;
 import java.io.*;
 
+/**
+ Represents the functions of admin.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
 
 public class AdminController{
 

@@ -1,6 +1,16 @@
 package Class;
 import java.io.Serializable;
 
+
+/**
+ Represents a user.
+ Contains its unique username, its name, and password. 
+ Type represents whether its admin or not,  TRUE being admin, FALSE being not an admin.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
+
 public abstract class User implements Serializable
 {
     protected String name;

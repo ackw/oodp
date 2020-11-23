@@ -7,6 +7,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 
+/**
+ Helps direct users to their own controller. 
+ If they're Admin, to AdminController; If they're Student, to StudentController.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
 public class UserController{
     private final static String userListPath = "./src/data/userList";
     private final static String courseListPath = "./src/data/courseList";

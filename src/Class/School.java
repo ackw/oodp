@@ -3,6 +3,15 @@ import java.util.*;
 import java.io.Serializable;
 import java.time.*;
 
+/**
+ Represents each School.
+ Each school contains its own start/end access period which can be modified to limit access for students.
+ They also contain a unique school ID, as well as it's name.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
+
 public class School implements Serializable {
     private String schoolID;
     private String name;
