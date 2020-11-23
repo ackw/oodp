@@ -22,9 +22,9 @@ public class scheduleListInit {
         scheduleList.add(s);
         s = new Schedule(20031, "Wednesy", "EVEN", "Monday", "Wednesday", LocalTime.of(8,30,00), LocalTime.of(16,00,00), LocalTime.of(14,30,00));
         scheduleList.add(s);
-        s = new Schedule(20032, "Tuesday", "ODD", "Friday", "Monday", LocalTime.of(10,30,00), LocalTime.of(8,00,00), LocalTime.of(10,30,00));
+        s = new Schedule(20032, "Monday", "EVEN", "Thursday", "Thursday", LocalTime.of(9,30,00), LocalTime.of(12,30,00), LocalTime.of(8,00,00));
         scheduleList.add(s);
-        s = new Schedule(20241, "Monday", "EVEN", "Thursday", "Thursday", LocalTime.of(14,30,00), LocalTime.of(12,30,00), LocalTime.of(8,00,00));
+        s = new Schedule(20241, "Tuesday", "ODD", "Friday", "Monday", LocalTime.of(10,30,00), LocalTime.of(8,00,00), LocalTime.of(10,30,00));
         scheduleList.add(s);
         s = new Schedule(20242, "Monday", "EVEN", "Tuesday", "Friday", LocalTime.of(8,00,00), LocalTime.of(13,00,00), LocalTime.of(17,00,00));
         scheduleList.add(s);

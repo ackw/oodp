@@ -5,20 +5,24 @@ import java.io.Serializable;
 public class Index extends Course implements Serializable
 {
     protected int indexNumber;
-    protected int vacancies;
+    private int vacancies;
+    protected Schedule schedule;
 
     public Index()
     {
         super();
     }
 
-    public Index(String c, String s,int a, int i, int v)
+    public Index(String c, String s,int a, int i, int v, Schedule d)
     {
         super(c, s, a);
         indexNumber = i;
         vacancies = v;
+        schedule = d;
     }
 
+    public Schedule getSchedule(){return schedule;}
+    public void setSchedule(Schedule d){schedule = d;}
 	public int getIndexNumber(){return indexNumber;}
     public void setIndexNumber(int i){indexNumber = i;}
     public int getVacancies(){return vacancies;}
