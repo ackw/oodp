@@ -5,7 +5,7 @@ import java.util.*;
 /**
  Represents a waitlist.
  A waitlist contains a user and a course.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */

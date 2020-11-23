@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMessage;
 
 /**
  Represents the functions of a student.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */
@@ -33,13 +33,13 @@ public class StudentController {
     public void displayMenu(){
         System.out.println("Menu");
         System.out.println("=====");
-        System.out.println("DONE 1. *Add Course");
-        System.out.println("DONE 2. Drop Course");
-        System.out.println("DONE 3. Check/Print Courses Registered");
-        System.out.println("DONE 4. Check Vacancies Available");
-        System.out.println("DONE 5. Change Index Number of Course");
-        System.out.println("DONE 6. Swop Index Number with Another Student");
-        System.out.println("DONE 0. Logout");
+        System.out.println("1. Add Course");
+        System.out.println("2. Drop Course");
+        System.out.println("3. Check/Print Courses Registered");
+        System.out.println("4. Check Vacancies Available");
+        System.out.println("5. Change Index Number of Course");
+        System.out.println("6. Swop Index Number with Another Student");
+        System.out.println("0. Logout");
         System.out.print("\nEnter choice: ");
     }
 

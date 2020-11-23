@@ -10,7 +10,7 @@ import java.security.SecureRandom;
 /**
  Helps direct users to their own controller. 
  If they're Admin, to AdminController; If they're Student, to StudentController.
- @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @author Pow Liang Hong / Remus Neo / Nicky Lee / Andrel Chew / Malcolm Pang
  @version 1.0
  @since 2020-11-23
 */
