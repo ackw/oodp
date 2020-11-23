@@ -13,11 +13,11 @@ public class School implements Serializable {
     {
     }
 
-    public School(String SchoolID) {
-        this.schoolID = schoolID;
+    public School(String SchoolID, String name, LocalDateTime startAccess, LocalDateTime endAccess) {
+        this.schoolID = SchoolID;
         this.name = name;
-        this.startAccess = null;
-        this.endAccess = null;
+        this.startAccess = startAccess;
+        this.endAccess = endAccess;
     }
 
     public String getSchoolID() {

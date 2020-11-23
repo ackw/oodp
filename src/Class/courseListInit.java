@@ -14,17 +14,21 @@ public class courseListInit {
 
         //Writing arraylist to the file
         Course c;
-        c = new Index("CZ2002", "SCSE",3 ,  20021, 20);
+        c = new Index("CZ2002", "SCSE",3 ,  20021, 10);
         courseList.add(c);
-        c = new Index("CZ2002", "SCSE",3,  20022, 25);
+        c = new Index("CZ2002", "SCSE",3,  20022, 10);
         courseList.add(c);
-        c = new Index("CZ2003", "SCSE",3,  20031, 20);
+        c = new Index("CZ2003", "SCSE",3,  20031, 10);
         courseList.add(c);
-        c = new Index("CZ2003", "SCSE",3,  20032, 30);
+        c = new Index("CZ2003", "SCSE",3,  20032, 10);
         courseList.add(c);
-        c = new Index("HG2024", "SOH",3,  20241, 15);
+        c = new Index("CZ2001", "SCSE",3,  20011, 10);
         courseList.add(c);
-        c = new Index("HG2024", "SOH",3,  20242, 20);
+        c = new Index("CZ2001", "SCSE",3,  20012, 10);
+        courseList.add(c);
+        c = new Index("HG2024", "SOH",3,  20241, 10);
+        courseList.add(c);
+        c = new Index("HG2024", "SOH",3,  20242, 10);
         courseList.add(c);
 
         try {

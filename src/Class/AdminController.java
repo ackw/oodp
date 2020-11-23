@@ -385,8 +385,8 @@ public class AdminController{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         System.out.println("");
         for(int i = 0; i < schoolList.size(); i++){
-            System.out.println("School ID: " + schoolList.get(i).getName());
-            System.out.println("School Name: " + schoolList.get(i).getSchoolID());
+            System.out.println("School ID: " + schoolList.get(i).getSchoolID());
+            System.out.println("School Name: " + schoolList.get(i).getName());
             if(schoolList.get(i).getStartAccess() != null && schoolList.get(i).getEndAccess() != null){
                 System.out.println("Access Start Date: " + schoolList.get(i).getStartAccess().format(formatter));
                 System.out.println("Access End Date: " + schoolList.get(i).getEndAccess().format(formatter));
