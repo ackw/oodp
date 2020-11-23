@@ -315,7 +315,7 @@ public class StudentController {
                     Email(name, code, num, usern, registerStudentList);
 
                     // waitlist
-                    for(int k = 0; j < waitList.size(); k++){
+                    for(int k = 0; k < waitList.size(); k++){
                         w = (WaitList)waitList.get(k);
                         ind = (Index)w.getCourse();
 
@@ -338,7 +338,7 @@ public class StudentController {
                             userController.editRegisterStudentList();
                             userController.editCourseList();
 
-                            waitList.remove(j);
+                            waitList.remove(k);
 
                             int minusAU = s.getCurrentAUs() - courseAU2;
                             s.setCurrentAUs(minusAU);
