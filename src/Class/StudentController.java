@@ -742,15 +742,7 @@ public class StudentController {
         Student u;
         Index ind = userController.findIndex(index);
         Schedule newSchedule = ind.getSchedule();
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 9ebf0035d3b0243c220d73147629389f2321ec00
-=======
-
->>>>>>> b0beab9037c6fc59fcce337ac2ebd5fbdae360a2
         for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
             u = (Student)r.getUser();
