@@ -30,6 +30,9 @@ public class StudentController {
     Console console = System.console();
     public static int emails = 0; // index for email
 
+    /**
+     * Displays Student menu
+     */
     public void displayMenu(){
         System.out.println("Menu");
         System.out.println("=====");
@@ -42,7 +45,9 @@ public class StudentController {
         System.out.println("DONE 0. Logout");
         System.out.print("\nEnter choice: ");
     }
-
+    /**
+     * This method calls displayMenu() and prompts for choice of function
+     */
     public void selectChoice(){
         Student s = (Student)userController.getCurrentUser();
         int choice = 9;
@@ -177,9 +182,10 @@ public class StudentController {
 
 
     /**
-     * @param index
-     * @param s
-     * @return String
+     * This method takes in the index and current user (Student s) and adds index to student.
+     * @param index Index to be added
+     * @param s Student that current wants to add a course.
+     * @return String Relevant message that is returned to user. Could be either success or error message.
      */
     public String addCourse(int index, Student s) {
         ArrayList registerStudentList = userController.getRegisterStudentList();
@@ -253,9 +259,10 @@ public class StudentController {
 
 
     /**
-     * @param index
-     * @param s
-     * @return String
+     * This method takes in the index and current user (Student s) and drops index from student.
+     * @param index Index to be added.
+     * @param s Student that wishes to drop the course.
+     * @return String Relevant message that is returned to user. Could be either success or error message.
      */
     public String dropCourse(int index, Student s){
         ArrayList registerStudentList = userController.getRegisterStudentList();
@@ -356,6 +363,7 @@ public class StudentController {
 
 
     /**
+     * <to be filled>
      * @param name
      * @param course
      * @param index
@@ -450,10 +458,12 @@ public class StudentController {
 
 
     /**
-     * @param indexChoice
-     * @param newIndexChoice
-     * @param s
-     * @return String
+     * This index takes in both index choices, current and new, as well as current user Student s.
+     * This processes the checks and swopping of index for the student.
+     * @param indexChoice Current index
+     * @param newIndexChoice New index to change to
+     * @param s Current user
+     * @return String Relevant message to be returned back to user. Could be both error or success message.
      */
     private String changeIndexNumber(int indexChoice, int newIndexChoice, Student s) {
         Index oldIndex = userController.findIndex(indexChoice);
@@ -537,6 +547,7 @@ public class StudentController {
 
 
     /**
+     * This method processes the printing for all courses currently registered by Student s that is passed into the method.
      * @param s
      */
     public void printCoursesRegistered(Student s){
@@ -563,8 +574,12 @@ public class StudentController {
 
 
     /**
-     * @param s
-     * @return int
+     * This method performs the validation checks for printCoursesRegistered(Student s).
+     * It helps to check if user has registered for any modules.
+     * In the case the user has courses registered, 0 is returned to user. 
+     * Alternatively, 1 is returned to user if user has no courses registered.
+     * @param s Student S to be checked for.
+     * @return int 0 is returned if user has courses registered, 1 is returned if user has none.
      */
     public int checkRegisterStudentList(Student s){
         RegisterStudent r;
@@ -595,11 +610,12 @@ public class StudentController {
 
 
     /**
-     * @param s
-     * @param index
-     * @param s2
-     * @param index2
-     * @return String
+     * This method performs the swopping of index between students.
+     * @param s  Current logged in student
+     * @param index Index of currently logged in student to swop with.
+     * @param s2 Student to swop index with.
+     * @param index2 Index of student to swop index with.
+     * @return String Relevant message will be returned, both error or success messages.
      */
     public String swopIndexStudent(Student s, int index, Student s2, int index2){
         Index i1 = userController.findIndex(index);
@@ -675,8 +691,10 @@ public class StudentController {
     }
 
     /**
-     * @param school
-     * @return boolean
+     * This method is called whenever access period has to be checked.
+     * It takes in school variable that is passed in and returns boolean.
+     * @param school School value that is passed in.
+     * @return boolean Return TRUE if valid access period, return FALSE if invalid or null.
      */
     public boolean checkAccessPeriod(String school){
         LocalDateTime start = null;
@@ -714,6 +732,14 @@ public class StudentController {
 
     }
 
+
+    /**
+     * This method is called whenever schedule has to be checked.
+     * It takes in school variable that is passed in along with index to check with and returns boolean.
+     * @param index Index whose schedule to check with
+     * @param s Student to check if new index will clash with student's currently existing registered courses.
+     * @return boolean Return TRUE if there are clash, return FALSE if there are no clashes.
+     */
     public boolean checkSchedule(int index, Student s)
     {
         ArrayList<RegisterStudent> registerStudentList = userController.getRegisterStudentList();
@@ -722,10 +748,6 @@ public class StudentController {
         Student u;
         Index ind = userController.findIndex(index);
         Schedule newSchedule = ind.getSchedule();
-
-        if (ind == null){
-            System.out.println("Invalid index returned.");
-        }
         
         for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
