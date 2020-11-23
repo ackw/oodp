@@ -3,6 +3,13 @@ package Class;
 import java.io.Serializable;
 import java.time.LocalTime;
 
+/**
+ <fill in pls>
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
+
 public class Schedule extends Index implements Serializable {
     private String labDay;
     private String labType;
@@ -31,27 +38,119 @@ public class Schedule extends Index implements Serializable {
         endTut = startTut.plusHours(1);
     }
     
+    /** 
+     * @param toString(
+     * @return String
+     */
     public String getLabDay() {return labDay;}
+
+    /** 
+     * @param toString(
+     */
     public void setLabDay(String labDay){this.labDay = labDay;}
+    
+    /** 
+     * @param toString(
+     * @return String
+     */
     public String getLabType() {return labType;}
+
+    /** 
+     * @param toString(
+     */
     public void setLabType(String labType){this.labType = labType;}
+
+    /** 
+     * @param toString(
+     * @return String
+     */
     public String getLecDay(){return lecDay;}
+
+    /** 
+     * @param toString(
+     */
     public void setLecDay(String lecDay){this.lecDay = lecDay;}
+
+    /** 
+     * @param toString(
+     * @return String
+     */
     public String getTutDay(){return tutDay;}
+
+    /** 
+     * @param toString(
+     */
     public void setTutDay(String tutDay){this.tutDay = tutDay;}
+
+    /** 
+     * @param toString(
+     * @return LocalTime
+     */
     public LocalTime getStartLab(){return startLab;}
+
+    /** 
+     * @param toString(
+     */
     public void setStartLab(LocalTime startLab){this.startLab = startLab;}
+
+    /** 
+     * @param toString(
+     * @return LocalTime
+     */
     public LocalTime getEndLab(){return endLab;}
+
+    /** 
+     * @param toString(
+     */
     public void setEndLab(LocalTime endLab){this.endLab = endLab;}
+
+    /** 
+     * @param toString(
+     * @return LocalTime
+     */
     public LocalTime getStartLec(){return startLec;}
+
+    /** 
+     * @param toString(
+     */
     public void setStartLec(LocalTime startLec){this.startLec = startLec;}
+
+    /** 
+     * @param toString(
+     * @return LocalTime
+     */
     public LocalTime getEndLec(){return endLec;}
+
+    /** 
+     * @param toString(
+     */
     public void setEndLec(LocalTime endLec){this.endLec = endLec;}
+
+    /** 
+     * @param toString(
+     * @return LocalTime
+     */
     public LocalTime getStartTut(){return startTut;}
+
+    /** 
+     * @param toString(
+     */
     public void setStartTut(LocalTime startTut){this.startTut = startTut;}
+
+    /** 
+     * @param toString(
+     * @return LocalTime
+     */
     public LocalTime getEndTut(){return endTut;}
+
+    /** 
+     * @param toString(
+     */
     public void setEndTut(LocalTime endTut){this.endTut = endTut;}
 
+    /** 
+     * @return String
+     */
     public String toString()
     {
        return "\nIndex: " + indexNumber 

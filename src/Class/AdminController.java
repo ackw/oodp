@@ -6,12 +6,20 @@ import java.time.format.*;
 import java.text.ParseException;
 import java.io.*;
 
+/**
+ Represents the functions of admin.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
 
 public class AdminController{
 
     UserController userController = new UserController();
     Scanner s1 = new Scanner(System.in);
-
+    /**
+     * Display Admin menu
+     */
     public void displayMenu() {
         System.out.println("Menu");
         System.out.println("=====");
@@ -133,6 +141,10 @@ public class AdminController{
         }
     }
 
+    
+    /** 
+     * @param index
+     */
     private void printStudentListIndex(int index) {
         Index ind;
         ArrayList<RegisterStudent> registerStudentList = userController.getRegisterStudentList();
@@ -159,6 +171,11 @@ public class AdminController{
             System.out.println("There are no students currently registered in the index.");
     }
 
+    
+    /** 
+     * @param courseList
+     * @param scheduleList
+     */
     public void addUpdateCourse(ArrayList courseList, ArrayList scheduleList) {
         int option = 9;
         Scanner sc = new Scanner(System.in);
@@ -385,8 +402,8 @@ public class AdminController{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         System.out.println("");
         for(int i = 0; i < schoolList.size(); i++){
-            System.out.println("School ID: " + schoolList.get(i).getName());
-            System.out.println("School Name: " + schoolList.get(i).getSchoolID());
+            System.out.println("School ID: " + schoolList.get(i).getSchoolID());
+            System.out.println("School Name: " + schoolList.get(i).getName());
             if(schoolList.get(i).getStartAccess() != null && schoolList.get(i).getEndAccess() != null){
                 System.out.println("Access Start Date: " + schoolList.get(i).getStartAccess().format(formatter));
                 System.out.println("Access End Date: " + schoolList.get(i).getEndAccess().format(formatter));
@@ -399,6 +416,11 @@ public class AdminController{
         }
     }
 
+    
+    /** 
+     * @param s
+     * @return LocalDateTime
+     */
     public LocalDateTime convertDate(String s){
         LocalDateTime date = null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -410,6 +432,10 @@ public class AdminController{
         return date;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String editAccessPeriod(){
         Scanner s1 = new Scanner(System.in);
         String schoolID, startDate, endDate;
@@ -450,6 +476,10 @@ public class AdminController{
         return returnString;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String addStudent(){
         Scanner s1 = new Scanner(System.in);
         School sch;
@@ -485,6 +515,12 @@ public class AdminController{
         return returnStr;
     }
 
+    
+    /** 
+     * @param matricNo
+     * @param username
+     * @return boolean
+     */
     public boolean checkInput(String matricNo, String username){
         User u;
         Student s;
@@ -506,6 +542,11 @@ public class AdminController{
 
     }
 
+    
+    /** 
+     * @param num
+     * @return String
+     */
     public String numDay(int num){
         String day = "";
 
@@ -531,6 +572,11 @@ public class AdminController{
         return day;
     }
 
+    
+    /** 
+     * @param num
+     * @return String
+     */
     public String oddEven(int num){
         String value = "";
 
@@ -549,6 +595,16 @@ public class AdminController{
         }
         return value;
     }
+
+     /** 
+     * @param day1
+     * @param day2
+     * @param day3
+     * @param t1
+     * @param t2
+     * @param t3
+     * @return Boolean
+     */
 
     public Boolean isConflict(int day1, int day2, int day3, LocalTime t1start, LocalTime t2start, LocalTime t3start){
         LocalTime t1stop = t1start.plusHours(2);

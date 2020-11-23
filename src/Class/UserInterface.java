@@ -1,12 +1,23 @@
 package Class;
 import java.util.*;
 
+
+/**
+ Performs the initial initializing of everything.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
 public class UserInterface{
     
     private static User currentUser;
     private static UserController userControl;
     private static AdminController adminControl;
     private static StudentController studentControl;
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args){
         Scanner s1 = new Scanner(System.in);
         int choice = 0;

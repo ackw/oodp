@@ -14,6 +14,15 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+
+/**
+ Represents the functions of a student.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
+
 public class StudentController {
 
     UserController userController = new UserController();
@@ -128,7 +137,7 @@ public class StudentController {
                     System.out.println("6. Swop Index Number with Another Student");
                     System.out.printf("\n%s's currently registered courses:\n====================================================", s.getName());
                     printCoursesRegistered(s);
-                    System.out.println("Enter the index you'd wish to change: ");
+                    System.out.print("Enter the index you'd wish to change: ");
                     index = s1.nextInt();
                     s1.nextLine();
                     System.out.print("Enter username of student you're swopping with: ");
@@ -167,6 +176,12 @@ public class StudentController {
         }
     }
 
+    
+    /** 
+     * @param index
+     * @param s
+     * @return String
+     */
     public String addCourse(int index, Student s) {
         ArrayList registerStudentList = userController.getRegisterStudentList();
         ArrayList waitList = userController.getWaitList();
@@ -199,6 +214,7 @@ public class StudentController {
     
         // waitlist
         if(ind.getVacancies() < 1){
+            System.out.println("This course is full at the moment. You'll be added to the waiting list.");
             emails = 3;
             String name = s.getName();
             String usern = s.getUsername();
@@ -210,7 +226,8 @@ public class StudentController {
             w = new WaitList(s, ind);
             waitList.add(w);
             userController.editWaitList();
-            return "This course is full at the moment. You'll be added to the waiting list. Please check your email.";
+            // return "This course is full at the moment. You'll be added to the waiting list. Please check your email.";
+            return "";
         }
     
         r = new RegisterStudent(s, ind);
@@ -220,6 +237,7 @@ public class StudentController {
         userController.editRegisterStudentList();
         userController.editCourseList();
     
+        System.out.println("You have successfully registered for the course.");
         emails = 1;
         String name = s.getName();
         String usern = s.getUsername();
@@ -230,14 +248,21 @@ public class StudentController {
         int addAU = s.getCurrentAUs() + courseAU;
         s.setCurrentAUs(addAU);
 
-        return "You have successfully registered for the course."; //implement send cfm emnail
+        // return "You have successfully registered for the course."; //implement send cfm emnail
+        return "";
     }
     
+    
+    /** 
+     * @param index
+     * @param s
+     * @return String
+     */
     public String dropCourse(int index, Student s){
         ArrayList registerStudentList = userController.getRegisterStudentList();
         ArrayList waitList = userController.getWaitList();
-
         RegisterStudent r;
+        int courseAU2 = 0;
         WaitList w;
         Course c;
         User u;
@@ -251,6 +276,7 @@ public class StudentController {
             r = (RegisterStudent)registerStudentList.get(i);
             c = r.getCourse();
             u = r.getUser();
+            courseAU2 = c.getAcademicUnits();
             if(u.getUsername().equals(s.getUsername()) && index == ((Index)c).getIndexNumber())
                 checkIndex = true;
         }
@@ -270,6 +296,8 @@ public class StudentController {
                     ((Index)ind).setVacancies(newVacancy);
                     userController.editRegisterStudentList();
                     userController.editCourseList();
+
+                    System.out.println("You have successfully dropped the course.");
     
                     // send email
                     emails = 2; 
@@ -309,6 +337,8 @@ public class StudentController {
 
                             // send email
                             emails = 4;
+                            int minusAU = s.getCurrentAUs() - courseAU2;
+                            s.setCurrentAUs(minusAU);
                             String name2 = t.getName();
                             String usern2 = t.getUsername();
                             String code2 = ind.getCourseCode();
@@ -317,16 +347,25 @@ public class StudentController {
                             Email(name2, code2, num2, usern2, waitList);
                         }
                     }
-                    return "You have successfully dropped the course. Please check your email.";
+                    // return "You have successfully dropped the course. Please check your email.";
+                    return "";
                 }
             }
         }
         return null;
     }
 
+    
+    /** 
+     * @param name
+     * @param course
+     * @param index
+     * @param usern
+     * @param registerStudentList
+     */
     public static void Email(String name, String course, int index, String usern, ArrayList registerStudentList)
     {
-        String recipient = "", subject = "", msg = "";
+        String recipient = "", subject = "", msg = "", pr = "";
 
         //email sender
         final String username = "oatarabica@gmail.com";
@@ -351,19 +390,34 @@ public class StudentController {
             case 1: // add course
                 subject = "Course Allocation";
                 msg = "Dear " + name + ", \n\n Congrats! You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
+                pr = "An email confirmation has been sent to your email.";
                 break;
             case 2: // drop course
                 subject = "Course Dropped";
                 msg = "Dear " + name + ", \n\n You have been removed from " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
+                pr = "An email confirmation has been sent to your email.";
                 break;
             case 3: // waitlist confirmation
                 subject = "Course Waitlist";
                 msg = "Dear " + name + ", \n\n You are currently in the waiting list for " + course + ", index " + index +". You will be informed when a slot is available. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
+                pr = "An email confirmation has been sent to your email.";
                 break;
             case 4: // waitlist success
                 subject = "Course Allocation";
                 msg = "Dear " + name + ", \n\n Congrats! The wait is over. You have been allocated to " + course + ", index " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
+                pr = "Student " + name + " on the waitlist has been added to " + course + ", index " + index + ".";
                 break;
+            case 5: // change index confirmation
+                subject = "Course Allocation";
+                msg = "Dear " + name + ", \n\n Congrats! Your index number for " + course + " has been updated to " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
+                pr = "";
+                break;
+            case 6: // swop index confirmation
+                subject = "Course Allocation";
+                msg = "Dear " + name + ", \n\n Congrats on the successful swop! Your index number has been updated to " + index +". Please check your degree audit. \n\n Regards, \n The NTU Registry \n ** This is an automated email. Please do not reply. **";
+                pr = "An email confirmation has been sent to "+ name +"'s email.";
+                break;
+
             default:
                 break;
         }
@@ -377,6 +431,7 @@ public class StudentController {
 
             Transport.send(message);
             // System.out.println("\nAn email notification has been sent.");
+            System.out.println(pr);
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -394,6 +449,13 @@ public class StudentController {
             }
     }
 
+    
+    /** 
+     * @param indexChoice
+     * @param newIndexChoice
+     * @param s
+     * @return String
+     */
     private String changeIndexNumber(int indexChoice, int newIndexChoice, Student s) {
         Index oldIndex = userController.findIndex(indexChoice);
         Index newIndex = userController.findIndex(newIndexChoice);
@@ -443,10 +505,12 @@ public class StudentController {
     
             Email(name, code, num, usern, registerStudentList);
     
+            System.out.println("This course is full at the moment. You'll be added to the waiting list.");
+
             w = new WaitList(s, newIndex);
             waitList.add(w);
             userController.editWaitList();
-            return "This course is full at the moment. You'll be added to the waiting list. Please check your email.";
+            return "";
 
             //return "This course is full at the moment. You'll be added to waiting list."; //implement later
         }
@@ -460,10 +524,22 @@ public class StudentController {
 
         dropCourse(indexChoice, s);
 
+        emails = 5;
+        String name = s.getName();
+        String usern = s.getUsername();
+        String code = newIndex.getCourseCode();
+        int num = newIndex.getIndexNumber();
+
+        Email(name, code, num, usern, registerStudentList);
+
         String returnMsg = String.format("Successfully switched index %d with %d", indexChoice, newIndexChoice);
         return returnMsg;
     }
 
+    
+    /** 
+     * @param s
+     */
     public void printCoursesRegistered(Student s){
         RegisterStudent r;
         Course c;
@@ -486,6 +562,11 @@ public class StudentController {
         System.out.println("Total AUs: " + totalAU);
     }
 
+    
+    /** 
+     * @param s
+     * @return int
+     */
     public int checkRegisterStudentList(Student s){
         RegisterStudent r;
         Course c;
@@ -513,6 +594,14 @@ public class StudentController {
         return 0;
     }
 
+    
+    /** 
+     * @param s
+     * @param index
+     * @param s2
+     * @param index2
+     * @return String
+     */
     public String swopIndexStudent(Student s, int index, Student s2, int index2){
         Index i1 = userController.findIndex(index);
         Index i2 = userController.findIndex(index2);
@@ -526,6 +615,9 @@ public class StudentController {
 
         if(i1 == null || i2 == null)
             return "Invalid index entered. Please try again.";
+
+        if(!i1.getCourseCode().equals(i2.getCourseCode()))
+            return "New index choice must be the same course as old index choice.";
 
         for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
@@ -552,16 +644,41 @@ public class StudentController {
             if(u.getUsername().equals(s2.getUsername()) && index2 == ((Index)c).getIndexNumber())
                 r.setUser(s);
         }
+
+        emails = 6;
+        String name = s.getName();
+        String usern = s.getUsername();
+        String code = "";
+        int num = index;
+
+        Email(name, code, num, usern, registerStudentList);
+
+        String name2 = s2.getName();
+        String usern2 = s2.getUsername();
+        String code2 = "";
+        int num2 = index2;
+
+        Email(name2, code2, num2, usern2, registerStudentList);
+        
         String returnMsg = String.format("Swopped %s's index of %d with %s's index of %d.", s.getName(), index, s2.getName(), index2);
         return returnMsg;
     }
 
+    
+    /** 
+     * @return int
+     */
     public int promptIndex(){
         Scanner s1 = new Scanner(System.in);
         System.out.print("Enter index number: ");
         int index = s1.nextInt();
         return index;
     }
+    
+    /** 
+     * @param school
+     * @return boolean
+     */
     public boolean checkAccessPeriod(String school){
         LocalDateTime start = null;
         LocalDateTime end = null;

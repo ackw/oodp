@@ -8,14 +8,30 @@ import java.io.ObjectOutputStream;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+/**
+ Initializes the initial dummy data for Schedules.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
+
 public class scheduleListInit {
 
+   
+   /** 
+    * @param args
+    * @throws IOException
+    */
    public static void main(String[] args) throws IOException {
         ArrayList<Object> returnlist = new ArrayList<Object>();
         ArrayList<Object> scheduleList = new ArrayList<Object>();
 
         //Writing arraylist to the file
         Schedule s;
+        s = new Schedule(20011, "Tuesday", "BOTH", "Thursday", "Wednesday", LocalTime.of(14,30,00), LocalTime.of(12,00,00), LocalTime.of(15,00,00));
+        scheduleList.add(s);
+        s = new Schedule(20012, "Wednesday", "ODD", "Thursday", "Wednesday", LocalTime.of(10,30,00), LocalTime.of(8,00,00), LocalTime.of(10,30,00));
+        scheduleList.add(s);
         s = new Schedule(20021, "Monday", "ODD", "Thursday", "Wednesday", LocalTime.of(8,30,00), LocalTime.of(12,30,00), LocalTime.of(8,30,00));
         scheduleList.add(s);
         s = new Schedule(20022, "Monday", "BOTH", "Tuesday", "Friday", LocalTime.of(9,30,00), LocalTime.of(15,30,00), LocalTime.of(8,00,00));

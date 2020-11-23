@@ -10,8 +10,19 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+/**
+ Initializes the initial dummy data for School.
+ @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
+ @version 1.0
+ @since 2020-11-23
+*/
 public class schoolListInit {
 
+    
+    /** 
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         ArrayList<Object> returnlist = new ArrayList<Object>();
         ArrayList<Object> schoolList = new ArrayList<Object>();
@@ -20,29 +31,45 @@ public class schoolListInit {
         School sch = new School();
         String start = "2020-11-22 11:30";
         String end = "2020-11-25 14:30";
-        String s1 = "School of Computer Science and Engineering";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime scseStart = LocalDateTime.parse(start, formatter);
-        LocalDateTime scseEnd = LocalDateTime.parse(end, formatter);
-        sch.setSchoolID("SCSE");
-        sch.setStartAccess(scseStart);
-        sch.setEndAccess(scseEnd);
-        sch.setName(s1);
+        LocalDateTime timeStart = LocalDateTime.parse(start, formatter);
+        LocalDateTime timeEnd = LocalDateTime.parse(end, formatter);
+
+        sch = new School("SCSE", "School of Computer Science and Engineering", timeStart, timeEnd);
+        schoolList.add(sch);
+        sch = new School("MAE", "chool of Mechanical and Aerospace Engineering", timeStart, timeEnd);
+        schoolList.add(sch);
+        sch = new School("MSE", "School of Materials Science and Engineering", timeStart, timeEnd);
+        schoolList.add(sch);
+        sch = new School("SCBE", "School of Chemical and Biomedical Engineering ", timeStart, timeEnd);
+        schoolList.add(sch);
+        sch = new School("EEE", "School of Electrical and Electronic Engineering", timeStart, timeEnd);
+        schoolList.add(sch);
+        start = "2020-11-25 14:30";
+        end = "2020-11-29 18:00";
+        timeStart = LocalDateTime.parse(start, formatter);
+        timeEnd = LocalDateTime.parse(end, formatter);
+        sch = new School("CEE", "School of Civil and Environmental Engineering", timeStart, timeEnd);
+        schoolList.add(sch);
+        sch = new School("ADM", "School of Art, Design and Media", timeStart, timeEnd);
+        schoolList.add(sch);
+        sch = new School("SOH", "School of Humanities", timeStart, timeEnd);
+        schoolList.add(sch);
+        sch = new School("SSS", "School of Social Sciences", timeStart, timeEnd);
+        schoolList.add(sch);
+        start = "2020-11-29 18:00";
+        end = "2020-12-05 14:30";
+        timeStart = LocalDateTime.parse(start, formatter);
+        timeEnd = LocalDateTime.parse(end, formatter);
+        sch = new School("WKW", "Wee Kim Wee School of Communication and Information", timeStart, timeEnd);
+        schoolList.add(sch);
+        sch = new School("SBS", "School of Biological Sciences", timeStart, timeEnd);
+        schoolList.add(sch);
+        sch = new School("SPMS", "School of Physical and Mathematical Sciences", timeStart, timeEnd);
         schoolList.add(sch);
 
-        School sch2 = new School();
-        String start2 = "2020-11-03 09:30";
-        String end2 = "2020-11-22 12:30";
-        String s2 = "School of Humanities";
 
-        LocalDateTime sohStart = LocalDateTime.parse(start2, formatter);
-        LocalDateTime sohEnd = LocalDateTime.parse(end2, formatter);
-        sch2.setSchoolID("SOH");
-        sch2.setStartAccess(sohStart);
-        sch2.setEndAccess(sohEnd);
-        sch2.setName(s2);
-        schoolList.add(sch2);
 
         try {
             FileOutputStream fos = new FileOutputStream("./src/data/schoolList");
