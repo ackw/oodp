@@ -78,12 +78,15 @@ public class StudentController {
                         break;
                     }
                     System.out.println("\n2. Drop Course");
-                    printCoursesRegistered(s);
-                    try{
-                        index = promptIndex();
-                        System.out.println(dropCourse(index, s));
-                    } catch(Exception e){
-                        System.out.println("Error, try again. ");
+                    if(checkRegisterStudentList(s) != 1){
+                        printCoursesRegistered(s);
+                        try{
+                            index = promptIndex();
+                            System.out.println(dropCourse(index, s));
+                        } catch(Exception e){
+                            System.out.println("Error, try again. ");
+                        }
+                        break;
                     }
                     System.out.println();
                     break;
@@ -264,6 +267,7 @@ public class StudentController {
         ArrayList registerStudentList = userController.getRegisterStudentList();
         ArrayList waitList = userController.getWaitList();
         RegisterStudent r;
+        RegisterStudent r2;
         int courseAU2 = 0;
         WaitList w;
         Course c;
@@ -286,14 +290,14 @@ public class StudentController {
         if(!checkIndex)
             return "You have not registered for this index. Please try again.";
 
-        for(int i = 0; i < registerStudentList.size(); i++){
-            r = (RegisterStudent)registerStudentList.get(i);
+        for(int j = 0; j < registerStudentList.size(); j++){
+            r = (RegisterStudent)registerStudentList.get(j);
             ind = (Index)r.getCourse();
             if(index == ind.getIndexNumber())
             {
                 if(s.getUsername().equals(((User)r.getUser()).getUsername()))
                 {
-                    registerStudentList.remove(i);
+                    registerStudentList.remove(j);
                     int newVacancy = ((Index)ind).getVacancies()+1;
                     ((Index)ind).setVacancies(newVacancy);
                     userController.editRegisterStudentList();
@@ -301,7 +305,7 @@ public class StudentController {
 
                     System.out.println("You have successfully dropped the course.");
 
-                    // send email
+                    // send email for current user
                     emails = 2;
                     String name = s.getName();
                     String usern = s.getUsername();
@@ -311,8 +315,8 @@ public class StudentController {
                     Email(name, code, num, usern, registerStudentList);
 
                     // waitlist
-                    for(int j = 0; j < waitList.size(); j++){
-                        w = (WaitList)waitList.get(j);
+                    for(int k = 0; j < waitList.size(); k++){
+                        w = (WaitList)waitList.get(k);
                         ind = (Index)w.getCourse();
 
                         if(index == ind.getIndexNumber())
@@ -322,13 +326,13 @@ public class StudentController {
                             // register student
                             for(int q = 0; q < registerStudentList.size(); q++)
                             {
-                                r = (RegisterStudent)registerStudentList.get(i);
-                                c = r.getCourse();
-                                u = r.getUser();
+                                r2 = (RegisterStudent)registerStudentList.get(k);
+                                c = r2.getCourse();
+                                u = r2.getUser();
                             }
 
-                            r = new RegisterStudent(t, ind);
-                            registerStudentList.add(r);
+                            r2 = new RegisterStudent(t, ind);
+                            registerStudentList.add(r2);
                             int newVacancy2 = ((Index)ind).getVacancies()-1;
                             ((Index)ind).setVacancies(newVacancy2);
                             userController.editRegisterStudentList();
@@ -336,16 +340,18 @@ public class StudentController {
 
                             waitList.remove(j);
 
-                            // send email
-                            emails = 4;
                             int minusAU = s.getCurrentAUs() - courseAU2;
                             s.setCurrentAUs(minusAU);
+
+                            // send email for waitlist user
+                            emails = 4;
                             String name2 = t.getName();
                             String usern2 = t.getUsername();
                             String code2 = ind.getCourseCode();
                             int num2 = ind.getIndexNumber();
                             Email(name2, code2, num2, usern2, waitList);
                         }
+                        
                     }
                     return "";
                 }
@@ -356,12 +362,12 @@ public class StudentController {
 
 
     /**
-     * <to be filled>
-     * @param name
-     * @param course
-     * @param index
-     * @param usern
-     * @param registerStudentList
+     * This method sending an email notification to the users involved, including details such as name, course and index.
+     * @param name Name of email recipient.
+     * @param course Course of email recipient.
+     * @param index Index number of email recipient.
+     * @param usern Username of email recipient.
+     * @param registerStudentList Registered students data list.
      */
     public static void Email(String name, String course, int index, String usern, ArrayList registerStudentList)
     {
@@ -546,8 +552,9 @@ public class StudentController {
         User u;
         ArrayList<RegisterStudent> registerStudentList = userController.getRegisterStudentList();
         int totalAU = 0;
-        if(checkRegisterStudentList(s) == 1) //checks if student has any courses registered
+        if(checkRegisterStudentList(s) == 1) {//checks if student has any courses registered
             return;
+        }
         System.out.printf("\n%-15s %-10s %-10s %-3s\n","Course Code", "School", "Index", "AUs");
         for(int i = 0; i < registerStudentList.size(); i++)
         {
@@ -637,8 +644,6 @@ public class StudentController {
             return "Both index numbers entered are the same. Please choose a different index.";
         if(!checkIndex && checkIndex2)
             return "You have not registered for this index. Please try again.";
-        //tobeimplemented add check user does not have 2 of same course after adding
-        //do the swop swop swop
         for(int i = 0; i < registerStudentList.size(); i++)
         {
             r = (RegisterStudent)registerStudentList.get(i);
@@ -675,7 +680,7 @@ public class StudentController {
      */
     public int promptIndex(){
         Scanner s1 = new Scanner(System.in);
-        System.out.print("Enter index number: ");
+        System.out.print("\nEnter index number: ");
         int index = s1.nextInt();
         return index;
     }
@@ -737,7 +742,6 @@ public class StudentController {
         Student u;
         Index ind = userController.findIndex(index);
         Schedule newSchedule = ind.getSchedule();
-        
         for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
             u = (Student)r.getUser();

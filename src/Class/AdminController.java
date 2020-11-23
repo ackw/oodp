@@ -478,8 +478,9 @@ public class AdminController{
         ed = convertDate(endDate);
         if(ed == null)
             return "Error. Please try again in correct format \"yyyy-MM-DD HH:mm\" without the quotes. ";
-        System.out.println(sd);
-        System.out.println(ed);
+        if(ed.isBefore(sd))
+            return "End date is before start date. Please enter again. ";
+
         school.setStartAccess(sd);
         school.setEndAccess(ed);
         userController.editSchoolList();
