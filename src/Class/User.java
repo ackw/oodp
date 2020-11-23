@@ -13,15 +13,34 @@ import java.io.Serializable;
 
 public abstract class User implements Serializable
 {
+    /** 
+     *  Name of each user.
+     */
     protected String name;
+    /** 
+     *  Username of each user, should be unique. This is used to login.
+     */
     protected String username;
+    /** 
+     *  Password of each user. This is used to login.
+     */
     protected String password;
+    /** 
+     *  Indicates type of user. TRUE = Admin, FALSE = Student.
+     */
     protected Boolean type;
 
     public User()
     {
     }
 
+    /** 
+     * Constructor to create a user.
+     * @param n Name of each user
+     * @param u Username of each user, should be unique. This is used to login.
+     * @param p Password of each user. This is used to login.
+     * @param t Indicates type of user. TRUE = Admin, FALSE = Student.
+     */
     public User(String n, String u, String p, Boolean t)
     {
         name = n;
@@ -30,56 +49,20 @@ public abstract class User implements Serializable
         type = t;
     }
     
-    
-    /** 
-     * @param toString(
-     * @return String
-     */
     public String getName(){return name;}
-    
-    /** 
-     * @param toString(
-     */
     public void setName(String n){name = n;}
 
-    
-    /** 
-     * @param toString(
-     * @return String
-     */
     public String getUsername(){return username;}
-    
-    /** 
-     * @param toString(
-     */
     public void setUsername(String u){username = u;}
 
-    
-    /** 
-     * @param toString(
-     * @return String
-     */
     public String getPassword(){return password;}
-    
-    /** 
-     * @param toString(
-     */
     public void setPassword(String p){password = p;}
 
-    
-    /** 
-     * @param toString(
-     * @return Boolean
-     */
     public Boolean getType(){return type;}
-    
-    /** 
-     * @param toString(
-     */
     public void setType(Boolean t){type = t;}
 
-    
     /** 
+     * This method returns the variables of related User.
      * @return String
      */
     public String toString()

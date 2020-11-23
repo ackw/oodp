@@ -13,9 +13,21 @@ import java.time.*;
 */
 
 public class School implements Serializable {
+    /** 
+     *  School ID (SCSE / SPMS etc)
+     */
     private String schoolID;
+    /** 
+     *  Full name of the school (School of ...)
+     */
     private String name;
+    /** 
+     *  This indicates the starting dateTime where students from this school can access add drop.
+     */
     private LocalDateTime startAccess;
+    /** 
+     *  This indicates the ending dateTime where students from this school can acesss add drop.
+     */
     private LocalDateTime endAccess;
 
     public School()
@@ -24,7 +36,7 @@ public class School implements Serializable {
 
     /** 
      * Constructor to create a school.
-     * @param schoolID SchoolID (SCSE / SPMS for etc)
+     * @param schoolID SchoolID (SCSE / SPMS etc)
      * @param name Full name of the school (School of ....)
      * @param startAccess This indicates the starting dateTime where students from this school can access add drop.
      * @param endAccess This indicates the ending dateTime where students from this school can acesss add drop.

@@ -18,8 +18,8 @@ public class RegisterStudent implements Serializable
     public RegisterStudent(){}
     /** 
      * Constructor for RegisterStudent.
-     * @param user User that's registered to the course.
-     * @param course Course that is registered to the user.
+     * @param u User that's registered to the course.
+     * @param c Course that is registered to the user.
      */
     public RegisterStudent(User u, Course c){
         user = u;
