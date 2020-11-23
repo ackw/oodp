@@ -515,7 +515,14 @@ public class AdminController{
         String matricNo = s1.nextLine();
         System.out.print("Enter Gender (M/F): ");
         char gender = s1.next().charAt(0);
-        s1.nextLine();
+        char g = Character.toUpperCase(gender);
+        if(g=='M'||g=='F'){
+            gender = g;
+            s1.nextLine();
+        }else{
+            return "Invalid gender. Please try again.";
+        }
+        System.out.println(gender);
         System.out.print("Enter Nationality: ");
         String nationality = s1.nextLine();
         if(!checkInput(matricNo, username))
