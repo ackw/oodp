@@ -35,7 +35,7 @@ public class courseListInit {
         c = new Index("CZ2001", "SCSE", 3 ,  20012, 20, s);
         courseList.add(c);
         s = new Schedule(20021, "Monday", "ODD", "Thursday", "Wednesday", LocalTime.of(8,30,00), LocalTime.of(12,30,00), LocalTime.of(8,30,00));
-        c = new Index("CZ2002", "SCSE", 3 ,  20021, 20, s);
+        c = new Index("CZ2002", "SCSE", 3 ,  20021, 1, s);
         courseList.add(c);
         s = new Schedule(20022, "Monday", "BOTH", "Tuesday", "Friday", LocalTime.of(9,30,00), LocalTime.of(15,30,00), LocalTime.of(8,00,00));
         c = new Index("CZ2002", "SCSE",3,  20022, 25, s);
