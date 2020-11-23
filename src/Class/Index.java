@@ -22,6 +22,11 @@ public class Index extends Course implements Serializable
      */
     protected int vacancies;
 
+    /** 
+     *  Schedule that's related to each index.
+     */
+    protected Schedule schedule;
+
     public Index()
     {
         super();
@@ -33,14 +38,15 @@ public class Index extends Course implements Serializable
      * @param a AcademicUnits (AUs)
      * @param i IndexNumber (Should be unique)
      * @param v Vacancy (10 according to requirements)
+     * @param d Schedule for each index.
      */
-    public Index(String c, String s,int a, int i, int v)
+    public Index(String c, String s,int a, int i, int v, Schedule d)
     {
         super(c, s, a);
         indexNumber = i;
         vacancies = v;
+        schedule = d;
     }
-
 
     public int getIndexNumber(){return indexNumber;}
     public void setIndexNumber(int i){indexNumber = i;}

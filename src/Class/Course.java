@@ -40,7 +40,6 @@ public class Course implements Serializable
         school = s;
         academicUnits = a;
     }
-
     public String getCourseCode(){return courseCode;}
     public void setCourseCode(String c){courseCode = c;}
 
@@ -49,7 +48,7 @@ public class Course implements Serializable
 
     public int getAcademicUnits(){return academicUnits;}
     public void setAcademicUnits(int academicUnits) {this.academicUnits = academicUnits;}
-    
+
     /** 
      * This method returns the variables of related Course.
      * @return String

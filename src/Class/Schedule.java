@@ -37,119 +37,117 @@ public class Schedule extends Index implements Serializable {
         endLec = startLec.plusHours(2);
         endTut = startTut.plusHours(1);
     }
+    
+    /** 
+     * @param toString(
+     * @return String
+     */
+    public String getLabDay() {return labDay;}
 
+    /** 
+     * @param toString(
+     */
+    public void setLabDay(String labDay){this.labDay = labDay;}
     
     /** 
      * @param toString(
      * @return String
      */
-    public String labDay() {return labDay;}
-    
-    /** 
-     * @param toString(
-     */
-    public void setlabDay(String labDay){this.labDay = labDay;}
-    
-    /** 
-     * @param toString(
-     * @return String
-     */
-    public String labType() {return labType;}
-    
-    /** 
-     * @param toString(
-     */
-    public void setlabType(String labType){this.labType = labType;}
-    
-    /** 
-     * @param toString(
-     * @return String
-     */
-    public String lecDay(){return lecDay;}
-    
-    /** 
-     * @param toString(
-     */
-    public void setlecDay(String lecDay){this.lecDay = lecDay;}
-    
-    /** 
-     * @param toString(
-     * @return String
-     */
-    public String tutDay(){return tutDay;}
-    
-    /** 
-     * @param toString(
-     */
-    public void settutDay(String tutDay){this.tutDay = tutDay;}
-    
-    /** 
-     * @param toString(
-     * @return LocalTime
-     */
-    public LocalTime startLab(){return startLab;}
-    
-    /** 
-     * @param toString(
-     */
-    public void setstartLab(LocalTime startLab){this.startLab = startLab;}
-    
-    /** 
-     * @param toString(
-     * @return LocalTime
-     */
-    public LocalTime endLab(){return endLab;}
-    
-    /** 
-     * @param toString(
-     */
-    public void setendLab(LocalTime endLab){this.endLab = endLab;}
-    
-    /** 
-     * @param toString(
-     * @return LocalTime
-     */
-    public LocalTime startLec(){return startLec;}
-    
-    /** 
-     * @param toString(
-     */
-    public void setstartLec(LocalTime startLec){this.startLec = startLec;}
-    
-    /** 
-     * @param toString(
-     * @return LocalTime
-     */
-    public LocalTime endLec(){return endLec;}
-    
-    /** 
-     * @param toString(
-     */
-    public void setendLec(LocalTime endLec){this.endLec = endLec;}
-    
-    /** 
-     * @param toString(
-     * @return LocalTime
-     */
-    public LocalTime startTut(){return startTut;}
-    
-    /** 
-     * @param toString(
-     */
-    public void setstartTut(LocalTime startTut){this.startTut = startTut;}
-    
-    /** 
-     * @param toString(
-     * @return LocalTime
-     */
-    public LocalTime endTut(){return endTut;}
-    
-    /** 
-     * @param toString(
-     */
-    public void setendTut(LocalTime endTut){this.endTut = endTut;}
+    public String getLabType() {return labType;}
 
-    
+    /** 
+     * @param toString(
+     */
+    public void setLabType(String labType){this.labType = labType;}
+
+    /** 
+     * @param toString(
+     * @return String
+     */
+    public String getLecDay(){return lecDay;}
+
+    /** 
+     * @param toString(
+     */
+    public void setLecDay(String lecDay){this.lecDay = lecDay;}
+
+    /** 
+     * @param toString(
+     * @return String
+     */
+    public String getTutDay(){return tutDay;}
+
+    /** 
+     * @param toString(
+     */
+    public void setTutDay(String tutDay){this.tutDay = tutDay;}
+
+    /** 
+     * @param toString(
+     * @return LocalTime
+     */
+    public LocalTime getStartLab(){return startLab;}
+
+    /** 
+     * @param toString(
+     */
+    public void setStartLab(LocalTime startLab){this.startLab = startLab;}
+
+    /** 
+     * @param toString(
+     * @return LocalTime
+     */
+    public LocalTime getEndLab(){return endLab;}
+
+    /** 
+     * @param toString(
+     */
+    public void setEndLab(LocalTime endLab){this.endLab = endLab;}
+
+    /** 
+     * @param toString(
+     * @return LocalTime
+     */
+    public LocalTime getStartLec(){return startLec;}
+
+    /** 
+     * @param toString(
+     */
+    public void setStartLec(LocalTime startLec){this.startLec = startLec;}
+
+    /** 
+     * @param toString(
+     * @return LocalTime
+     */
+    public LocalTime getEndLec(){return endLec;}
+
+    /** 
+     * @param toString(
+     */
+    public void setEndLec(LocalTime endLec){this.endLec = endLec;}
+
+    /** 
+     * @param toString(
+     * @return LocalTime
+     */
+    public LocalTime getStartTut(){return startTut;}
+
+    /** 
+     * @param toString(
+     */
+    public void setStartTut(LocalTime startTut){this.startTut = startTut;}
+
+    /** 
+     * @param toString(
+     * @return LocalTime
+     */
+    public LocalTime getEndTut(){return endTut;}
+
+    /** 
+     * @param toString(
+     */
+    public void setEndTut(LocalTime endTut){this.endTut = endTut;}
+
     /** 
      * @return String
      */
@@ -160,4 +158,81 @@ public class Schedule extends Index implements Serializable {
        + "\nLecture Schedule: " + startLec + " - " + endLec + " on " + lecDay
        + "\nTutorial Schedule: " + startTut + " - " + endTut + " on " + tutDay;
     }
+
+    public boolean checkConflict(Schedule s){
+
+        if(isConflictLab(s.labDay, s.labType, s.startLab, s.endLab, startLab, endLab)){
+			System.out.println("Error! " + s.getIndexNumber()  + " LAB" + "(" + s.labType + ")" + " clash with " + indexNumber  + " LAB" + "(" + labType + ").");
+			return true;
+        }
+        
+        if(isConflict(s.labDay, lecDay, s.startLab, s.endLab, startLec, endLec)){
+            System.out.println("Error! " + s.getIndexNumber() + " LAB clash with " + indexNumber + " LECTURE.");
+			return true;
+        }
+        
+        if(isConflict(s.labDay, tutDay, s.startLab, s.endLab, startTut, endTut)){
+            System.out.println("Error! " + s.getIndexNumber() + " LAB clash with " + indexNumber + " TUTORIAL.");
+			return true;
+		}
+
+		if(isConflict(s.lecDay, labDay, s.startLec, s.endLec, startLab, endLab)){
+            System.out.println("Error! " + s.getIndexNumber() + " LECTURE clash with " + indexNumber + " LAB.");
+			return true;
+        }
+
+        if(isConflict(s.lecDay, lecDay, s.startLec, s.endLec, startLec, endLec)){
+            System.out.println("Error! " + s.getIndexNumber() + " LECTURE clash with " + indexNumber + " LECTURE.");
+			return true;
+        }
+        
+        if(isConflict(s.lecDay, tutDay, s.startLec, s.endLec, startTut, endTut)){
+            System.out.println("Error! " + s.getIndexNumber() + " LECTURE clash with " + indexNumber + " TUTORIAL.");
+			return true;
+        }
+        
+		if(isConflict(s.tutDay, labDay, s.startTut, s.endTut, startLab, endLab)){
+            System.out.println("Error! " + s.getIndexNumber() + " TUTORIAL clash with " + indexNumber + " LAB.");
+			return true;
+        }
+
+        if(isConflict(s.tutDay, lecDay, s.startTut, s.endTut, startLec, endLec)){
+            System.out.println("Error! " + s.getIndexNumber() + " TUTORIAL clash with " + indexNumber + " LECTURE.");
+			return true;
+        }
+
+        if(isConflict(s.tutDay, tutDay, s.startTut, s.endTut, startTut, endTut)){
+            System.out.println("Error! " + s.getIndexNumber() + " TUTORIAL clash with " + indexNumber + " TUTORIAL.");
+			return true;
+        }
+        return false;
+     }
+     
+     public boolean isConflict(String currentDay, String newDay, LocalTime currentStartTime, LocalTime currentEndTime, LocalTime newStartTime, LocalTime newEndTime)
+     {  
+        if(!currentDay.equals(newDay)){
+            return false;
+        }
+
+        //System.out.print("currentDay is " + currentDay + " newDay is " + newDay);
+            
+        if((currentStartTime.isBefore(newEndTime)) && (currentEndTime.isAfter(newStartTime)))
+            return true;
+
+        return false;
+     }
+
+     public boolean isConflictLab(String currentLabDay, String currentLabType, LocalTime currentStartTime, LocalTime currentEndTime, LocalTime newStartTime, LocalTime newEndTime)
+     {  
+        if(!currentLabDay.equals(labDay)){
+            return false;
+        }
+
+        if(currentLabType.equals(labType)){
+            if((currentStartTime.isBefore(newEndTime)) && (currentEndTime.isAfter(newStartTime)))
+                return true;
+        }
+            
+        return false;
+     }
 }

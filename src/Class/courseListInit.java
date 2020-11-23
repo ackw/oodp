@@ -1,9 +1,11 @@
 package Class;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +16,6 @@ import java.util.ArrayList;
 */
 
 public class courseListInit {
-
    
    /** 
     * @param args
@@ -26,21 +27,30 @@ public class courseListInit {
 
         //Writing arraylist to the file
         Course c;
-        c = new Index("CZ2002", "SCSE",3 ,  20021, 10);
+        Schedule s;
+        s = new Schedule(20011, "Tuesday", "BOTH", "Thursday", "Wednesday", LocalTime.of(14,30,00), LocalTime.of(12,00,00), LocalTime.of(15,00,00));
+        c = new Index("CZ2001", "SCSE", 3 ,  20011, 20, s);
         courseList.add(c);
-        c = new Index("CZ2002", "SCSE",3,  20022, 10);
+        s = new Schedule(20012, "Wednesday", "ODD", "Thursday", "Wednesday", LocalTime.of(10,30,00), LocalTime.of(8,00,00), LocalTime.of(10,30,00));
+        c = new Index("CZ2001", "SCSE", 3 ,  20012, 20, s);
         courseList.add(c);
-        c = new Index("CZ2003", "SCSE",3,  20031, 10);
+        s = new Schedule(20021, "Monday", "ODD", "Thursday", "Wednesday", LocalTime.of(8,30,00), LocalTime.of(12,30,00), LocalTime.of(8,30,00));
+        c = new Index("CZ2002", "SCSE", 3 ,  20021, 20, s);
         courseList.add(c);
-        c = new Index("CZ2003", "SCSE",3,  20032, 10);
+        s = new Schedule(20022, "Monday", "BOTH", "Tuesday", "Friday", LocalTime.of(9,30,00), LocalTime.of(15,30,00), LocalTime.of(8,00,00));
+        c = new Index("CZ2002", "SCSE",3,  20022, 25, s);
         courseList.add(c);
-        c = new Index("CZ2001", "SCSE",3,  20011, 10);
+        s = new Schedule(20031, "Wednesday", "EVEN", "Monday", "Wednesday", LocalTime.of(8,30,00), LocalTime.of(16,00,00), LocalTime.of(14,30,00));
+        c = new Index("CZ2003", "SCSE",3,  20031, 20, s);
         courseList.add(c);
-        c = new Index("CZ2001", "SCSE",3,  20012, 10);
+        s = new Schedule(20032, "Monday", "EVEN", "Thursday", "Thursday", LocalTime.of(9,30,00), LocalTime.of(12,30,00), LocalTime.of(8,00,00));
+        c = new Index("CZ2003", "SCSE",3,  20032, 30, s);
         courseList.add(c);
-        c = new Index("HG2024", "SOH",3,  20241, 10);
+        s = new Schedule(20241, "Monday", "ODD", "Friday", "Tuesday", LocalTime.of(8,30,00), LocalTime.of(8,00,00), LocalTime.of(10,30,00));
+        c = new Index("HG2024", "SOH",3,  20241, 15, s);
         courseList.add(c);
-        c = new Index("HG2024", "SOH",3,  20242, 10);
+        s = new Schedule(20242, "Monday", "EVEN", "Tuesday", "Friday", LocalTime.of(8,00,00), LocalTime.of(13,00,00), LocalTime.of(17,00,00));
+        c = new Index("HG2024", "SOH",3,  20242, 20, s);
         courseList.add(c);
 
         try {

@@ -271,11 +271,11 @@ public class AdminController{
                     return;
                 }
 
-                cor = new Index(a, b, z, c, d);
-                courseList.add(cor);
                 s = new Schedule(c, numDay(labDay), oddEven(labType), numDay(lecDay), numDay(tutDay), labTime, lecTime, tutTime);
                 scheduleList.add(s);
-
+                cor = new Index(a, b, z, c, d, s); //tobeimplemented: better variable names
+                courseList.add(cor);
+                
                 System.out.println("Added!");
                 System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", "Course Code", "School", "Index", "Vacancies", "Academic Units");
                 System.out.printf("\n%-15s %-10s %-10s %-10s %-15s\n", a, b, c, d, z);
@@ -611,34 +611,35 @@ public class AdminController{
         return value;
     }
 
-    
     /** 
      * <to be filled>
      * @param day1
-     * @param day2
-     * @param day3
-     * @param t1
      * @param t2
      * @param t3
      * @return Boolean
      */
-    public Boolean isConflict(int day1, int day2, int day3, LocalTime t1, LocalTime t2, LocalTime t3){
+
+    public Boolean isConflict(int day1, int day2, int day3, LocalTime t1start, LocalTime t2start, LocalTime t3start){
+        LocalTime t1stop = t1start.plusHours(2);
+        LocalTime t2stop = t2start.plusHours(2);
+        LocalTime t3stop = t3start.plusHours(1);
+
         if(day1 == day2){
-            if(t1 == t2){
+            if((t1start.isBefore(t2stop)) && (t1stop.isAfter(t2start))){
                 System.out.println("Invalid input! There is conflict between lecture and lab schedules!");
                 return true;
             }
         }
 
         if(day1 == day3){
-            if(t1 == t3){
+            if((t1start.isBefore(t3stop)) && (t1stop.isAfter(t3start))){
                 System.out.println("Invalid input! There is conflict between lab and tutorial schedules!");
                 return true;
             }
         }
 
         if(day2 == day3){
-            if(t2 == t3){
+            if((t2start.isBefore(t3stop)) && (t2stop.isAfter(t3start))){
                 System.out.println("Invalid input! There is conflict between lecture and tutorial schedules!");
                 return true;
             }
