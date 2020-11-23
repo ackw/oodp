@@ -30,7 +30,7 @@ public class UserInterface{
         userControl.loadScheduleList();
         
         while(choice != 2){
-            System.out.println("1. Login (Username chew0393 for sending student email)");
+            System.out.println("\n1. Login (Username chew0393 for sending student email)");
             System.out.println("2. Exit");
             System.out.print("Choice: ");
             try{

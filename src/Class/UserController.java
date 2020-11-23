@@ -256,7 +256,7 @@ public class UserController{
         // user login details
         while(!success)
         {
-            System.out.print("Enter Username: ");
+            System.out.print("\nEnter Username: ");
             String inputUsername = s1.nextLine();
 
             // run encrypt() to check if its the same as stored
