@@ -17,7 +17,9 @@ public class AdminController{
 
     UserController userController = new UserController();
     Scanner s1 = new Scanner(System.in);
-
+    /**
+     * Display Admin menu
+     */
     public void displayMenu() {
         System.out.println("Menu");
         System.out.println("=====");
