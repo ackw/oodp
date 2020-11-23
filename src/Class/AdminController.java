@@ -113,7 +113,8 @@ public class AdminController{
         Student s;
 
         System.out.print("Enter course code: ");
-        courseID = s1.nextLine().toUpperCase();
+        courseID = s1.nextLine();
+        courseID = courseID.toUpperCase();
         for(int i = 0; i < courseList.size(); i++){
             c = (Course)courseList.get(i);
             if(c.getCourseCode().equals(courseID)){
