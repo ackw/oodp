@@ -331,7 +331,19 @@ public class AdminController{
                     break;
                 case 2:
                     System.out.print("New school: ");
-                    String b = sc.next();
+                    String b = s1.nextLine().toUpperCase();
+                    for(int i = 0; i < schoolList.size(); i++){
+                        school = (School)schoolList.get(i);
+                        if(school.getSchoolID().equals(b)){
+                            checkExist = true;
+                            break;
+                        }
+                    }
+
+                    if(!checkExist){
+                        System.out.println("Invalid School ID. Please try again.");
+                        return;
+                    }
 
                     for (int i = 0; i < courseList.size(); i++) {
                         Course cos = (Course) courseList.get(i);
