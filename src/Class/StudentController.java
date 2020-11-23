@@ -714,9 +714,6 @@ public class StudentController {
         Index ind = userController.findIndex(index);
         Schedule newSchedule = ind.getSchedule();
 
-        if (ind == null){
-            System.out.println("Invalid index returned.");
-        }
         for(int i = 0; i < registerStudentList.size(); i++){
             r = (RegisterStudent)registerStudentList.get(i);
             u = (Student)r.getUser();
