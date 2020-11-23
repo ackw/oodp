@@ -12,7 +12,14 @@ import java.util.*;
 
 public class RegisterStudent implements Serializable
 {
+    /** 
+     *  User that's registered to the course.
+     */
     private User user;
+
+    /** 
+     *  Course that's registered to the User.
+     */
     private Course course;
 
     public RegisterStudent(){}
