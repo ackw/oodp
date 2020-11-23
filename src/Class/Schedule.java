@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.time.LocalTime;
 
 /**
- <to be filled>
+ Schedule of lessons for each available indexes.
+ Lessons included in the schedule are LAB, LECTURE, and TUTORIAL.
  @author Pow Liang Hong / Remus / Nicky / Andrel / Malcolm 
  @version 1.0
  @since 2020-11-23
