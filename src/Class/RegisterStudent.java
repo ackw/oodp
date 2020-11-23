@@ -15,43 +15,27 @@ public class RegisterStudent implements Serializable
     private User user;
     private Course course;
 
-    public RegisterStudent()
-    {
-        
-    }
-
-    public RegisterStudent(User u, Course c)
-    {
+    public RegisterStudent(){}
+    /** 
+     * Constructor for RegisterStudent.
+     * @param user User that's registered to the course.
+     * @param course Course that is registered to the user.
+     */
+    public RegisterStudent(User u, Course c){
         user = u;
-        course = c; // registered index
+        course = c; 
     }
 
     
-    /** 
-     * @param toString(
-     * @return User
-     */
     public User getUser(){return user;}
-    
-    /** 
-     * @param toString(
-     */
     public void setUser(User u){user = u;}
 
-    
-    /** 
-     * @param toString(
-     * @return Course
-     */
     public Course getCourse(){return course;}
-    
-    /** 
-     * @param toString(
-     */
     public void setCourse(Course c){course = c;}
 
     
     /** 
+     * This method returns the variables of related RegisterStudent.
      * @return String
      */
     public String toString()

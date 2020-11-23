@@ -18,7 +18,7 @@ public class AdminController{
     UserController userController = new UserController();
     Scanner s1 = new Scanner(System.in);
     /**
-     * Display Admin menu
+     * Displays Admin menu
      */
     public void displayMenu() {
         System.out.println("Menu");
@@ -32,7 +32,9 @@ public class AdminController{
         System.out.println("DONE 0. Exit.");
         System.out.print("Enter choice: ");
     }
-
+    /**
+     * This method calls displayMenu() and prompts for choice of function
+     */
     public void selectChoice() {
         Admin a = (Admin) userController.getCurrentUser();
         int choice = 9;
@@ -100,7 +102,9 @@ public class AdminController{
             }
         }
     }
-
+    /**
+     * This method prints all students that are registered for the courseID the user inputs.
+     */
     private void printStudentListCourse() {
         Scanner s1 = new Scanner(System.in);
         String courseID;
@@ -143,7 +147,8 @@ public class AdminController{
 
     
     /** 
-     * @param index
+     * This method prints all students based on the user input for index.
+     * @param index This is the index the user input.
      */
     private void printStudentListIndex(int index) {
         Index ind;
@@ -173,8 +178,9 @@ public class AdminController{
 
     
     /** 
-     * @param courseList
-     * @param scheduleList
+     * This method allows user to choose to ADD / UPDATE course.
+     * @param courseList For program reference to and make updates when needed.
+     * @param scheduleList For program to take reference to and make updates when needed.
      */
     public void addUpdateCourse(ArrayList courseList, ArrayList scheduleList) {
         int option = 9;
@@ -396,7 +402,9 @@ public class AdminController{
             System.out.print("nope!");
         }
     }
-
+    /**
+     * This method displays all school's access period.
+     */
     public void displaySchoolAccessPeriod(){
         ArrayList<School> schoolList = userController.getSchoolList();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -418,8 +426,10 @@ public class AdminController{
 
     
     /** 
-     * @param s
-     * @return LocalDateTime
+     * This method convert a user's input for date time into proper LocalDateTime format.
+     * Null value is returned for invalid input.
+     * @param s User's string input for date time, to be converted. 
+     * @return LocalDateTime null is returned if it's invalid. If not, the proper LocalDateTime variable.
      */
     public LocalDateTime convertDate(String s){
         LocalDateTime date = null;
@@ -434,7 +444,8 @@ public class AdminController{
 
     
     /** 
-     * @return String
+     * Changes add/drop access period for a selected school
+     * @return Message is returned based on the error / success.
      */
     public String editAccessPeriod(){
         Scanner s1 = new Scanner(System.in);
@@ -478,7 +489,8 @@ public class AdminController{
 
     
     /** 
-     * @return String
+     * Prompts for details and adds students into userList.
+     * @return Message is returned based on the error / success.
      */
     public String addStudent(){
         Scanner s1 = new Scanner(System.in);
@@ -517,9 +529,11 @@ public class AdminController{
 
     
     /** 
-     * @param matricNo
-     * @param username
-     * @return boolean
+     * This method is called during addStudent and takes in the input for matricNo and username 
+     * to check if the username or matricNo already exist.
+     * @param matricNo This variable should be unique. 
+     * @param username This variable should be unique
+     * @return boolean IF TRUE = there's a conflict, IF FALSE = there's a conflict.
      */
     public boolean checkInput(String matricNo, String username){
         User u;
@@ -539,11 +553,11 @@ public class AdminController{
             return false;
         }
         return true;
-
     }
 
     
     /** 
+     * <to be filled>
      * @param num
      * @return String
      */
@@ -574,6 +588,7 @@ public class AdminController{
 
     
     /** 
+     * <to be filled>
      * @param num
      * @return String
      */
@@ -598,6 +613,7 @@ public class AdminController{
 
     
     /** 
+     * <to be filled>
      * @param day1
      * @param day2
      * @param day3

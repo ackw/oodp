@@ -14,6 +14,13 @@ public class Admin extends User
         super();
     }
     
+    /** 
+     * Constructor for Admin
+     * @param n Name
+     * @param u Username
+     * @param p Password
+     * @param t Type -- TRUE = Admin, FALSE = Student
+     */
     public Admin(String n, String u, String p, Boolean t)
     {
         super(n, u, p, t);
@@ -21,6 +28,7 @@ public class Admin extends User
 
     
     /** 
+     * This method returns the variables of related Admin.
      * @return String
      */
     public String toString()
