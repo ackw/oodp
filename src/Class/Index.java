@@ -52,6 +52,7 @@ public class Index extends Course implements Serializable
     public void setIndexNumber(int i){indexNumber = i;}
     public int getVacancies(){return vacancies;}
     public void setVacancies(int v){vacancies = v;}
+    
     /** 
      * This method returns the variables of related Index.
      * @return String

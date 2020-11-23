@@ -31,9 +31,9 @@ public class Course implements Serializable
     }
     /** 
      * Constructor to add course
-     * @param courseCode
-     * @param school
-     * @param academicUnits
+     * @param c CourseCode (CZ2001 CZ2002 ...)
+     * @param s School (SCSE, SPMS etc)
+     * @param a Academic Unit (Academic unit weight for each course)
      */
     public Course(String c, String s, int a){
         courseCode = c;

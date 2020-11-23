@@ -43,7 +43,18 @@ public class Student extends User implements Serializable
     {
         super();
     }
-    
+    /** 
+     * Constructor to create a Student.
+     * @param n Name -- Passed from User
+     * @param u Username -- Passed from User
+     * @param p Password -- Passed from User
+     * @param t Type -- Passed from User
+     * @param m Matriculation Number - Should be unique.
+     * @param g Gender (M = Male / F = Female)
+     * @param nat Nationality for student 
+     * @param s SchoolID - School that the Student is registered under, shold match School list data.
+     * Note: maxAUs is set as 21 as default, with currentAUs default as 0.
+     */
     public Student(String n, String u, String p, Boolean t, String m, char g, String nat, String s)
     {
         super(n, u, p, t);
@@ -55,79 +66,25 @@ public class Student extends User implements Serializable
         currentAUs = 0;
     }
 
-    
-    /** 
-     * @param getSchoolID(
-     * @return String
-     */
     public String getMatricNumber(){return matricNumber;}
-    
-    /** 
-     * @param getSchoolID(
-     */
     public void setMatricNumber(String m){matricNumber = m;}
 
-    
-    /** 
-     * @param getSchoolID(
-     * @return char
-     */
     public char getGender(){return gender;}
-    
-    /** 
-     * @param getSchoolID(
-     */
     public void setGender(char g){gender = g;}
 
-    
-    /** 
-     * @param getSchoolID(
-     * @return String
-     */
     public String getNationality(){return nationality;}
-    
-    /** 
-     * @param getSchoolID(
-     */
     public void setNationality(String nat){nationality = nat;}
     
-    /** 
-     * @return String
-     */
-    public String getSchoolID() {
-        return schoolID;
-    }
-
+    public String getSchoolID() {return schoolID;}
+    public int getMaxAUs(){return maxAUs;}
+    
+    public void setMaxAUs(int maxAUs){this.maxAUs = maxAUs;}
+    public int getCurrentAUs(){return currentAUs;}
+    
+    public void setCurrentAUs(int c1){this.currentAUs = c1;}
     
     /** 
-     * @return int
-     */
-    public int getMaxAUs(){
-        return maxAUs;
-    }
-    
-    /** 
-     * @param maxAUs
-     */
-    public void setMaxAUs(int maxAUs){
-        this.maxAUs = maxAUs;
-    }
-    
-    /** 
-     * @return int
-     */
-    public int getCurrentAUs(){
-        return currentAUs;
-    }
-    
-    /** 
-     * @param c1
-     */
-    public void setCurrentAUs(int c1){
-        this.currentAUs = c1;
-    }
-    
-    /** 
+     * This method returns the variables of related Student.
      * @return String
      */
     public String toString()
